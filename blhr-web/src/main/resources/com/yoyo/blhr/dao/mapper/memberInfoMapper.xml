@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.MemberDao">
+
+    <resultMap id="memberInfo" type="com.yoyo.blhr.dao.model.Members">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="cycle" property="cycle" jdbcType="VARCHAR" />
+        <result column="chage_time" property="chageTime" jdbcType="DATE" />
+        <result column="expire_time" property="expireTime" jdbcType="DATE" />
+        <result column="pay_Type" property="payType" jdbcType="VARCHAR" />
+        <result column="lrrq" property="lrrq" jdbcType="DATE" />
+        <result column="xgrq" property="xgrq" jdbcType="DATE" />
+        <result column="yxbj" property="yxbj" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="member_column_list">
+         user_id,cycle,chage_time,expire_time,pay_type,lrrq,xgrq,yxbj
+    </sql>
+    
+    <select id="queryMemberByCondition" resultMap="memberInfo" parameterType="java.lang.String">
+      select 
+         <include refid="member_column_list" />
+     from members where  user_id = #{user_id,jdbcType=VARCHAR} and yxbj = 'Y' and expire_time > NOW()
+    </select>
+    
+    <delete id="deleteMemberByUserId" parameterType="java.lang.String">
+      delete from members where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    
+    <insert id="saveMember" parameterType="com.yoyo.blhr.dao.model.Members">
+       insert into members values(
+       	#{userId},#{cycle},#{chageTime},
+             #{expireTime},#{payType},#{lrrq},#{xgrq},#{yxbj})
+    </insert>
+    
+    <update id="updateMember" parameterType="com.yoyo.blhr.dao.model.Members">
+      update members set chage_time = #{chageTime},expire_time = #{expireTime},pay_type=#{payType}
+      where user_id = #{userId}
+    </update>
+
+</mapper>

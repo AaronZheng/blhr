@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.MyFavoriteCourseDao">
+	
+	<resultMap id="FavoriteCourseVoMap" type="com.yoyo.blhr.dao.model.FavoriteCourseVo">
+        <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+        <result column="username" property="teacherName" jdbcType="VARCHAR" />
+        <result column="user_id" property="teacherId" jdbcType="VARCHAR" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <select id="queryFavoriteCourseByUserId" resultMap="FavoriteCourseVoMap"  parameterType="java.lang.String">
+        select f.course_id, c.course_name, t.user_id, t.username, u.photo
+        from favorite_course f, course c, teachers t, users u
+        where  f.user_id =#{userId,jdbcType=VARCHAR} and f.course_id = c.course_id
+        and c.teacher_id = t.user_id and t.user_id = u.user_id
+    </select>
+    
+    <insert id="insertMyFavCourse">
+		insert into favorite_course (favorite_id, user_id, course_id,lrrq,yxbj) 
+               values(#{favorite_id},#{user_id},#{course_id},#{lrrq},#{yxbj})
+	</insert>
+
+
+</mapper>

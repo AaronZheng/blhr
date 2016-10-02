@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.UserInfoDao">
+
+    <resultMap id="userInfoResultMap" type="com.yoyo.blhr.dao.model.User">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="wechatname" property="wechatname" jdbcType="VARCHAR" />
+        <result column="openid" property="openid" jdbcType="VARCHAR" />
+        <result column="lrrq" property="lrrq" jdbcType="DATE" />
+        <result column="xgrq" property="xgrq" jdbcType="DATE" />
+        <result column="yxbj" property="yxbj" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <select id="queryUserByUserId" resultMap="userInfoResultMap" parameterType="java.lang.String">
+        select * from users where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="isUserExist" resultType="java.lang.Integer" parameterType="java.lang.String">
+         select count(1) from users where  
+            openid=#{openid,jdbcType=VARCHAR}
+    </select>
+    
+    <insert id="saveUserInfo" parameterType="com.yoyo.blhr.dao.model.User">
+      insert into users (user_id,sex,wechatname,openid,category,photo,lrrq,yxbj) values(#{userId,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
+      #{wechatname,jdbcType=VARCHAR},#{openid,jdbcType=VARCHAR},#{category,jdbcType=VARCHAR},#{photo,jdbcType=VARCHAR},#{lrrq,jdbcType=DATE},#{yxbj,jdbcType=VARCHAR})
+    </insert>
+    
+     <insert id="saveUserInfoBAK" parameterType="com.yoyo.blhr.dao.model.User">
+      insert into users (user_id,username,password,sex,email,phone,category,
+      wechatname,openid,photo,lrrq,xgrq,yxbj) values(#{userId,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
+      #{wechatname,jdbcType=VARCHAR},#{openid,jdbcType=VARCHAR},#{lrrq,jdbcType=DATE},#{yxbj,jdbcType=VARCHAR})
+      )
+    </insert>
+    	
+	<update id="updateUserToTeacher" parameterType="java.util.Map">
+		UPDATE users SET category = #{category,jdbcType=CHAR}, photo = #{photo,jdbcType=VARCHAR},
+		 username = #{username,jdbcType=VARCHAR}, password= #{password,jdbcType=VARCHAR}  WHERE user_id =#{userId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateTeacherToUser" parameterType="java.lang.String">
+	    UPDATE users SET category = '1' WHERE user_id =#{userId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

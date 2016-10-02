@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--
+  - This is the Cocoon web-app configurations file
+  -
+  - $Id$
+  -->
+<web-app version="2.5"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <listener>
+      <listener-class>com.yoyo.blhr.controller.SystemContextInitializationListener</listener-class>
+    </listener>
+    
+  <servlet>
+    <servlet-name>springMvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<!--     <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring-mybatis.xml</param-value>
+    </init-param> -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.yoyo.blhr.controller.LoginFilterHandler</filter-class>
+    <init-param>
+		<param-name>ignore</param-name>
+		<param-value>/blhrb/login/login.jsp</param-value>
+    </init-param>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping> -->
+  
+  <servlet>
+     <servlet-name>uploadTeacherInfo</servlet-name>
+     <servlet-class>com.yoyo.blhr.controller.UploadTeacherServlet</servlet-class>
+     <init-param>
+      <param-name>filePath</param-name>
+      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+     </init-param>
+  </servlet>
+  
+  <servlet>
+     <servlet-name>ChatServlet</servlet-name>
+     <servlet-class>com.yoyo.blhr.controller.ChatServlet</servlet-class>
+     <init-param>
+      <param-name>filePath</param-name>
+      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+     </init-param>
+  </servlet>
+  
+  <servlet>
+     <servlet-name>UpdateChatServlet</servlet-name>
+     <servlet-class>com.yoyo.blhr.controller.UpdateChatServlet</servlet-class>
+     <init-param>
+      <param-name>filePath</param-name>
+      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+     </init-param>
+  </servlet>
+  
+	  <filter> 
+	    <filter-name>Spring character encoding filter</filter-name> 
+	  <filter-class> 
+	    org.springframework.web.filter.CharacterEncodingFilter 
+	   </filter-class> 
+	    <init-param> 
+	   <param-name>encoding</param-name> 
+	<param-value>utf-8</param-value> 
+	</init-param> 
+	</filter> 
+	<filter-mapping> 
+	<filter-name>Spring character encoding filter</filter-name> 
+	<url-pattern>/*</url-pattern> 
+	</filter-mapping>
+  
+  
+	 <servlet-mapping>
+	   <servlet-name>uploadTeacherInfo</servlet-name>
+	   <url-pattern>/uploadTeacherInfo</url-pattern>
+	 </servlet-mapping>
+  
+	 <servlet-mapping>
+	   <servlet-name>ChatServlet</servlet-name>
+	   <url-pattern>/ChatServlet</url-pattern>
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>
+	   <servlet-name>UpdateChatServlet</servlet-name>
+	   <url-pattern>/UpdateChatServlet</url-pattern>
+	 </servlet-mapping>
+  
+    <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.css</url-pattern>   
+     </servlet-mapping>
+  
+    <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.avi</url-pattern>   
+     </servlet-mapping>
+  
+    <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.wav</url-pattern>   
+     </servlet-mapping>
+        
+    <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.mp3</url-pattern>   
+     </servlet-mapping>   
+    
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.gif</url-pattern>   
+     </servlet-mapping>   
+    
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.JPG</url-pattern>   
+     </servlet-mapping>  
+     
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.*</url-pattern>   
+     </servlet-mapping> 
+      
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.html</url-pattern>   
+     </servlet-mapping>   
+    
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.jpg</url-pattern>   
+     </servlet-mapping>   
+        <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.png</url-pattern>   
+     </servlet-mapping>  
+     <servlet-mapping>   
+         <servlet-name>default</servlet-name>   
+         <url-pattern>*.js</url-pattern>   
+     </servlet-mapping>
+  
+  <welcome-file-list>
+   <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+</web-app>
+        

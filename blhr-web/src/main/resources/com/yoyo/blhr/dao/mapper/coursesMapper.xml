@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.CoursesDao">
+
+
+    <resultMap type="java.util.Map" id="myCoursesResultMap">
+		<result column="course_id" property="courseId" jdbcType="VARCHAR"/>
+		<result column="course_name" property="courseName" jdbcType="VARCHAR"/>
+		<result column="course_state" property="courseState" jdbcType="CHAR"/>
+		<result column="lrrq" property="lrrq" jdbcType="TIMESTAMP"/>
+		<result column="username" property="teacherName" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap type="java.util.Map" id="allCoursesResultMap">
+	    <result column="course_id" property="courseId" jdbcType="VARCHAR"/>
+	    <result column="course_name" property="courseName" jdbcType="VARCHAR"/>
+	    <result column="teacher_id" property="teacherId" jdbcType="VARCHAR"/>
+   </resultMap>
+  
+	<select id ="queryCourseCountByTeacherId" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(DISTINCT course_id) FROM course WHERE user_id = #{userId,jdbcType=VARCHAR} 
+	</select>
+	
+	
+	<select id ="queryAllCoursesInfo" resultType="java.util.Map">
+	 select * from (select t.course_id, if(t.category=1,'录入','直播') as category, course_name,n.username,create_time,if(available=1,'正常','已屏蔽') as available,course_state as course_state_code,case course_state when 1 then '未开始' when 2 then '正在直播' 
+	  when 3 then '已结束'  when 8 then '已结束' end as courseState from course t,teachers n where t.teacher_id= n.user_id limit #{0},#{1}) h order by h.create_time desc </select>
+ 
+    <update id="updateCourseState" parameterType="java.lang.String">
+       update course t set t.available = '2' where t.course_id = #{user_id,jdbcType=VARCHAR}
+    </update>
+    
+    <update id="updateCourseToEnd" >
+       update course t set t.course_state = #{1} where t.course_id = #{0}
+       
+    </update>
+    
+    <select id="queryBroadcastCourse" parameterType="java.lang.String" resultType="java.util.Map">
+       select t.course_id, t.course_name, t.pay_type,t.course_type,t.create_person,t.create_time,
+         f.fullname,t.play_time,t.person_limit,t.course_state,t.course_state as course_status from course t , teachers f 
+         where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8'
+    </select>
+    
+    
+    <select id="queryCourseDetailById" resultType="java.util.Map" parameterType="java.lang.String">
+       select * from course_detail t where course_id = #{courseId}
+    </select>
+    
+    
+    <select id="queryCourseDetailInfo" resultType="java.util.Map">
+       select * from course_detail where course_id = #{2} order by lrrq desc limit #{0},#{1}
+    </select>
+    
+    <select id="queryCourseByType" resultType="java.util.Map" parameterType="java.lang.String">
+        select h.*,k.photo,n.`profile` from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
+	      on t.course_id = f.course_id where t.course_state = #{type} and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and k.user_id = h.user_id
+    </select>
+    
+    <update id="updateCourseDetailByBath"  parameterType="java.util.List">
+				update course_detail 
+	      <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+				<set>
+				  content_item='${item.content_item}'
+				</set>
+				where course_detail_id = '${item.course_detail_id}'
+		 </foreach>
+    </update>
+    
+    <select id="queryAllCourseDetailBySort" parameterType="java.lang.String">
+        select * from course_detail t where t.course_id = #{courseId} order by lrrq desc
+    </select>
+    
+    <delete id="deleteCourseDetailByCourseId" parameterType="java.lang.String">
+         delete from course_detail where course_id = #{0}
+    </delete>
+    
+    <delete id="deleteCourseById" parameterType="java.lang.String">
+       delete from course where course_id = #{0} 
+    </delete>
+    
+    <insert id="saveCourseTitle" parameterType="com.yoyo.blhr.dao.model.Courses">
+       insert into course (pay_type,create_person,play_time,course_type,person_limit,course_id,course_name,course_profile,user_id,category,teacher_id,create_time,course_state,
+          available,lrrq,yxbj) values(#{payType},#{createPerson},#{playTime},#{courseType},#{personLimit},#{courseId},#{courseName},#{courseProfile},#{userId} ,#{category},#{teacherId},
+          #{createTime},#{courseState},#{available},#{lrrq},#{yxbj})
+    </insert>
+    
+   <select id="searchMyCourses" resultMap = "myCoursesResultMap" parameterType="java.lang.String">
+		select c.course_id, c.course_name, c.course_state, c.lrrq, t.username
+		from course c, teachers t
+		where c.teacher_id = #{userId,jdbcType=VARCHAR} and c.teacher_id = t.user_id
+	</select> 
+	
+	<select id="queryWhetherLearn" resultType="java.lang.Integer">
+       select count(1) from learn_records t where t.user_id = #{0} and t.course_id = #{1};
+	</select>
+	
+	
+	<select id="queryCourseById" resultType="java.util.Map" parameterType="java.lang.String">
+	   select * from course where course_id=#{0}
+	</select>
+	
+	
+    <insert id="saveCourseDetail" parameterType="com.yoyo.blhr.dao.model.CourseDetail">
+        insert into course_detail (course_detail_id,course_id,content_item,item_length,content_type,lrrq,yxbj) 
+               values(#{courseDetailId},#{courseId},#{contentItem},#{itemLength},#{contentType},#{lrrq},#{yxbj})
+    </insert>
+    
+    <select id="queryCourseDetailByNum" resultType="java.util.Map">
+       select * from course_detail t where t.item_no > #{0} and   t.course_id = #{2} order by t.item_no asc LIMIT #{1}
+    </select>
+    
+    <insert id="saveLearnedCourse" parameterType="com.yoyo.blhr.dao.model.LearnRecords">
+       insert into learn_records(records_id,user_id,course_id,learn_time,lrrq,xgrq)values
+       (#{recordsId},#{user_id},#{course_id},#{learn_time},#{lrrq},#{xgrq})
+    </insert>
+    
+    <delete id="deleteCourseDetailByItemId" parameterType="java.lang.String">
+       delete from course_detail where course_detail_id = #{0}
+    </delete>
+    
+
+	<select id = "queryCourseByCourseId" resultType="java.util.Map" parameterType="java.lang.String">
+		select * from course where course_id=#{courseId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryAllCoursesByTeacherId" resultMap="allCoursesResultMap" parameterType="java.lang.String">
+		select course_id, course_name, teacher_id from course where teacher_id=#{teacher_id,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

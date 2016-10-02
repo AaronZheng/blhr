@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.TeachersDao">
+
+    <resultMap id="teachersInfoResultMap" type="java.util.Map">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="wechatname" property="wechatname" jdbcType="VARCHAR" />
+        <result column="lrrq" property="lrrq" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+        <result column="fullname" property="fullname" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="intro" property="intro" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    
+    
+	<resultMap type="java.util.Map" id="teacherProfileResultMap">
+		<result column="fullname" property="fullname" jdbcType="VARCHAR" />
+		<result column="job_name" property="jobName" jdbcType="VARCHAR" />
+        <result column="profile" property="profile" jdbcType="VARCHAR" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+	</resultMap>
+
+ 
+	<select id = "queryTeachers" resultMap="teachersInfoResultMap">
+	 	select
+        a.user_id, a.wechatname, a.lrrq,b.fullname, b.username, b.state
+        from users a, teachers b 
+        where a.yxbj = 'Y' and a.user_id = b.user_id
+	</select>
+	
+	<select id = "queryTeachersDetail" resultMap = "teachersInfoResultMap" parameterType="java.lang.String">
+		select t.user_id, t.username, t.id_card, n.phone, t.profile
+		from teachers t , users n
+		where t.user_id = n.user_id and t.user_id = #{user_id,jdbcType=VARCHAR}
+	</select>
+	
+	<select id = "changeTeacherState" parameterType="java.util.Map">
+		UPDATE teachers SET state= #{state,jdbcType=VARCHAR}
+		WHERE user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id = "newTeacher" parameterType= "com.yoyo.blhr.dao.model.Teachers">
+		insert teachers (user_id, username, fullname, id_card,job_name, profile, application_time, state, yxbj)
+				values(#{userId},#{username},#{fullname},#{idCard},#{jobName},#{profile},#{applicationTime},#{state},#{yxbj})
+	</insert>
+	
+	
+	  <delete id="deleteTeacherById" parameterType="java.lang.String">
+         delete from teachers where user_id = #{0}
+    </delete>
+    
+    <select id ="queryAllCoursesInfo" resultType="java.util.Map">
+	 select
+        a.user_id, a.wechatname, a.lrrq, b.username, b.state
+        from users a, teachers b 
+        where a.yxbj = 'Y' and a.user_id = b.user_id limit #{0},#{1} </select>
+        
+      <select id="queryTeacherProfileByCourseId" resultMap="teacherProfileResultMap" parameterType="java.lang.String">
+      	select t.user_id, t.job_name, t.fullname, t.profile, u.photo from course c, teachers t, users u where c.course_id =  #{courseId,jdbcType=VARCHAR} 
+      	and c.user_id = t.user_id and c.user_id = u.user_id
+      </select>
+</mapper>

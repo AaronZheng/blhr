@@ -1,0 +1,131 @@
+
+.brand-img {
+  width: 36px;
+  height: 36px;
+}
+
+.table > thead > tr > th {
+  white-space: nowrap;
+}
+
+.table a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.table a:hover,
+.table a:focus {
+  text-decoration: underline;
+}
+
+.datepicker table tr td, .datepicker table tr th {
+  cursor: pointer;
+}
+
+.vetical-middle > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.small-img {
+  height: 50px;
+  width: 50px;
+}
+
+.middle-img {
+  height: 100px;
+  width: 100px;
+}
+table.dataTable > tbody > tr.child ul .btn-group>.dropdown-menu {
+  display: none;
+}
+table.dataTable > tbody > tr.child ul .open>.dropdown-menu {
+  display: block;
+}
+table.table-bordered.dataTable {
+  border-collapse: collapse !important;
+}
+table.dataTable thead > tr > th {
+  text-align: center;
+}
+
+.webui-popover {
+  font-size: 12px;
+}
+
+.carousel-inner>.item>img {
+  margin: 0 auto;
+  max-width: 360px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .site-navbar .navbar-header {
+    width: 320px;
+  }
+}
+
+.navbar-brand {
+  font-weight: 200;
+}
+
+.row-center {
+  display: flex;
+  align-items: center;
+}
+
+.embed-responsive-4by3 {
+  padding-bottom: 75%; !important;
+}
+.embed-responsive-16by9 {
+  padding-bottom: 56.25%; !important;
+}
+
+.max-width-100 {
+  max-width: 100px;
+}
+.max-width-200 {
+  max-width: 200px;
+}
+.max-width-300 {
+  max-width: 300px;
+}
+.max-width-400 {
+  max-width: 400px;
+}
+.max-width-500 {
+  max-width: 500px;
+}
+.max-width-600 {
+  max-width: 600px;
+}
+.max-height-100 {
+  max-height: 100px;
+}
+.max-height-200 {
+  max-height: 200px;
+}
+.max-height-300 {
+  max-height: 300px;
+}
+.max-height-400 {
+  max-height: 400px;
+}
+.max-height-500 {
+  max-height: 500px;
+}
+.max-height-600 {
+  max-height: 600px;
+}
+
+.width-30per {
+  width: 30%;
+}
+.width-40per {
+  width: 40%;
+}
+.width-50per {
+  width: 50%;
+}

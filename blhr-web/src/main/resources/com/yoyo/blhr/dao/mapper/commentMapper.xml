@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.CommentDao">
+
+
+
+  <select id="queryCommentsByCourseId" resultType="java.util.Map" parameterType="java.lang.String">
+    select f.wechatname,f.photo,t.content,f.category from comments t, users f where t.user_id = f.user_id and
+     t.course_id = #{courseId} and t.yxbj = 'Y'
+  </select>
+  
+  <insert id="saveComments">
+    insert into comments(comment_id,content,course_id,user_id,lrrq,yxbj)
+    values(#{0},#{1},#{2},#{3},#{4},#{5})
+  </insert>
+
+
+  
+
+</mapper>

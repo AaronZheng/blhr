@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.LoginDao">
+    
+    <resultMap type="com.yoyo.blhr.dao.model.CourseTitleVo" id="courseTitleVoMap">
+        <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+        <result column="username" property="teacher" jdbcType="VARCHAR" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="profile" property="teacherProfile" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="userInfoResultMap" type="com.yoyo.blhr.dao.model.User">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="wechatname" property="wechatname" jdbcType="VARCHAR" />
+        <result column="openid" property="openid" jdbcType="VARCHAR" />
+        <result column="lrrq" property="lrrq" jdbcType="DATE" />
+        <result column="xgrq" property="xgrq" jdbcType="DATE" />
+        <result column="yxbj" property="yxbj" jdbcType="VARCHAR" />
+    </resultMap>
+    
+         
+	<resultMap type="java.util.Map" id="userStatResultMap">
+		<result column="count(user_id)" property="count" jdbcType="VARCHAR"></result>
+		<result column="lrrq" property="lrrq" jdbcType="DATE"></result>
+	</resultMap>
+    <sql id="user_colum_list">
+        user_id,username,password,wechatname
+    </sql>
+    
+    <sql id = "user_manage_list">
+    	user_id, username, wechatname, lrrq
+    </sql>
+
+
+
+<!--     <select id="queryUserInfoByCondition" resultMap="courseTitleVoMap" parameterType="java.util.Map">
+        select
+        <include refid="user_colum_list" />
+        from users t
+        where t.username = #{username,jdbcType=VARCHAR} and t.password=#{password,jdbcType=VARCHAR}
+    </select> -->
+
+  <!--   <select id="queryUserMap" resultMap="courseTitleVoMap" parameterType="java.lang.String">
+        select * from users t where t.username=#{username,jdbcType=VARCHAR}
+    </select> -->
+    
+    <select id="queryCourseList"  resultMap="courseTitleVoMap" >
+        select t.course_id ,t.course_name,f.username,n.photo,f.profile from course t,teachers f ,users n
+              where t.user_id = f.user_id and f.user_id = n.user_id order by t.lrrq desc
+    </select>
+    
+    
+
+    <select id="queryUserInfoByCondition" resultMap="userInfoResultMap" parameterType="java.util.Map">
+        select
+        <include refid="user_colum_list" />
+        from users t
+        where t.username = #{username,jdbcType=VARCHAR} and t.password=#{password,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryUserMap" resultMap="userInfoResultMap" parameterType="java.lang.String">
+        select * from users t where t.username=#{username,jdbcType=VARCHAR}
+    </select>
+
+	<select id = "queryAllUsers" resultMap="userInfoResultMap">
+	 	select * from users  where yxbj = 'Y'
+	</select>
+	
+	<select id = "dataSta" resultMap="userStatResultMap" parameterType="java.lang.String">
+		select count(user_id), lrrq from users where lrrq >=#{date,jdbcType=VARCHAR} GROUP BY convert(lrrq,Date) ORDER BY lrrq DESC
+	</select>
+	
+    <select id = "totalBefore7days" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(user_id) from users where lrrq &lt; #{date,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryCourseListAndNum" resultType="java.util.Map">
+	   select h.*,k.photo,n.`profile`,n.job_name as jobName,n.user_id as teacherId from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
+	      on t.course_id = f.course_id where t.course_state = '3' or t.course_state ='8' and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and 
+	      k.user_id = h.user_id order by h.lrrq desc
+	</select>
+
+</mapper>

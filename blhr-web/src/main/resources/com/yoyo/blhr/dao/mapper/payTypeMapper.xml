@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.PayTypeDao">
+
+    <resultMap id="userInfoResultMap" type="com.yoyo.blhr.dao.model.PayType">
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+        <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DECIMAL" />
+        <result column="lrrq" property="lrrq" jdbcType="DATE" />
+        <result column="xgrq" property="xgrq" jdbcType="DATE" />
+    </resultMap>
+    
+    <sql id="payType_col_list">
+       pay_type_id,type_code,type_name,price,lrrq,xgrq
+    </sql>
+    
+    <select id="queryPayTypeByCode" resultMap="userInfoResultMap" parameterType="java.lang.String">
+       select 
+       <include refid="payType_col_list"/>
+       from pay_type where type_code=#{typeCode,jdbcType=VARCHAR}
+    </select>
+    
+
+</mapper>

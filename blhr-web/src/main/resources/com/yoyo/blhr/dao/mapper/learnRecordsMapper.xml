@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.LearnedRecordsDao">
+
+    <resultMap id="learnRecordsVoMap" type="com.yoyo.blhr.dao.model.LearnRecordsVo">
+        <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+        <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+        <result column="teacher_id" property="teacherId" jdbcType="VARCHAR" />
+        <result column="learn_time" property="learnTime" jdbcType="DATE" />
+    </resultMap>
+    
+    
+    <select id="queryUserHistoryRecodrs" resultMap="learnRecordsVoMap"  parameterType="java.lang.String">
+        select t.course_id, n.course_name,m.username,m.user_id,t.learn_time
+        from learn_records t, course n, teachers m where  t.course_id = n.course_id 
+        and n.teacher_id = m.user_id and t.user_id =#{userId,jdbcType=VARCHAR}
+    </select>
+    
+    <select id ="queryRecodrsCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(DISTINCT course_id) FROM learn_records
+		WHERE user_id = #{userId,jdbcType=VARCHAR} GROUP BY user_id
+	</select>
+	
+	<select id="queryLearnNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+	   select count(1) from learn_records where course_id = #{courseId}
+	</select>
+
+</mapper>

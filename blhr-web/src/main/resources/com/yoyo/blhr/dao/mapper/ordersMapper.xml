@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.OrderDao">
+
+    <resultMap id="ordersInfoResultMap" type="java.util.Map">
+        <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="wechat_name" property="wechatname" jdbcType="VARCHAR" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+        <result column="intro" property="intro" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="ordersToPo" type="com.yoyo.blhr.dao.model.Orders">
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="pay_type_id" property="payTypeId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="TIMESTAMP" />
+        <result column="wechat_name" property="wechatName" jdbcType="TIMESTAMP" />
+        <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+        <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+        <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+        <result column="yxbj" property="yxbj" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<resultMap type="java.util.Map" id="ordersStatMap">
+		<result column="count(order_id)" property="count" jdbcType="VARCHAR"></result>
+		<result column="start_time" property="lrrq" jdbcType="DATE"></result>
+	</resultMap>
+ 
+	
+	<select id="queryOrders" resultMap = "ordersInfoResultMap">
+		select b.type_name, a.username, a.wechat_name, a.start_time, a.end_time, a.order_state
+		from orders a, pay_type b
+		where a.pay_type_id = b.type_code
+	</select>
+	
+	<select id = "ordersSta" resultMap="ordersStatMap" parameterType="java.lang.String">
+		select count(order_id), start_time from orders where start_time >=#{date,jdbcType=VARCHAR} GROUP BY convert(start_time,Date) ORDER BY start_time DESC
+	</select>
+	
+	<insert id="saveOrders" parameterType="com.yoyo.blhr.dao.model.Orders">
+	    insert into orders values(#{orderId},#{userId},#{payTypeId},#{username},#{wechatName},
+	#{startTime},#{endTime},#{orderState},#{yxbj})
+	</insert>
+	
+	<update id="updateOrder" parameterType="java.lang.String">
+	   update orders t set t.order_state = '1' where order_id = #{orderId}
+	</update>
+	
+	<select id="queryOrderByOpenId" resultMap="ordersToPo" parameterType="java.lang.String">
+		select * from orders t where t.end_time = (select max(end_time) 
+		from orders where user_id =  #{openId} and order_state = '1') and user_id =  #{openId} 
+		and order_state = '1'
+	</select>
+	
+	<select id="queryOrdersById" resultMap="ordersToPo" parameterType="java.lang.String">
+	   select * from orders where order_id = #{orderId} 
+	</select>
+	
+    <select id="totalOrdersBef7days" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(order_id) from orders where start_time &lt; #{date,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>
