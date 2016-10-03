@@ -23,7 +23,7 @@
 	<body style="background-color: #E8E8E8;" onload="window.scrollTo(0,document.body.scrollHeight);">
 		<div class="titleTop">
 			<img src="<%=request.getContextPath() %>/blhrf/img/zb.png" class="zbImg"> 直播课程 <span class="topText">(200人正在学)</span>
-			<a class="sukc" href="<%=request.getContextPath() %>/endCourse?userId=${userId}&courseId=${courseId}">结束课程</a>
+			<a class="sukc" href="<%=request.getContextPath() %>/endCourse?userId=${userId}&courseId=${courseId}&category=1">结束课程</a>
 		</div>
 
 		<div class="watchDiv">
@@ -51,7 +51,7 @@
 									</div>
 								</div>
 								<div class="qqvoice_hitit"></div>
-								<label>11"</label>
+							<!-- 	<label>11"</label> -->
 								<em></em>
 							</div>
 						</div>
@@ -235,7 +235,7 @@
     	$.ajax({
 			type : "POST",
 			async : false,
-			url : "<%=request.getContextPath()%>/sendTextContent",
+			url : "<%=request.getContextPath()%>/sendTextContentf",
 			data : {
 				"courseId" : '${courseId}',
 				"chatContent" : chatcontent,

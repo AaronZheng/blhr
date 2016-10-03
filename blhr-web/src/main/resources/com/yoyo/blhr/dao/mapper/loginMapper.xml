@@ -25,6 +25,22 @@
         <result column="yxbj" property="yxbj" jdbcType="VARCHAR" />
     </resultMap>
     
+    
+    <resultMap id="CourseVo" type="com.yoyo.blhr.dao.model.CourseVo">
+       <result column="course_id" property="course_id" jdbcType="VARCHAR" />
+        <result column="course_name" property="course_name" jdbcType="VARCHAR" />
+        <result column="user_id" property="user_id" jdbcType="VARCHAR" />
+        <result column="teacher_id" property="teacher_id" jdbcType="VARCHAR" />
+        <result column="couser_profile" property="couser_profile" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="pay_type" property="pay_type" jdbcType="VARCHAR" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="profile" property="profile" jdbcType="VARCHAR" />
+        <result column="jobName" property="jobName" jdbcType="DATE" />
+        <result column="fullname" property="fullname" jdbcType="DATE" />
+        <result column="teacherId" property="teacherId" jdbcType="VARCHAR" />
+    </resultMap>
+    
          
 	<resultMap type="java.util.Map" id="userStatResultMap">
 		<result column="count(user_id)" property="count" jdbcType="VARCHAR"></result>
@@ -82,7 +98,7 @@
 	</select>
 	
 	<select id="queryCourseListAndNum" resultType="java.util.Map">
-	   select h.*,k.photo,n.`profile`,n.job_name as jobName,n.user_id as teacherId from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
+	   select h.*,k.photo,n.`profile`,n.job_name as jobName,n.fullname,n.user_id as teacherId from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
 	      on t.course_id = f.course_id where t.course_state = '3' or t.course_state ='8' and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and 
 	      k.user_id = h.user_id order by h.lrrq desc
 	</select>

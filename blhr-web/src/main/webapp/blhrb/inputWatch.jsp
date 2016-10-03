@@ -1,25 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ include file="/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -139,7 +118,6 @@
 								<font style="cursor:pointer; color: red"  onclick="deleteItem(this,'${list.course_detail_id}')">删除</font>
 							    </font>
 							      &nbsp; &nbsp;<font style="cursor:pointer; color: red"  onclick="showUpdateDiv('updateItemDivp','${list.course_detail_id}',this)">更新</font>
-							  </img>
 							</div>
 						</div>
 					</div>
@@ -148,12 +126,12 @@
 				 
 				  <c:if test="${list.content_type == 'v'}">
 				  <div>
-					<div class="row"  id="${list.course_detail_id}"  onclick="palyVoice('${list.content_item }')">
+					<div class="row"  id="${list.course_detail_id}" >
 						<div class="san_zuob">
 							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
 						</div>
-						<div class="qqright">
-							<div class="qqsky qqvoice">
+						<div class="qqright" onclick="palyVoice('${list.content_item }')">
+							<div class="qqsky qqvoice" style="width: 200px; height:40px;">
 								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
 								<div>
 									<div class="voice_move">
@@ -167,12 +145,13 @@
 								<em></em>
 							</div>
 						</div>
-						
+						<div>
+						<div>
+						<span><font style="cursor:pointer; color: red"  onclick="deleteItem(this,'${list.course_detail_id}')">删除</font></span>
+				    	<span><font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></span>	
+						</div>
+					    </div>
 					</div>
-					<div style="width: 300px" align="right"></div>
-								<div style="width: 300px" align="right">			&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style="cursor:pointer; color: red"  onclick="deleteItem(this,'${list.course_detail_id}')">删除</font>
-								<label>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></label></div>	
-					
 					</div>					
 				 </c:if>
 			    </c:forEach>
@@ -181,7 +160,8 @@
 					<div id="updateItemDivText">
 				    	<input id="itemIdt" style="width: 260px;height: 20px;" type="hidden"  name="itemId">
 					    <input id="updateItemTextContent" style="width: 260px;height: 20px;" type="text" name="chatContent">
-					    <br><div style="cursor:pointer;" onclick="updateContent()">确定</div><div style="cursor:pointer;" onclick="closeDialog('updateItemDivText','updateItemTextContent')">关闭</div>
+					    <br><div style="cursor: pointer;" onclick="updateContent()">确定</div>
+						<div style="cursor:pointer;" onclick="closeDialog('updateItemDivText','updateItemTextContent')">关闭</div>
 					</div>
 					<div id="updateItemDivp">
 					    <form id="updateItemMediap" name="updatePform" action="<%=request.getContextPath() %>/UpdateChatServlet" method="post" enctype="multipart/form-data">
@@ -189,6 +169,7 @@
 					       <input type="file" id="photoname" name="photoname" id="photo_file" accept="image/png,image/gif" >
 					       <br><div style="cursor:pointer;" onclick="mediaUpdate('p')">确定</div><div style="cursor:pointer;" onclick="closeDialog('updateItemDivp','photoname')">关闭</div>
 				        </form>
+				     </div>
 					<div id="updateItemDivv">
 					    <form id="updateItemMediav" name="updateVform" action="<%=request.getContextPath() %>/UpdateChatServlet" method="post" enctype="multipart/form-data">
 				    	   <input id="itemIdv" style="width: 260px;height: 40px;" type="hidden"  name="itemId">
@@ -196,7 +177,7 @@
 					       <br><div style="cursor:pointer;" onclick="mediaUpdate('v')">确定</div><div style="cursor:pointer;" onclick="closeDialog('updateItemDivv','voicename')">关闭</div>
 				       </form>
 					</div>
-				</div>
+				
 			</div>
 		
 		<div>
@@ -231,6 +212,7 @@
 
 	var htmlcontentf;
 	var htmlcontentc;
+	var htmlcontentcc;
 	var itemId;
 	
 	
@@ -271,17 +253,23 @@
 	    			alert("修改内容失败");
 	    		},
 	            success: function(data) { 
-	            	htmlcontentf.removeChild(htmlcontentc);
+	            	if(data == 1){
+	            		alert("修改失败");
+	            		return;
+	            	}
+	            	//htmlcontentf.removeChild(htmlcontentc);
 	            	if("p" == type){
 	            		closeDialog('updateItemDivp','photoname');
 	            		var temp = document.createElement("div");
-						temp.innerHTML = getPhotoContent(data.sourcePath);
-	            	    htmlcontentf.appendChild(temp); 
+						temp.innerHTML = getPhotoContent(data.sourcePath,data.itemId);
+						htmlcontentc.removeChild(htmlcontentcc)
+						htmlcontentc.appendChild(temp);
 	            	}if("v" == type){
 	             		closeDialog('updateItemDivv','voicename');
 	            		var temp = document.createElement("div");
-						temp.innerHTML = getVoiceContent(data.sourcePath);
-	            	    htmlcontentf.appendChild(temp); 
+						temp.innerHTML = getVoiceContent(data.sourcePath,data.itemId);
+						htmlcontentc.removeChild(htmlcontentcc)
+						htmlcontentc.appendChild(temp); 
 	            	}
 	            }
 	          // $("#uploadPhoto").resetForm(); // 提交后重置表单
@@ -301,6 +289,7 @@
 		$.ajax({
 			type : "GET",
 			async : false,
+			contentType:"application/x-www-form-urlencoded; charset=utf-8",
 			url : "<%=request.getContextPath()%>/updateCourseItem",
 			data : {
 				"itemId" : itemId,
@@ -330,6 +319,7 @@
 		
 		this.htmlcontentf = objdiv.parentNode.parentNode.parentNode.parentNode.parentNode;
 		this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode;
+		this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode;
 		
 		itemId = data;
 		var aiin = document.getElementById(content);
@@ -375,7 +365,11 @@
 	    			alert("发送语音失败");
 	    		},
 	            success: function(data) { 
-	            	$(".extendDiv").append(getVoiceContent(data.sourcePath));
+	            	if(data == 1){
+	            		alert("发送语音失败,检查音频是否损坏，然后重新上传");
+	            		return;
+	            	}
+	            	$(".extendDiv").append(getVoiceContent(data.sourcePath,data.detailId));
 	            	document.getElementById("voicename").value=""; 
 	            }
 	        });
@@ -393,7 +387,11 @@
     			alert("发送图片失败");
     		},
             success: function(data) { 
-            	$(".extendDiv").append(getPhotoContent(data.sourcePath));
+            	if(data == 1){
+            		alert("发送图片失败，检查图片是否损坏，然后重新上传");
+            		return;
+            	}
+            	$(".extendDiv").append(getPhotoContent(data.sourcePath,data.detailId));
             	document.getElementById("photoname").value=""; 
             }
           // $("#uploadPhoto").resetForm(); // 提交后重置表单
@@ -463,15 +461,15 @@
     
     
 	
-	function getVoiceContent(voiceId){
+	function getVoiceContent(voiceId,itemId){
     	
     	var baserDir = '<%=request.getContextPath() %>';
-        var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
+        var content = "<div><div class=\"row\" >"+
 		"<div class=\"san_zuob\">"+
 			"<img src=\""+baserDir+"/blhrf/img/san_smalltou.png\" />"+
 		"</div>"+
-		"<div class=\"qqright\">"+
-			"<div class=\"qqsky qqvoice\">"+
+		"<div class=\"qqright\" onclick=\"palyVoice('"+voiceId+"')\">"+
+			"<div class=\"qqsky qqvoice\" style=\"width: 200px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baserDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+
@@ -481,18 +479,19 @@
 						"<img src=\""+baserDir+"/blhrf/img/voice.png\" class=\"voice\">"+
 					"</div>"+
 				"</div>"+
-				"<div class=\"qqvoice_hitit\"></div>"+
-				"<label>&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'${list.course_detail_id}')\">删除</font>"+
-				" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)\">更新</font></label>"+
 				"<em></em>"+
 			"</div>"+
 		"</div>"+
-	"</div></div>";
+	"</div>"+
+		"<div class=\"qqvoice_hitit\"></div>"+
+		"<label>&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\">删除</font>"+
+		" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivv','"+itemId+"',this)\">更新</font></label>"+
+		"</div>";
 	return content;
  }
     
     
-    function getPhotoContent(phtotPath){
+    function getPhotoContent(phtotPath,itemId){
     	
     	var baseDir = '<%=request.getContextPath() %>';
     	return  "<div><div class=\"row\">"+
@@ -502,8 +501,8 @@
 	"<div class=\"qqright\">"+
 		"<div class=\"qqsky\">"+
 		"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
-			"<img src=\""+baseDir+"/"+phtotPath+"\" class=\"contentImg\"></img>"+" &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font><font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'${list.course_detail_id}')\">删除</font></font>"+
-		" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivp','${list.course_detail_id}',this)\">更新</font></div>"+
+			"<img src=\""+baseDir+"/"+phtotPath+"\" class=\"contentImg\"></img>"+" &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font><font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\">删除</font></font>"+
+		" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivp','"+itemId+"',this)\">更新</font></div>"+
 	"</div>"+
     "</div></div>";
   }
@@ -524,7 +523,7 @@
 			"<div class=\"qqsky\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div class=\"qqtext\">"+chatcontent+" &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\">删除</font>"+
-				" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivText','${list.course_detail_id}',this)\">更新</font>"+
+				" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivText','"+itemId+"',this)\">更新</font>"+
 				"</div>"+
 			"</div>"+
 		"</div>"+
@@ -539,7 +538,8 @@
  			async : false,
  			url : "<%=request.getContextPath() %>/backEndCourse",
  			data : {
- 				"courseId" : '${courseId}'
+ 				"courseId" : '${courseId}',
+ 				"state" : '8'
  			},
  			error : function(request) {
  				alert("请求失败");

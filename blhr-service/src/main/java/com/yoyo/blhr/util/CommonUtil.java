@@ -129,6 +129,19 @@ public class CommonUtil {
     }
     
     
+    /**
+     * 
+     * @param userId
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    public static User getUserByUserId(String userId) throws IOException{
+    	
+    	return (User)BlhrArgumentCache.getCacheData(userId);
+    }
+    
+    
    
     /**
      * @description generate boli pay message ...

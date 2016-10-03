@@ -27,7 +27,7 @@ th,
 td {
 	margin: 0;
 	padding: 0;
-	font-family: "微软雅黑";
+	font-family: "寰蒋闆呴粦";
 }
 
 ul,
@@ -1431,8 +1431,8 @@ div.flicking_con a.on {
 	color: #999999;
 }
 
-.ke_backlist_bot .ke_shu｛ font-size: 2.4rem;
-｝ .san_dy span {
+.ke_backlist_bot .ke_shu锝�font-size: 2.4rem;
+锝�.san_dy span {
 	width: 55px;
 	height: 15px;
 	margin: auto;
@@ -1836,10 +1836,10 @@ div.flicking_con a.on {
 	height: 20px;
 }
 
-.qqvoice {
+/* .qqvoice {
 	width: 50px;
 	height: 40px;
-}
+} */
 
 .titleTop {
 	background-color: #FFFFFF;
@@ -1859,7 +1859,7 @@ div.flicking_con a.on {
 }
 
 .watchDiv {
-	margin-top: 1rem;
+	margin-top: 0rem;
 }
 
 .zbImg {

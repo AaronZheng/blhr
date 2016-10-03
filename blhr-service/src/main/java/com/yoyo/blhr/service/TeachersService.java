@@ -79,6 +79,14 @@ public class TeachersService {
 		this.teachersDao.newTeacher(teacher);
 	} 
 	
+	/**
+	 * 
+	 * @param teacher
+	 */
+	public void updateTeacher(Teachers teacher){
+		this.teachersDao.updateTeacher(teacher);
+	}
+	
 
 	/**
 	 * 

@@ -13,11 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.yoyo.blhr.dao.model.Courses;
 import com.yoyo.blhr.dao.model.LearnRecords;
+import com.yoyo.blhr.dao.model.Members;
 import com.yoyo.blhr.dao.model.User;
 import com.yoyo.blhr.service.CourseManageService;
+import com.yoyo.blhr.service.MemberService;
 import com.yoyo.blhr.service.MyClassroomService;
 import com.yoyo.blhr.service.UserManageService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
@@ -84,6 +89,8 @@ public class CourseManageAction {
 	
 	@Autowired
 	private MyClassroomService myClassroomService;
+	@Autowired
+	private MemberService memberService;
 
 	
 	
@@ -142,7 +149,8 @@ public class CourseManageAction {
 		//course.setPersonLimit(Integer.parseInt(personLimit));
 		course.setCreatePerson("");
 		//course.setPlayTime(new Date());
-		course.setCourseType(payType);
+		course.setCourseType(courseType);
+		course.setPayType(payType);
 		course.setCategory("1");
 		course.setYxbj("Y");
 		course.setCreateTime(new Date());
@@ -308,6 +316,25 @@ public class CourseManageAction {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param userId
+	 * @param courseState
+	 * @return
+	 */
+	@RequestMapping("/reviewCourse")
+	public ModelAndView reviewCourse(String userId,String courseId){
+		ModelAndView mv = new ModelAndView("/blhrb/reviewInputWatch");
+		Map<String,Object> map = courseManageService.queryCourseById(courseId);
+		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
+		mv.addObject("courseName", map.get("course_name"));
+		mv.addObject("courseId", map.get("course_id"));
+		mv.addObject("userId", map.get("userId"));
+		mv.addObject("courseItem", detailMap);
+		return mv;
+	}
+
+	
 	
 	/**
 	 * 
@@ -356,7 +383,7 @@ public class CourseManageAction {
 	 */
 	private String generateHref(String caption,String function,Object url){
 		
-		return "<input type=\"button\" value = \""+caption+"\" onclick=\""+function+"('"+url+"')\">";
+		return "&nbsp;&nbsp;<a style=\"curosr:pointer\" onclick=\""+function+"('"+url+"')\">"+caption+"</a>";
 	}
 	
 	
@@ -374,13 +401,17 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/saveCourseTitle",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
 	public ModelAndView saveCourseTitle(String courseName,String courseIntro,String courseType,
-			String playTime,String playLimit,String userId) throws IOException, ParseException{
+			String playTime,String playLimit,String userId,String category) throws IOException, ParseException{
 		//TODO 已完成  ....
 		Courses course = new Courses();
 		course.setCourseId(SequenceUtil.generateSequeueString());
 		course.setCourseName(courseName);
 		course.setCourseProfile(courseIntro);
 		course.setTeacherId(userId);
+		course.setCategory(category);
+		if("1".equals(course)){
+			course.setCourseState("7");
+		}
 		course.setUserId(userId);
 		course.setLrrq(new Date());
 		course.setCourseState("2");
@@ -396,40 +427,46 @@ public class CourseManageAction {
 		course.setLrrq(new Date());
 		course.setYxbj("Y");
 		course.setAvailable("1");
+		ModelAndView mv ;
+		if("3".equals(category)){
+			course.setCourseState("7");
+			mv = new ModelAndView("/blhrf/lrInputWatch");
+			List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(course.getCourseId());
+			mv.addObject("courseItem", detailMap);
+		}else
+			mv = new ModelAndView("/blhrf/inputWatch");
 		courseManageService.saveCourseTitle(course);
-		ModelAndView mv = new ModelAndView("/blhrf/inputWatch");
 		mv.addObject("appId", BlhrConf.getInstance().getAppID());
 		mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
 		mv.addObject("courseId", course.getCourseId());
+		mv.addObject("photoPath", CommonUtil.getUserByUserId(userId).getPhoto());
 		mv.addObject("userId", userId);
 		mv.addObject("courseName", courseName);
 		return mv;
 	}
 	
 	
-/*	@ResponseBody
-	@RequestMapping("/saveCourseTitle")
-	public String saveCourseTitle(String courseName,String courseIntro,String userId) throws IOException{
-		
-		Courses course = new Courses();
-		course.setCourseId(SequenceUtil.generateSequeueString());
-		course.setCourseName(courseName);
-		course.setCourseProfile(courseIntro);
-		course.setTeacherId(userId);
-		course.setUserId(userId);
-		course.setCourseState("2");
-		course.setCreateTime(new Date());
-		course.setLrrq(new Date());
-		course.setYxbj("Y");
-		course.setAvailable("1");
-		courseManageService.saveCourseTitle(course);
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("userId", userId);
-		map.put("courseId", course.getCourseId());
-		map.put("state", "1");
-		return new JSONObject(map).toString();
+	/**
+	 * 
+	 * @param courseId
+	 * @param courseName
+	 * @param userId
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/continueInput")
+	public ModelAndView continueInput(String courseId,String courseName,String userId) throws IOException{
+		ModelAndView mv = new ModelAndView("/blhrf/lrInputWatch");
+		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
+		mv.addObject("courseItem", detailMap);
+		mv.addObject("appId", BlhrConf.getInstance().getAppID());
+		mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
+		mv.addObject("courseId", courseId);
+		mv.addObject("userId", userId);
+		mv.addObject("courseName", courseName);
+		return mv;
+
 	}
-*/	
 	
 	
 	/**
@@ -512,12 +549,22 @@ public class CourseManageAction {
 	}
 	
 	
+	@RequestMapping("/gotoZbKc")
+	public ModelAndView gotoZbKc(String userId) throws IOException{
+		ModelAndView mv = new ModelAndView("/blhrf/ke_zb");
+		mv.addObject("userId", userId);
+		return mv;
+	}
+	
   
 	@RequestMapping("/endCourse")
-    public ModelAndView endCourse(String userId,String courseId){
+    public ModelAndView endCourse(String userId,String courseId,String category){
     	
     	logger.info("=============用户ID["+userId+"]=============");
-    	this.courseManageService.updateCourseToEnd(courseId,"3");
+    	if("1".equals(category)||"3".equals(category))
+    		this.courseManageService.updateCourseToEnd(courseId,"9");
+    	else
+    		this.courseManageService.updateCourseToEnd(courseId,"3");
     	if(userId == null || "".equals(userId))
     		throw new IllegalAccessError("非法接入，用户标识不存在，请使用手机登了");
     	User user = (User) BlhrArgumentCache.getCacheData(userId);
@@ -531,8 +578,8 @@ public class CourseManageAction {
 	
 	@ResponseBody
 	@RequestMapping(value="/backEndCourse",produces = "text/html;charset=UTF-8", method=RequestMethod.GET)
-	public String backEndCourse(String courseId){
-		this.courseManageService.updateCourseToEnd(courseId,"8");
+	public String backEndCourse(String courseId,String state){
+		this.courseManageService.updateCourseToEnd(courseId,state);
 		return "1";
 	}
 	
@@ -611,11 +658,13 @@ public class CourseManageAction {
 	 * 
 	 * @param userId
 	 * @return
+	 * @throws IOException 
 	 */
 	@RequestMapping("/openCourseProfile")
-	public ModelAndView openCourseProfile(String userId,String courseId,String courseName,String teacherId){
+	public ModelAndView openCourseProfile(String userId,String courseId,String courseName,String teacherId) throws IOException{
 		
 		ModelAndView mv = new ModelAndView("/blhrf/playback");
+		Members member = memberService.queryUserByCondiation(userId);
 		//讲师简介
 		Map<String, Object> teacherProfile = this.myClassroomService.queryTeacherProfileByCourseId(courseId);
 		//课程简介
@@ -627,6 +676,7 @@ public class CourseManageAction {
 		mv.addObject("allCourses", allCourses);
 		mv.addObject("userId", userId);
 		mv.addObject("courseId", courseId);
+		mv.addObject("userType", member != null?2:0);
 		mv.addObject("courseName", courseName);
 		mv.addObject("teacherId", teacherId);
 		
@@ -662,6 +712,80 @@ public class CourseManageAction {
 		mv.addObject("courseName", map.get("course_name"));
 		return mv;
 	}
+	
+	
+
+	/**
+	 * @description 查询待审批课程
+	 * @param startPage
+	 * @param pageSize
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/querySpCourseInfo" ,produces="application/json;charset=UTF-8")
+	public String querySpCourseInfo(String page,String rows){
+		//哪带了page,rows
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
+	}
+	
+	
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateCourseProfile" ,produces="application/json;charset=UTF-8")
+	public String updateCourseProfile(String courseId){
+		
+		Map<String,Object> map = courseManageService.queryCourseById(courseId);
+		
+		return new JSONObject(map).toString();
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/saveUpdateCourseProfile" ,produces="application/json;charset=UTF-8")
+	public String saveUpdateCourseProfile(String courseId,String courseName,String profile,
+			String teacherId,String courseType,String payType){
+		
+		courseManageService.updateCourseById(courseId,courseName,profile,
+				teacherId,courseType,payType);
+		
+		return "1";
+		
+	}
+	
+	
+
+	/**
+	 * 查看待审批课程详细信息
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/queryDspCourseDetailInfo",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public String teacherDetail(HttpServletRequest request, Model model){
+		String course_id = request.getParameter("course_id");
+		Map<String, Object> dspCourseDetail = courseManageService.queryDspCourseByCourseId(course_id);
+		List<Map<String, Object>> retList = new ArrayList<Map<String,Object>>();
+		retList.add(dspCourseDetail);
+		JSONArray jsonArray = new JSONArray(retList);
+		return jsonArray.toString();
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/passCourse" ,produces="application/json;charset=UTF-8")
+	public String passCourse(String page,String rows,String course_id){
+		
+		courseManageService.passDspCourse(course_id);
+		
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
+
+	}
+	
+	
 	
 	
 

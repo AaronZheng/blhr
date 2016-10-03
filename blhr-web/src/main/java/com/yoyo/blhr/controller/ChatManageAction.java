@@ -25,7 +25,7 @@ import com.yoyo.blhr.util.SequenceUtil;
 public class ChatManageAction {
 	
 	//@Value("${basePath}")
-	private String basePath="/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/upload";
+	private String basePath="/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/upload";
 	@Autowired
 	private CoursesDao coursesDao;
 	
@@ -80,8 +80,9 @@ public class ChatManageAction {
 		}else if("t".equals(type)){
 		}else
 			return "2";
-		coursesDao.saveCourseDetail(generateCourseDetail(courseId,content,type));
-		return "1";
+		CourseDetail cd = generateCourseDetail(courseId,content,type);
+		coursesDao.saveCourseDetail(cd);
+		return cd.getCourseDetailId();
 	}
 	
 	/**
@@ -92,6 +93,21 @@ public class ChatManageAction {
 	@ResponseBody
 	@RequestMapping(value="/sendTextContent",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
 	public String sendTextContent(String courseId,String type,String chatContent){
+		CourseDetail cd = generateCourseDetail(courseId,chatContent,type);
+		coursesDao.saveCourseDetail(cd);
+		return cd.getCourseDetailId();
+	}
+	
+	/**
+	 * 
+	 * @param courseId
+	 * @param type
+	 * @param chatContent
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/sendTextContentf",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
+	public String sendTextContentf(String courseId,String type,String chatContent){
 		CourseDetail cd = generateCourseDetail(courseId,chatContent,type);
 		coursesDao.saveCourseDetail(cd);
 		return cd.getCourseDetailId();

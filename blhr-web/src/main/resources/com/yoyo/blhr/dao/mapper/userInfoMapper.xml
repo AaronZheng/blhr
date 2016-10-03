@@ -26,6 +26,10 @@
             openid=#{openid,jdbcType=VARCHAR}
     </select>
     
+    <update id="updateUserInfo" parameterType="com.yoyo.blhr.dao.model.User">
+         update users set photo = #{photo}, username = #{username}, password = #{password} where user_id = #{userId}
+    </update>
+    
     <insert id="saveUserInfo" parameterType="com.yoyo.blhr.dao.model.User">
       insert into users (user_id,sex,wechatname,openid,category,photo,lrrq,yxbj) values(#{userId,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
       #{wechatname,jdbcType=VARCHAR},#{openid,jdbcType=VARCHAR},#{category,jdbcType=VARCHAR},#{photo,jdbcType=VARCHAR},#{lrrq,jdbcType=DATE},#{yxbj,jdbcType=VARCHAR})
@@ -39,8 +43,23 @@
     </insert>
     	
 	<update id="updateUserToTeacher" parameterType="java.util.Map">
-		UPDATE users SET category = #{category,jdbcType=CHAR}, photo = #{photo,jdbcType=VARCHAR},
-		 username = #{username,jdbcType=VARCHAR}, password= #{password,jdbcType=VARCHAR}  WHERE user_id =#{userId,jdbcType=VARCHAR}
+		UPDATE users 
+		<set>
+		 yxbj = 'Y',
+		 <if test="category != null and category != ''">
+		    category = #{category},
+		  </if>
+		  <if test="photo != null and photo != ''">
+		    photo = #{photo},
+		 </if>
+		 <if test="username != null and username != ''">
+		    username = #{username},
+		 </if>
+		 <if test="password != null and password != ''">
+		    password= #{password} , 
+		 </if>
+		</set>
+		  WHERE user_id =#{userId}
 	</update>
 	
 	<update id="updateTeacherToUser" parameterType="java.lang.String">

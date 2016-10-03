@@ -46,7 +46,7 @@
 		</div>
 		<div id ="teacher_panel" class="easyui-panel" closed='true' style="width:100%; ">
 		<table id = "teacherslist" class = "easyui-datagrid" style="width: 100%; height: 340px"
-			title= "讲师管理（双击显示讲师资料）" toolbar="#tb">
+			title= "讲师管理（双击显示并修改讲师资料）" toolbar="#tb">
 			 <thead><tr>
 				<th data-options="field: 'userId'"  hidden = "hidden"></th>
 				<th data-options="field: 'state'" width="21%">讲师状态</th> 
@@ -99,7 +99,7 @@
 			</table>
 		</form>
 	</div>
-	<div  id="loginTeacherDia" class="easyui-dialog" style="width: 600px; height: 300px">
+	<div id="loginTeacherDia" class="easyui-dialog" style="width: 600px; height: 300px">
 		<form id ="loginTeacherForm" name="loginTeacherForm" action="<%=request.getContextPath()%>/uploadTeacherInfo" method="post"  enctype="multipart/form-data"  style="width: 100%; height: 100%">
 			<table  class="panel-table" border="0" align="center" style="padding: 5px 5px">
 				<tr>
@@ -109,7 +109,7 @@
 					<td style="width:110px"> <input type='file' id='fileUp' name='fileUp' /></td>
 					</tr>
 				<tr>
-					<td align="center" >姓名 <input type="hidden" id = "userIdn" name ="userId"></td>
+					<td align="center" >姓名  <input type="hidden" id = "type" name ="type" value = "1"><input type="hidden" id = "userIdn" name ="userId"></td>
 					<td ><input class="easyui-validatebox" type="text" id = "fullname" name = "fullname"/></td>
 					<td align="center" style="width:80px">身份证</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "idCard" name = "idCard"/></td>
@@ -126,8 +126,42 @@
 					<td  colspan="3" ><input style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "profile" name = "profile"/></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="button" class="easyui-linkbutton" onclick="submitData()" value="注册"></a></td>
+					<td colspan="2" align="center"><input type="button" class="easyui-linkbutton" onclick="submitData(1)" value="注册"></a></td>
 					<td colspan="2" align="center"><a href="javascript:void(0)" class="easyui-linkbutton" onclick="newTeacher(2)">取消</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<div id="updateTeacherDia" class="easyui-dialog" style="width: 600px; height: 300px">
+		<form id ="updateTeacherForm" name="updateTeacherForm" action="<%=request.getContextPath()%>/uploadTeacherInfo" method="post"  enctype="multipart/form-data"  style="width: 100%; height: 100%">
+			<table  class="panel-table" border="0" align="center" style="padding: 5px 5px">
+				<tr>
+					<td style="width:80px" align="center">昵称</td>
+					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nusername" name = "wechatName"/></td>
+					<td style="width:110px">上传图像</td>
+					<td style="width:110px"> <input type='file' id='nfileUp' name='fileUp' /></td>
+					</tr>
+				<tr>
+					<td align="center" >姓名 <input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
+					<td ><input class="easyui-validatebox" type="text" id = "nfullname" name = "fullname"/></td>
+					<td align="center" style="width:80px">身份证</td>
+					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nidCard" name = "idCard"/></td>
+				</tr>
+				<tr>
+					<td align="center" >登录用户名</td>
+					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "username"/></td>
+					<td align="center" style="width:80px">登录密码</td>
+					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nteacherPassword" name = "teacherPassword"/></td>
+				</tr>
+				<tr><td>讲师职称</td><td colspan="3"> <input style="width: 340px" class="textarea easyui-validatebox" type="text" id = "njobName" name = "jobName"/></td></tr>
+				<tr>	
+					<td align="center" >个人简介</td>
+					<td  colspan="3" ><input style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "nprofile" name = "profile"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type="button" class="easyui-linkbutton" onclick="submitData(2)" value="修改"></a></td>
+					<td colspan="2" align="center"><a href="javascript:void(0)" class="easyui-linkbutton" onclick="cannelUpdateTeachar()">取消</a></td>
 				</tr>
 			</table>
 		</form>
@@ -136,46 +170,91 @@
 <script type="text/javascript">
 
 
-function submitData(){
-	if(document.getElementById("fullname").value =="" || document.getElementById("fullname").value == null){
-		alert("教师姓名必须填写！");
-		return;
-	}
-	if(document.getElementById("teacherName").value =="" || document.getElementById("teacherName").value == null){
-		alert("请填写教师登了用户名！");
-		return;
-	}
-	if(document.getElementById("userIdn").value =="" || document.getElementById("userIdn").value == null){
-		document.getElementById("userIdn").value = userId;
-		if(document.getElementById("userIdn").value =="" || document.getElementById("userIdn").value == null){
-			alert("用户ID为空，请刷新页面！");
-		    return;
+function submitData(type){
+	
+	if(type == 1){
+		if(document.getElementById("fullname").value =="" || document.getElementById("fullname").value == null){
+			alert("教师姓名必须填写！");
+			return;
 		}
-	}
-	if(document.getElementById("idCard").value == "" || document.getElementById("idCard").value == null){
-		alert("请填写教师登了密码！");
-		return;
-	}
-	if(document.getElementById("profile").value == "" || document.getElementById("profile").value == null){
-		alert("请填写教师简历！");
-		return;
-	}
-	if(document.getElementById("teacherPassword").value == "" || document.getElementById("teacherPassword").value == null){
-		alert("请填写教师密码！");
-		return;
-	}
-	if(document.getElementById("fileUp").value == "" || document.getElementById("fileUp").value == null){
-		alert("请上传教师图片！");
-		return;
-	}
-	if(document.getElementById("jobName").value == "" || document.getElementById("jobName").value == null){
-		alert("请上填写讲师职称！");
-		return;
+		if(document.getElementById("teacherName").value =="" || document.getElementById("teacherName").value == null){
+			alert("请填写教师登了用户名！");
+			return;
+		}
+		if(document.getElementById("userIdn").value =="" || document.getElementById("userIdn").value == null){
+			document.getElementById("userIdn").value = userId;
+			if(document.getElementById("userIdn").value =="" || document.getElementById("userIdn").value == null){
+				alert("用户ID为空，请刷新页面！");
+			    return;
+			}
+		}
+		if(document.getElementById("idCard").value == "" || document.getElementById("idCard").value == null){
+			alert("请填写教师登了密码！");
+			return;
+		}
+		if(document.getElementById("profile").value == "" || document.getElementById("profile").value == null){
+			alert("请填写教师简历！");
+			return;
+		}
+		if(document.getElementById("teacherPassword").value == "" || document.getElementById("teacherPassword").value == null){
+			alert("请填写教师密码！");
+			return;
+		}
+		if(document.getElementById("fileUp").value == "" || document.getElementById("fileUp").value == null){
+			alert("请上传教师图片！");
+			return;
+		}
+		if(document.getElementById("jobName").value == "" || document.getElementById("jobName").value == null){
+			alert("请上填写讲师职称！");
+			return;
+		}
+	}else if(type == 2){
+		/* 
+		
+		if(document.getElementById("nfullname").value =="" || document.getElementById("nfullname").value == null){
+			alert("教师姓名必须填写！");
+			return;
+		}
+		if(document.getElementById("nteacherName").value =="" || document.getElementById("nteacherName").value == null){
+			alert("请填写教师登了用户名！");
+			return;
+		}
+		if(document.getElementById("nuserIdn").value =="" || document.getElementById("nuserIdn").value == null){
+			document.getElementById("nuserIdn").value = userId;
+			if(document.getElementById("nuserIdn").value =="" || document.getElementById("nuserIdn").value == null){
+				alert("用户ID为空，请刷新页面！");
+			    return;
+			}
+		}
+		if(document.getElementById("nidCard").value == "" || document.getElementById("nidCard").value == null){
+			alert("请填写教师登了密码！");
+			return;
+		}
+		if(document.getElementById("nprofile").value == "" || document.getElementById("nprofile").value == null){
+			alert("请填写教师简历！");
+			return;
+		}
+		if(document.getElementById("nteacherPassword").value == "" || document.getElementById("nteacherPassword").value == null){
+			alert("请填写教师密码！");
+			return;
+		}
+		if(document.getElementById("nfileUp").value == "" || document.getElementById("nfileUp").value == null){
+			alert("请上传教师图片！");
+			return;
+		}
+		if(document.getElementById("njobName").value == "" || document.getElementById("njobName").value == null){
+			alert("请上填写讲师职称！");
+			return;
+		} */
 	}
 	
 		
-		
-	$("#loginTeacherForm").submit();
+		if(type == 1){
+			$("#loginTeacherForm").submit();
+		}
+		if(type == 2){
+			$("#updateTeacherForm").submit();
+		}
 	
 }
 
@@ -200,6 +279,7 @@ var userId = "";
 $(document).ready(function() {
 	$("#dialog").dialog('close');
 	$('#loginTeacherDia').dialog('close');
+	$('#updateTeacherDia').dialog('close');
 	$('#dlg_fileinfo').dialog('close');
 	$("#userslist").datagrid({
 		url : '<%=request.getContextPath()%>/usersManage',
@@ -295,12 +375,26 @@ function teacherDetail(userId){
 		},
 		success : function(data) {
 			console.log(data);
-			$('#dialog').dialog({
-				title : '讲师资料',
+			document.getElementById("nusername").value = data[0].wechatname;
+			document.getElementById("nfullname").value = data[0].fullname;
+			document.getElementById("nteacherName").value = data[0].username;
+			document.getElementById("nteacherPassword").value = "";
+			document.getElementById("nuserIdn").value = data[0].userId;
+			document.getElementById("nidCard").value = data[0].idCard;
+			document.getElementById("nprofile").value = data[0].profile;
+			document.getElementById("njobName").value = data[0].jobName;
+			$('#updateTeacherDia').dialog({
+				title : '修改讲师信息',
 				closed : false,
 				modal : true
 			});
-			$('#form').form('load', data[0]);
+	
+	/*  $('#dialog').dialog({
+				title : '讲师资料',
+				closed : false,
+				modal : true
+			}); */
+		//	$('#form').form('load', data[0]);
 		}
 });
 }
@@ -353,6 +447,10 @@ function newTeacher(value){
 		$('#loginTeacherForm').form('clear');
 		$('#loginTeacherDia').dialog('close');
 	}
+}
+function cannelUpdateTeachar(){
+	$('#updateTeacherForm').form('clear');
+	$('#updateTeacherDia').dialog('close');
 }
 
 function updateFile() {

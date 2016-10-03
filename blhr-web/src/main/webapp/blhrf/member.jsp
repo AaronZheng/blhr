@@ -83,7 +83,7 @@
 						<a href="<%=request.getContextPath() %>/wechatlogin?userId=${userId}">回放课程</a>
 					</li>
 					<li>
-						<a href="#">直播课程</a>
+						<a href="<%=request.getContextPath() %>/queryBroadCastCourse?userId=${userId}">直播课程</a>
 					</li>
 					<li class="xt_dot">
 						<a href="<%=request.getContextPath() %>/initMyClassInfo?userId=${userId}">我的课堂</a>

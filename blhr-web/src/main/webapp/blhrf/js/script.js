@@ -1,30 +1,30 @@
+
+    function scCourse(baseDir,courseId,useId){
+    	$.ajax({
+			type : "POST",
+			async : false,
+			url : baseDir+"/scCourse",
+			data : {
+				"courseId" : courseId,
+				"useId" : useId
+			},
+			error : function(request) {
+				alert("内容发送失败!");
+			},
+			success : function(data) {
+				if("1" != data)
+					alert("课程收藏失败!");
+				else{
+					alert("课程收藏成功!");
+				}
+					
+			}
+		});
+    }
+
 $(document).ready(function() {
 
 	shower();
-	
-/*	$(".xxdjt_jt").click(function() {
-		var texthtm = $('.l_content_coonn .kjgyfuy:first-child').html();
-		$(".l_content_coonn").prepend('<div class="kjgyfuy"></div>')
-		$(".kjgyfuy:first-child").prepend(texthtm);
-		var hyone = setInterval(shown, 600);
-		$(".qqvoice").on("click", function() {
-			$(this).toggleClass("qqvoice_showandhide");
-			if($(this).hasClass("qqvoice_showandhide")) {
-				$(this).find(".voice_moveooo").hide().siblings().show();
-				$(this).find("em").hide();
-			} else {
-				$(this).find(".voice_move").hide().siblings().show();
-			}
-		});
-
-		function shown() {
-			$(".voice_move").css("width", "3px").animate({
-				"width": 15 + "px"
-			}, 600, function() {
-				$(".voice_move").css("width", "3px");
-			});
-		}
-	});*/
 	
 	$(".ke_wod span").click(function() {
 		var i = $(this).index();
@@ -91,8 +91,12 @@ $(document).ready(function() {
 		}
 	});
 
-	$(".qqsky .push_hit").on("taphold", function(e) {
+	$(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
 		$(this).parents(".qqsky").find("ul").fadeIn(300);
+		
+	});
+	$(".qqvoice").on("taphold", function(e) {
+		$(this).find("ul").fadeIn(300);
 		
 	});
 	$(document).on("touchstart", function(e) {

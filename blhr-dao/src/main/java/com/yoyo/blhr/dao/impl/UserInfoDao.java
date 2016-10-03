@@ -51,6 +51,13 @@ public interface UserInfoDao {
 	 */
 	public User queryUserByUserId(String userId);
 	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User updateUserInfo(User user);
+	
 
 	/**
 	 * 

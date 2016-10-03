@@ -49,6 +49,10 @@ public class UserManageService {
 	public User queryUserById(String userId){
 		return userInfoDao.queryUserByUserId(userId);
 	}
+	
+	public void updateUserInfo(User user){
+		userInfoDao.updateUserInfo(user);
+	}
 
 	/**
 	 * 判断用户是否为付费会员

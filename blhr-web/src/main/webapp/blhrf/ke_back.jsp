@@ -15,10 +15,10 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.touchSlider.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/banner.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
-		<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
-		<![endif]-->
+		<style type="text/css">
+	    	#divcss5{ margin:10px auto} 
+            #divcss5 img{ border-radius:50%}
+		</style>
 	</head>
 
 	<body style="background-color: #FFFFFF;">
@@ -48,20 +48,28 @@
 			<div class="ke_back">
 				<div class="ke_backlist">
 					<div class="ke_backlist_top">
-						<img src="<%=request.getContextPath() %>/blhrf/img/ke_tu.jpg"/>
+						<c:if test="${list.pay_type == 2}">
+						   <img src="<%=request.getContextPath() %>/blhrf/img/vip.jpg"/>
+						</c:if>
+						<c:if test="${list.pay_type == 1}">
+						   <img src="<%=request.getContextPath() %>/blhrf/img/mian.jpg"/>
+						</c:if>
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_wen.jpg"/>
-						<img src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
+						<img onclick="scCourse('<%=request.getContextPath() %>','${allCourses.courseId}','${userId}')" src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
 						<h3><div onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name}&teacherId=${list.teacherId}')"> ${list.course_name } </div></h3>
 					</div>
 					<div class="ke_backlist_mid">
-						${list.jobName }
+						${list.fullname }-${list.jobName }
 					</div>
 					<div class="ke_backlist_bot">
 						<div class="ke_tou">
+						  <div id="divcss5">
 							<img src="<%=request.getContextPath() %>/${list.photo }"/>
+							</div>
 						</div>
-						<div class="ke_yu" >
-						    <a href="<%=request.getContextPath() %>/openBackCoursePanel?userId=${userId}&courseId=${list.course_id}&teacherId=${list.teacher_id}">回放课程</a>
+						<div class="ke_yu" onclick="openCourse('${userId}','${list.course_id}','${list.teacher_id}','${list.pay_type }')">
+<%-- 						    <a onclick="openCourse(${userId},${list.course_id},${list.teacher_id})" href="<%=request.getContextPath() %>/openBackCoursePanel?userId=${userId}&courseId=${list.course_id}&teacherId=${list.teacher_id}">回放课程</a>
+ --%>						    <a >立即学习</a>
 						</div>
 						<div class="ke_shu">
 							${list.num }人学过
@@ -72,8 +80,6 @@
 			 </c:forEach>
 			</div>
 		 </div>
-			
-			
 			
 			
 			  <div class="xtfoot xtfootcol">
@@ -89,7 +95,39 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+			
+			<div class="pay_shouone" id="pay_shouone">
+				<div class="pay_shouonebox">
+					<h3>付费课程</h3>
+					<div class="paffu_zt">
+						<a  onclick="hidediv()">取消操作</a>
+						<a class="pay_fu" href="<%=request.getContextPath() %>/openPayMenu?userId=${userId}&isMember=1">成为会员</a>
+					</div>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+			
+			function showdiv() {            
+	            document.getElementById("pay_shouone").style.display ="block";
+	        }
+	        
+			function hidediv() {
+	            document.getElementById("pay_shouone").style.display ='none';
+	        }
+			
+			function openCourse(userId,courseId,teacherId,courseType){
+				
+				if(courseType == '2' && '${userType}' < 2){
+					  document.getElementById("pay_shouone").style.display ="block";
+					  return;
+				}
+				var baseDir = '<%=request.getContextPath() %>';
+				window.open(baseDir+"/openBackCoursePanel?userId="+userId+"&courseId="+courseId+"&teacherId="+teacherId);
+			}
+				
+			
+			</script>
 
 	</body>
 

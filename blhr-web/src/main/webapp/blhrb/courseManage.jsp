@@ -18,11 +18,12 @@
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.easyui.min.js"></script>
  --%>
  <script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
- 
+ <script language="javascript" type="text/javascript"
+	src="<%=request.getContextPath()%>/easyui/locale/easyui-lang-zh_CN.js"></script>
  </head>
 <body>
-
-<table id="ttbd" class="easyui-datagrid" title="课程管理"
+<div id ="coursePanel" class="easyui-panel" style="width:100%; ">
+			<table id="ttbd" class="easyui-datagrid" title="课程管理"
 							style="width: 100%; height: 380px" singleSelect=true rownumbers=true
 							 url='<%=request.getContextPath()%>/queryCourseInfo' pagination="true"
 							toolbar="#tb">
@@ -49,17 +50,21 @@
 								plain="true" onclick="deletecourseInfo()">删除</a>
 								  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
 						    onclick="creatBroadcast()">创建录入课程简介</a>
+								  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						    onclick="updateCourseProfile()">修改课程简介</a>
 						      <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
 						    onclick="inputCourseContent()">录入课程内容</a>
+						    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						    onclick="spCourseContent()">审批课程</a>
 						</div>
-
+</div>
 
 <div id="openCourse" class="easyui-dialog" title="课程详情" style="width:800px;height:360px; left:0,
 top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
-   <table align="center" style="width: 100%; height: 260px" >
+  <!--  <table align="center" style="width: 100%; height: 260px" >
     <tr><td style="font-size: 15px;">课程名称</td><td style="font-size: 15px;">帝王蟹</td></tr>
     <tr><td style="font-size: 15px;">课程简介</td><td style="font-size: 15px;">帝王蟹做法</td></tr>
-    <tr><td style="font-size: 15px;">课程内容</td><td>
+    <tr><td style="font-size: 15px;">课程内容</td><td> -->
     
      <table id="courseDetailGrid" class="easyui-datagrid" 
 							style="width: 100%; height: 260px"   pagination="true"
@@ -80,8 +85,38 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 								<a href="#" class="easyui-linkbutton" iconCls="icon-save"
 								plain="true" onclick="saveupdateCourseDetail()">保存</a> 
 						</div>
+    <!-- </td></tr>
+   </table> -->
+</div>
+
+
+
+<div id="updateCourseProfile" class="easyui-dialog" title="修改课程简介" style="width:800px;height:360px; left:0,
+top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
+    
+      <center><h3>修改课程简介</h3>
+   <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
+    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseIdUCP" type="hidden"  name="courseId" /><input  id="courseNameUCP" style="width: 400px;"  type="text"  name="courseName" /></td></tr>
+    <tr><td  colspan="1">课程简介</td><td  colspan="3"><textarea id="profileUCP" name="profile"  style="width: 400px;height:60px;"></textarea></td></tr>
+    <tr><td  style="width: 100px; height: 20px;" >讲师</td><td>
+    <select id="teacherIdUCP"  class="easyui-combobox" valueField='userId',textField='fullname',
+     name="teacherId" style="width:200px;"> 
+	</select> 
+    </td><td >费用</td><td >
+       <select id="payTypeUCP" class="easyui-combobox" name="payType" style="width:200px;"> 
+		<option value="1">收费</option> 
+		<option value="2">免费</option> 
+	   </select> 
     </td></tr>
-   </table>
+    <tr><td >类型</td><td colspan="3">
+       <select class="easyui-combobox"  id="courseTypeUCP" style="width:200px;"> 
+			<option value="成长">成长</option> 
+		    <option value="健康">健康</option> 
+		    <option value="美食">美食</option> 
+	   </select> 
+       </td></tr>
+    </table>
+     <input type="button" value="保存修改" onclick="saveUpdateCourseProfle('7')">
 </div>
 
 
@@ -107,7 +142,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
        <select class="easyui-combobox"  id="courseType" style="width:200px;"> 
 			<option value="成长">成长</option> 
 		    <option value="健康">健康</option> 
-		    <option value="美食">美食</option> 
+		    <option value="美食">心理</option> 
 	   </select> 
        </td></tr>
     </table>
@@ -117,174 +152,73 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
     </div>
     </center>
 </div>
+<div id ="spCoursePanel" class="easyui-panel" closed='true' style="width:100%; ">
+	<table id="sp_grid" class="easyui-datagrid" title="待审批课程"
+		style="width: 100%; height: 380px" toolbar="#tb2">
+		<thead>
+			<tr>
+			    <th field="course_id" hidden="true"></th>
+			    <th field="course_state_code" hidden="true"></th>
+				<th field="course_name" width="30%" align="center">课程名称</th>
+				<th field="username" width="15%" align="center">创建者</th>
+				<th field="create_time" width="20%" align="center">创建时间</th>
+				<th field="courseState" width="10%" align="center">课程进度</th>
+				<th field="available" width="10%" align="center">课程状态</th>
+			</tr>
+		</thead>
+	</table>
+
+	<div id="tb2">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit"
+		plain="true" onclick="dspCourseEdit()">查看课程详情</a> 
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
+		plain="true" onclick="deleteDspCourseInfo()">删除</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" 
+	    onclick="pass()">审批</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-back" plain="true" 
+	    onclick="back()">返回上一级</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						    onclick="reviewCourseContent()">审阅内容</a>
+	</div>
+</div>
 
 
-
-
-
-
-
-<!--  录入课程开始 -->
-
-
-<%-- 
-<div id="inputCourse" class="easyui-dialog" title="课程详情" style="width:600px;height:400px; 
-             left:0,top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
- 
-   <div class="titleTop">
-		<img src="<%=request.getContextPath() %>/blhrf/img/zb.png" class="zbImg">后台录入课程 <span class="topText"></span>
-		<a class="sukc" href="<%=request.getContextPath() %>/endCourse?courseId=${courseId}">结束课程</a>
-  </div>
-
-		<div class="watchDiv">
-			<div class="l_title">${courseName}</div>
-			<div class="l_content">
-				<div class="l_content_coonn">
-					<div class="kjgyfuy">
-		
-					<div class="row abcd"  style="display: none;">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky qqvoice">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div>
-									<div class="voice_move">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-									<div class="voice_moveooo">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-								</div>
-								<div class="qqvoice_hitit"></div>
-								<label>11"</label>
-								<em></em>
-							</div>
-						</div>
-					</div>
-					
-							
-				<c:forEach items="${courseItem }" var="list">
-					
-				 <c:if test="${list.content_type == 't'}">
-					<div class="row">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div class="qqtext">${list.content_item }
-								</div>
-							</div>
-						</div>
-					</div>
-				 </c:if>
-				 
-				  <c:if test="${list.content_type == 'p'}">
-					<div class="row">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<img src="<%=request.getContextPath() %>${list.content_item }" class="contentImg"></img>
-							</div>
-						</div>
-					</div>
-				 </c:if>
-				 
-				  <c:if test="${list.content_type == 'v'}">
-					<div class="row"  onclick="palyVoice('${list.content_item }')">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky qqvoice">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div>
-									<div class="voice_move">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-									<div class="voice_moveooo">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-								</div>
-								<div class="qqvoice_hitit"></div>
-								<label>11"</label>
-								<em></em>
-							</div>
-						</div>
-					</div>
-				 </c:if>
-			    </c:forEach>
-					
-					<div id="extendDiv" class="extendDiv"></div>
-					<div id="voiceTmp" class="voiceTmp" style="display: none;"></div>
-					</div>
-				</div>
+<div id="dspCourseDetail" class="easyui-dialog" title="课程详情" style="width:600px;height:290px;left:0,
+            top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
+    
+    <form id="form" method="post" style="width: 98%; height: 90%">
+			<table toolbar="#bu"  align="center"  class="panel-table" border="0px"
+					style="width: 98%; height: 90%;margin:10px 10px">
+				<tr>
+					<td style="width:25%" align="center">课程分类<input type="hidden" id="course_id" name="course_id" /></td>
+					<td style="width:25%"><input class="easyui-validatebox textbox" type="text" style="width: 100%;border:0px" id="category" name="category"  readonly/></td>
+					<td style="width:25%" align="center">课程名称</td>
+					<td style="width:25%"><input class="easyui-validatebox textbox" type="text" style="width: 100%;" id="course_name" name="course_name" /></td>
+				</tr>
+				<tr>
+					<td align="center">创建者</td>
+					<td><input class="easyui-validatebox textbox" type="text" style="width: 100%;border:0px" id="create_person" name="create_person" readonly/></td>
+					<td align="center">创建时间</td>
+					<td><input class="easyui-validatebox textbox"  type="text" style="width: 100%;border:0px" id="create_time" name="create_time" readonly></td>
+				</tr>
+				<tr>
+					<td align="center">课程进度</td>
+					<td><input class="easyui-validatebox textbox" type="text" style="width: 100%;border:0px" id="courseState" name="courseState" readonly/></td>
+					<td align="center">课程状态</td>
+					<td><input class="easyui-validatebox textbox" type="text" style="width: 100%;border:0px" id="available" name="available" readonly/></td>
+				</tr>
+			</table>
+			<div id="bu" align = "center">
+				<a href="javascript:void(0)" class="easyui-linkbutton"	onclick="updateCourse()">保存</a>
 			</div>
-		</div>
-		
-		<div class="foot_foot">
-			<div class="foot_footleft">
-			<form  id="uploadvioce" action="<%=request.getContextPath() %>/ChatServlet" method="post" enctype="multipart/form-data">
-			    <input type="file"  name="voicename" id="btn_file"  accept="audio/mp3" style="display:none">
-			    <input type="hidden" name="courseId" value="${courseId}">
-			    <input type="hidden" name="courseType" value="v">
-				<img src="<%=request.getContextPath() %>/blhrf/img/kkkk_zuo.jpg" onclick="F_Open_dialog()"/>
-			 </form>
-			</div>
-			<div class="foot_footright">
-			<form id="uploadPhoto" action="<%=request.getContextPath() %>/ChatServlet" method="post" enctype="multipart/form-data">
-				<input type="file"  name="photoname" id="photo_file" accept="image/png,image/gif"  style="display:none">
-				<input type="hidden" name="courseId" value="${courseId}">
-				<input type="hidden" name="courseType" value="p">
-				<img src="<%=request.getContextPath() %>/blhrf/img/kkkk_you.png" onclick="openPhotoChoice()" >
-			</form>
-			</div>
-			<button class="send" onclick="sendText()">发送</button>
-			<div class="fuzhi_box">
-				<input class="wechat_input" class="wechat_input" type="text" name="chatcontent" id="chatcontent"  />
-			</div>
-		</div>
-</div> --%>
-
-
-
-
-
-<!--  录入课程开始 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		</form>
+</div>
 
 
 
 
 <script>
+
   function inputCourseContent(){
 	  
 		var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
@@ -295,12 +229,30 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 		// $('#inputCourse').dialog('open');
 		var courseId = rows[0].course_id;
 		var course_state_code = rows[0].course_state_code;
-		if(course_state_code == 3 || course_state_code == 8){
-			alert("你选着的课程已结束，不能进行录入操作")
+		if(course_state_code != 7){
+			alert("你选着的课程状态不正确!")
 			return ;
 		}
 		window.location.href = "<%=request.getContextPath()%>/openBackBroadcast?courseId="+courseId;
   }
+  
+  function reviewCourseContent(){
+	  
+		var rows = $('#sp_grid').datagrid("getSelections"); //获取你选择的所有行 
+		if(rows == null || rows.length <= 0){
+			alert("请选择录入的课程")
+			return ;
+		}
+		// $('#inputCourse').dialog('open');
+		var courseId = rows[0].course_id;
+		var course_state_code = rows[0].course_state_code;
+	/* 	if(course_state_code == 3 || course_state_code == 8 || course_state_code == 9){
+			alert("你选着的课程已结束，不能进行录入操作")
+			return ;
+		} */
+		window.location.href = "<%=request.getContextPath()%>/reviewCourse?courseId="+courseId;
+}
+
 
 
 
@@ -530,7 +482,192 @@ function hide(){
 	});
 	
 }
-    
+ 
+//显示待审批课程
+function spCourseContent(){
+	$('#coursePanel').panel('close');
+	$("#sp_grid").datagrid({
+		url : '<%=request.getContextPath()%>/querySpCourseInfo',
+		pagination : 'true',
+		singleSelect : 'true',
+		rownumbers : true
+	});
+	$('#spCoursePanel').panel('open');
+}
+
+function updateCourseProfile(){
+	
+
+	 $('#updateCourseProfile').dialog('open');
+	var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
+	 var grid = $('#ttbd');  
+	 var options = grid.datagrid('getPager').data("pagination").options;  
+	 var curr = options.pageNumber;  
+	 
+	   $('#teacherIdUCP').combobox({   
+	         url:'<%=request.getContextPath()%>/queryTeachers',
+	         valueField:'userId',   
+	         textField:'fullname',
+	         onChange: function (n,o) {
+	        	// alert($('#teacherId').combobox('getValue'));
+	        	 teacherId = $('#teacherId').combobox('getValue');
+	        	 }
+	     }); 
+	   
+   jQuery.ajax({
+			type : "GET",
+			async : false,
+			url : "<%=request.getContextPath()%>/updateCourseProfile",
+			data:{
+				courseId:rows[0].course_id
+			},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				 //JSON.parse(str);
+				 document.getElementById("courseNameUCP").value = data.course_name;
+				 document.getElementById("profileUCP").value = data.course_profile;
+				 document.getElementById("courseIdUCP").value = data.course_id;
+				 $('#teacherIdUCP').combobox('select', data.teacher_id);
+				 $('#payTypeUCP').combobox('select', data.pay_type);
+				 $('#courseTypeUCP').combobox('select', data.course_type);
+				//$("#courseDetailGrid").datagrid("loadData",data);
+			}
+	});
+}
+
+	//var teacher IdUCP;
+
+function saveUpdateCourseProfle(){
+	
+	
+	var courseId = document.getElementById("courseIdUCP").value;
+	var courseName = document.getElementById("courseNameUCP").value;
+	var profile = document.getElementById("profileUCP").value;
+	var payType = document.getElementById("payTypeUCP").value;
+	var teacherIdUCP = $('#teacherIdUCP').combobox('getValue');
+	var payType = $('#payTypeUCP').combobox('getValue');
+
+	<%--   $('#teacherIdUCP').combobox({   
+	         url:'<%=request.getContextPath()%>/queryTeachers',
+	         valueField:'userId',   
+	         textField:'fullname',
+	         onChange: function (n,o) {
+	        	// alert($('#teacherId').combobox('getValue'));
+	        	 teacherIdUCP = $('#teacherIdUCP').combobox('getValue');
+	        	 }
+	     });  --%>
+	//var teacherId = document.getElementById("teacherIdUCP").value;
+	var courseType = $('#courseTypeUCP').combobox('getValue');
+	
+	   jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/saveUpdateCourseProfile",
+			data:{
+				courseId:courseId,
+				courseName:courseName,
+				profile:profile,
+				teacherId:teacherIdUCP,
+				courseType:courseType,
+				payType:payType
+			},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				window.location.href = "<%=request.getContextPath()%>/blhrb/courseManage.jsp";					
+			}
+	});
+}
+
+
+//待审批课程编辑
+function dspCourseEdit(){
+	var row = $("#sp_grid").datagrid('getSelected'); //获取你选择的所有行 
+    jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/queryDspCourseDetailInfo",
+			data:{course_id:row.course_id},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				$('#dspCourseDetail').dialog('open');
+				$("#form").form("load",data[0]);
+				lll
+			}
+	});
+}
+
+function deleteDspCourseInfo(){
+	var rows = $('#sp_grid').datagrid("getSelections"); //获取你选择的所有行 
+	 var grid = $('#sp_grid');  
+	 var options = grid.datagrid('getPager').data("pagination").options;  
+	 var curr = options.pageNumber;  
+   jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/deleteCourseByCourseId",
+			data:{
+				page:curr,
+				rows:'10',
+				course_id:rows[0].course_id
+			},
+			error : function(request) {
+			},
+			success : function(data) {
+				$("#sp_grid").datagrid("reload",data);
+			}
+	});
+	
+}
+
+function pass(){
+	var row = $("#sp_grid").datagrid('getSelected');
+	if(row == null){
+		jQuery.messager.alert("提示信息", "请选一个待审批课程", "info");
+	}else{
+		var grid = $('#ttbd');  
+		 var options = grid.datagrid('getPager').data("pagination").options;  
+		 var curr = options.pageNumber;  
+		$.messager.confirm('提示','确定该课程通过审批吗？',function(r){
+		    if (r){
+		    	jQuery.ajax({
+					type : "POST",
+					async : false,
+					url : "<%=request.getContextPath()%>/passCourse",
+					data:{
+						page:curr,
+						rows:'10',
+						course_id:row.course_id},
+					error : function(request) {
+						jQuery.messager.alert("提示信息", request, "error");
+					},
+					success : function(data) {
+						$("#sp_grid").datagrid("reload",data);
+						jQuery.messager.alert("提示信息", "审批成功", "info");
+					}
+			});
+		    }
+		});
+	}
+	
+}
+
+function back(){
+	$('#spCoursePanel').panel('close');
+	$("#ttbd").datagrid({
+		url : '<%=request.getContextPath()%>/queryCourseInfo'
+	});
+	$('#coursePanel').panel('open');
+}
+
+function updateCourse(){
+
+}
 </script>
 </body>
 

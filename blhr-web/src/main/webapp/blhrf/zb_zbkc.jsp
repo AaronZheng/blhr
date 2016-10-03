@@ -15,6 +15,11 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.touchSlider.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/banner.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
+	
+    	<style type="text/css">
+	    	#divcss5{ margin:10px auto} 
+            #divcss5 img{ border-radius:50%}
+		</style>
 	</head>
 
 	<body style="background-color: #FFFFFF;">
@@ -53,11 +58,11 @@
 						${list.profile }
 					</div>
 					<div class="ke_backlist_bot">
-						<div class="ke_tou">
+						<div class="ke_tou" id="divcss5">
 							<img src="<%=request.getContextPath() %>/${list.photo }"/>
 						</div>
 						<div class="ke_yu" >
-						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}">回放课程</a>
+						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}">观看直播</a>
 						</div>
 						<div class="ke_shu">
 							${list.num }人学过
@@ -68,7 +73,6 @@
 			 </c:forEach>
 			</div>
 				</div>
-			
 			
 				 <div class="xtfoot xtfootcol">
 				<ul>

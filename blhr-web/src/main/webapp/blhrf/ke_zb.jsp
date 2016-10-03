@@ -10,100 +10,99 @@
 		<meta name="Description" content="" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>直播课程</title>
-		<link rel="stylesheet" href="css/style.css" />
-		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
-		<script type="text/javascript" src="js/script.js"></script>
-		<script type="text/javascript" src="laydate/laydate.js" ></script>
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" />
+		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
 		<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
+  			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
 		<![endif]-->
-
 	</head>
 
 	<body style="background-color: #E8E8E8;">
 		<div class="bodybox">
-			<form>
+			<form id="mycourse" name="mycourse" action="<%=request.getContextPath() %>/saveCourseTitle" method="post">
 				<div class="log_one">
 					<div class="log_name log_namonee">
 						<div class="log_name_list">
 							<label>课程名称</label>
-							<input type=" text" placeholder="最多输入16个字符" />
+							<input type="hidden" id="userId" name="userId" value="${userId }" />
+							<input type="hidden" id="courseType" name="courseType" />
+							<input type="hidden" id="category" name="category" value="2" />
+							<input type="hidden" id="numLimit" name="numLimit" />
+							<input type="text" id="courseName" name="courseName" placeholder="最多输入16个字符" />
 						</div>
 						<div class="log_name_dec">
 							<label>课程介绍</label>
-							<textarea placeholder="最多输入42个字符"></textarea>
+							<textarea id="courseIntro" name="courseIntro" placeholder="最多输入42个字符"></textarea>
 						</div>
 					</div>
 				</div>
-				<div class="ke_allkc">
+				<div class="ke_kcfl">
 					<ul>
 						<li>
-							<label for="myDate">开播时间</label>
-							<input class="laydate-icon" id="demo" type="text " readonly placeholder="请选择时间">
-
+							<span class="ls_yi">课程分类</span>
+							<label class="ls_san"></label>
+							<span class="ls_er">
+							<img src="<%=request.getContextPath() %>/blhrf/img/ke_xia.png"/>
+						   </span>
 						</li>
 					</ul>
+					<div class="ke_kcfl_dexiala" style="overflow: hidden;clear: both;">
+					<p>请选择</p>
+					<p onclick = "setCourseType('成长')">成长</p>
+					<p onclick = "setCourseType('健康')">健康</p>
+					<p onclick = "setCourseType('美食')">美食</p>
+					</div>
 				</div>
-				<div class="ke_sf">
-					本次直播课堂有200位学员
-				</div>
+				
 				<div class="log_tj log_tjone">
-					<input type="submit" value="发布预告" />
+					<input type="button" onclick="submit()" value="开始直播" />
 				</div>
 			</form>
 
 		</div>
 		
-         <script>
-			! function() {
-				laydate.skin('molv'); //切换皮肤，请查看skins下面皮肤库
-				laydate({
-					elem: '#demo'
-				}); //绑定元素
-			}();
-			//日期范围限制
-			var start = {
-				elem: '#start',
-				format: 'YYYY-MM-DD',
-				min: laydate.now(), //设定最小日期为当前日期
-				max: '2099-06-16', //最大日期
-				istime: true,
-				istoday: false,
-				choose: function(datas) {
-					end.min = datas; //开始日选好后，重置结束日的最小日期
-					end.start = datas //将结束日的初始值设定为开始日
-				}
-			};
-			var end = {
-				elem: '#end',
-				format: 'YYYY-MM-DD',
-				min: laydate.now(),
-				max: '2099-06-16',
-				istime: true,
-				istoday: false,
-				choose: function(datas) {
-					start.max = datas; //结束日选好后，充值开始日的最大日期
-				}
-			};
-			laydate(start);
-			laydate(end);
-			//自定义日期格式
-			laydate({
-				elem: '#test1',
-				format: 'YYYY年MM月DD日',
-				festival: true, //显示节日
-				choose: function(datas) { //选择日期完毕的回调
-					alert('得到：' + datas);
-				}
-			});
-			//日期范围限定在昨天到明天
-			laydate({
-				elem: '#hello3',
-				min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
-				max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
-			});
+		<script type="text/javascript">
+		
+		   var courseType;
+		   var numLimit;
+		   
+		   function setLimit(numLimit){
+			   this.numLimit = numLimit;
+			   document.getElementById("numLimit").value = numLimit;
+		   }
+		   
+		   function setCourseType(courseType){
+			   this.courseType = courseType;
+			   document.getElementById("courseType").value = courseType;
+		   }
+		  
+		    function submit(){
+		    	var courseName = document.getElementById("courseName").value;
+		    	var courseIntro = document.getElementById("courseIntro").value;
+			  if(courseName == null || courseName == ""){
+				  alert("请填写课程名称");
+				  return ;
+			  }
+			  if(courseType == null || courseType == ""){
+				  alert("请填限制课程类别");
+				  return ;
+			  }
+			  if(numLimit == null || numLimit == ""){
+				  alert("请填选择限制人数");
+				  return ;
+			  }
+			  if(courseIntro == null || courseIntro == ""){
+				  alert("请填写课程简介");
+				  return;
+			  }
+			  
+			  $("#mycourse").submit();
+		    }
+		
 		</script>
+		
+		
 	</body>
-
-</html>
+	</html>

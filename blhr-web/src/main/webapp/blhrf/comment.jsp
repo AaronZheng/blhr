@@ -14,10 +14,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" />
 <script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
-<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
-		<![endif]-->
+<style type="text/css">
+    #divcss5{ margin:10px auto} 
+    #divcss5 img{ border-radius:50%}
+</style>
 </head>
 
 <body style="background-color: #E8E8E8;">
@@ -25,8 +25,7 @@
 		<div class="ke_tgd ke_te_tgd">
 			<ul>
 				<li style="background-image: url(<%=request.getContextPath() %>/blhrf/img/xt_2.png);"><span>用户评论</span>
-					<span> <input class="ke_tgdseaone" type="text" /> <input
-						class="ke_tgdseatwo" type="submit" value="" />
+					<span> 
 				</span></li>
 			</ul>
 		</div>
@@ -34,18 +33,22 @@
 
 			<ul class="comment">
 				<c:forEach items="${comments }" var="list">
-
-					<li><c:if test="${list.category==1}">
-							<img class="myIcon" src="${list.photo}"></img>
-						</c:if> <c:if test="${list.category==2}">
+                   
+					<li>
+					<div  id="divcss5">
+				    	<c:if test="${list.category==1}">
+							<img id="divcss5" class="myIcon" src="${list.photo}"></img>
+						</c:if> 
+						<c:if test="${list.category==2}">
 							<img class="myIcon"
 								src="<%=request.getContextPath() %>/${list.photo }"></img>
 						</c:if>
-
 						<div class="text">
 							<span>${list.wechatname }</span>
 							<p>${list.content }</p>
-						</div></li>
+						</div>
+						 </div>
+						</li>
 				</c:forEach>
 				
 				<div id="commentExtend" class="commentExtend"></div>

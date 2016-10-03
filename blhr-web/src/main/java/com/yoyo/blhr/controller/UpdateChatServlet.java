@@ -3,7 +3,9 @@ package com.yoyo.blhr.controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +85,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 			for (int i = 0; i < items.size(); i++) {
 				FileItem item = items.get(i);
 				if (!item.isFormField()) {
-					String path = filePath+File.separator+"upload"+File.separator;
+					String path = filePath+File.separator+"upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date());
 					if(!new File(path).exists())
 						new File(path).mkdirs();
 					fileName = item.getName();
@@ -122,14 +124,14 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 		
 	    Map<String,String> updateItem = new HashMap<String,String>();
 	    updateItem.put("course_detail_id", map.get("itemId"));
-	    updateItem.put("content_item", "/upload"+File.separator+fileName);
+	    updateItem.put("content_item", "/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    List<Map<String,String>> lismap = new ArrayList<Map<String,String>>();
 	    lismap.add(updateItem);
 	    CourseManageService userManageService = (CourseManageService) applicationContext.getBean("courseManageService");
 	    userManageService.updateCourseDetailByBath(lismap);
 	    Map<String,String> rtnmap = new HashMap<String,String>();
 	    rtnmap.put("detailId", map.get("itemId"));
-	    rtnmap.put("sourcePath","/upload"+File.separator+fileName);
+	    rtnmap.put("sourcePath","/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    return new JSONObject(rtnmap).toString();
 	}
 

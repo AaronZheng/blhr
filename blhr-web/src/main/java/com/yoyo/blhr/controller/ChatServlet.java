@@ -3,6 +3,7 @@ package com.yoyo.blhr.controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +20,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
 import org.jaudiotagger.audio.mp3.MP3File;
-import org.jaudiotagger.tag.TagException;
 import org.json.JSONObject;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +93,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 				if (!item.isFormField()) {
 					// 获得存放文件的物理路径
 					// upload下的某个文件夹 得到当前在线的用户 找到对应的文件夹
-					String path = filePath+File.separator+"upload"+File.separator;
+					String path = filePath+File.separator+"upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date());
 					if(!new File(path).exists())
 						new File(path).mkdirs();
 					// 获得文件名
@@ -109,8 +106,10 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 						try {
 							item.write(file);
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							e.printStackTrace();	
+							resp.setContentType("application/json");
+							resp.getOutputStream().write("1".getBytes());
+							return ;
 						}
 						// 将上传图片的名字记录到数据库中
 
@@ -118,11 +117,16 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 					
 			        MP3File f;
 					try {
-						f = (MP3File) AudioFileIO.read(file);
-					    MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
-					    itemLength = audioHeader.getTrackLength();
+						if(file != null && file.getName().endsWith(".mp3")){
+							f = (MP3File) AudioFileIO.read(file);
+							MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
+							itemLength = audioHeader.getTrackLength();
+						}
 					} catch (Throwable e) {
 						e.printStackTrace();
+						resp.setContentType("application/json");
+						resp.getOutputStream().write("1".getBytes());
+						return ;
 					}  
 					
 				}else{
@@ -135,6 +139,8 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 				resp.getOutputStream().write(rtns.getBytes("UTF-8"));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
+				resp.setContentType("application/json");
+				resp.getOutputStream().write("1".getBytes());
 			}
 	}
 	
@@ -155,7 +161,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 	    	courseDetail.setItemLength(itemLength);
 	    courseDetail.setLrrq(new Date());
 	    courseDetail.setCourseId(map.get("courseId"));
-	    courseDetail.setContentItem("/upload"+File.separator+fileName);
+	    courseDetail.setContentItem("/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    CourseManageService userManageService = (CourseManageService) applicationContext.getBean("courseManageService");
 	    userManageService.saveCourseDetail(courseDetail);
 	    Map<String,String> rtnmap = new HashMap<String,String>();

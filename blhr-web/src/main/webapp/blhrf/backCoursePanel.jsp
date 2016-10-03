@@ -9,7 +9,7 @@
 <meta name="Description" content="" />
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<title>课程学习</title>
+<title>${courseName}</title>
 <script type="text/javascript"
 	src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <link rel="stylesheet"
@@ -24,6 +24,10 @@
   			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
   			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
 		<![endif]-->
+		<style type="text/css">
+	    	#divcss5{ margin:10px auto} 
+            #divcss5 img{ border-radius:50%}
+		</style>
 </head>
 
 <body style="background-color: #E8E8E8;">
@@ -67,7 +71,7 @@
 		</div>
 
 	</div>
-		<div class="xxdjt_jt" onclick="myrefresh()">
+		<div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
 					<img src="<%=request.getContextPath() %>/blhrf/img/wqeasdads.png" />
 			     	</div>
 
@@ -83,8 +87,19 @@
 	  var i = 0;
 	  var voices = new Array();
 	  var voiceLongt1;
+	  var currentVoiceId;
+	  var voiceMove;
+	  var voicesSetTime = new Array();
 
 	
+
+		function shown() {
+			$("."+currentVoiceId+"voice_move").css("width", "3px").animate({
+				"width": 15 + "px"
+			}, 600, function() {
+				$("."+currentVoiceId+"voice_move").css("width", "3px");
+			});
+		}
 	  function myrefresh(){ 
 			$.ajax({
 				type : "GET",
@@ -108,13 +123,32 @@
 								$(".voiceTmp").append("<audio id=\""+timestamp+"\" src=\""+baseDir+vm.data[i].content_item+"\" preload=\"auto\" ></audio>");
 								$(".extendDiv").append(getVoiceContent(timestamp,vm.data[i].item_length,'${photoPath}'));
 							   // getVoiceTime(timestamp);
+								var wid = $(window).width();
+								$(".qqright").css({"width": wid - 95 + "px",});
 							}else if(vm.data[i].content_type == 'p'){
 							    $(".extendDiv").append(getPhotoContent(baseDir+vm.data[i].content_item,'${photoPath}'));
+								var wid = $(window).width();
+								$(".qqright").css({"width": wid - 95 + "px",});
 							}else if(vm.data[i].content_type == 't'){
 								$(".extendDiv").append(getTextPanel(vm.data[i].content_item,'${photoPath}'));
+								var wid = $(window).width();
+								$(".qqright").css({"width": wid - 95 + "px",});
 							}
 						}
+						if(vm.data.length < 10){
+				            document.getElementById("xxdjt_jt").style.display ="none";
+						}
 						rowNum = vm.currentSize;
+						$(".qqvoice").on("click", function() {
+							//voiceMove = setInterval(shown, 600);
+							$(this).toggleClass("qqvoice_showandhide");
+							if($(this).hasClass("qqvoice_showandhide")) {
+								$(this).find(".voice_moveooo").hide().siblings().show();
+								$(this).find("em").hide();
+							} else {
+								$(this).find(".voice_move").hide().siblings().show();
+							}
+						});
 					}
 				}
 			});
@@ -141,7 +175,7 @@
 		function getTextPanel(chatcontent,photoPath){
 	    	var baseDir = '<%=request.getContextPath() %>';
 	    	return "<div class=\"row\">"+
-			"<div class=\"san_zuob\">"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
 			"<img src=\""+baseDir+photoPath+"\" />"+
 			"</div>"+
 			"<div class=\"qqright\">"+
@@ -154,30 +188,35 @@
 		"</div>";
 	    }
 		
+		// 开始播放语音
+		function startVoice(className) {
+			//voiceMove = setInterval(shown, 600);
+ 	        $("."+className).hasClass("qqvoice_showandhide");
+			$("."+className).find(".voice_moveooo").hide().siblings().show();
+			$("."+className).find("em").hide();
+		}
+		//结束播放语音
+		function endVoice(className) {
+			//clearInterval(voiceMove);
+			$("."+className).find(".voice_move").hide().siblings().show();
+		}
+		
 		
 		function getVoice(voiceId){
 			
 			return "<embed height=\"100\" width=\"100\" src=\""+voiceId+"\" />";
-/* 
-			var flag = false;
-            for(var i = 0;i<voices.length;i++){
-				if(voices[i] == voiceId)
-					flag = true;
-					if(flag)
-						playVoices(voices[i]);
-			} */
 		}
 		
 		
 		function getVoiceContent(timestamp,voiceLong,photoPath){
 	    	var baserDir = '<%=request.getContextPath() %>';
-	        var content = "<div class=\"row\" onclick=\"palyVoice('"+timestamp+"')\" >"+
-			"<div class=\"san_zuob\">"+
+	        var content = "<div class=\"row\" onclick=\"palyVoice('"+timestamp+"',true)\" >"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
 				"<img src=\""+baserDir+photoPath+"\" />"+
 				"<input type=\"hidden\" id=\""+timestamp+"voicelong\" value=\""+voiceLong+"\" name=\""+timestamp+"voicelong\">"+
 			"</div>"+
-			"<div class=\"qqright\">"+
-				"<div class=\"qqsky qqvoice\">"+
+			"<div class=\"qqright "+timestamp+"qqright\">"+
+				"<div class=\"qqsky qqvoice\" style=\"width:"+(voiceLong+80)+"px ; height:40px ;\">"+
 					"<img class=\"qqsky_fri\" src=\""+baserDir+"/blhrf/img/jt_jt.png\" />"+
 					"<div>"+
 						"<div class=\"voice_move\">"+
@@ -196,56 +235,46 @@
 		return content;
 	 }
 	    
-  
+		
 
-	function palyVoice(voiceId) {
-		
-		
-		$(".xxdjt_jt").click(function() {
-			var texthtm = $('.l_content_coonn .kjgyfuy:first-child').html();
-			$(".l_content_coonn").prepend('<div class="kjgyfuy"></div>')
-			$(".kjgyfuy:first-child").prepend(texthtm);
-			var hyone = setInterval(shown, 600);
-			$(".qqvoice").on("click", function() {
-				$(this).toggleClass("qqvoice_showandhide");
-				if($(this).hasClass("qqvoice_showandhide")) {
-					$(this).find(".voice_moveooo").hide().siblings().show();
-					$(this).find("em").hide();
-				} else {
-					$(this).find(".voice_move").hide().siblings().show();
-				}
-			});
-		});
-		
-		
-		
-		//getVoiceTime(voiceId);
-		for (var i = 0; i < voices.length; i++) {
-			var voiceRaido = document.getElementById(voices[i]);
-			voiceRaido.pause();
+	function palyVoice(voiceId,first) {
+
+		if(first){
+			for(var i = 0;i< voicesSetTime.length;i++)
+				clearTimeout(voicesSetTime[i]);
+			voicesSetTime = new Array();
 		}
-
+		
+		if(currentVoiceId != null && currentVoiceId != ""){
+			var voiceRaido = document.getElementById(currentVoiceId);
+			endVoice(currentVoiceId+"qqright")
+			if(voiceRaido != null){
+				voiceRaido.pause();
+			    voiceRaido.currentTime = 0.0;
+			}
+		}
+		 currentVoiceId = voiceId;
+        
 		for (var i = 0; i < voices.length; i++) {
 			if (voices[i] == voiceId){
 				var voiceRaido = document.getElementById(voiceId);
 				var voicelong = document.getElementById(voiceId+"voicelong").value;
-				voiceRaido.play();
+				startVoice(currentVoiceId+"qqright")
+				if(voiceRaido != null)
+					voiceRaido.play();
 				if(i < voices.length)
-					setTimeout("palyVoice('"+voices[i+1]+"')",voicelong*1000+900); 
+					voicesSetTime[voicesSetTime.length] = setTimeout("palyVoice('"+voices[i+1]+"','false')",voicelong*1000+900); 
 				break;
 			}
 		}
 
-		/* 	$(".voiceTmp").append("<audio id=\"shake_action\" src=\""+voiceId+"\" preload=\"auto\" autoplay=\"true\"></audio>");
-		 *//* 	var myAuto = document.getElementById('shake_action');
-			myAuto.play(); */
 	}
 
 	function getPhotoContent(phtotPath,picture) {
 
 		var baseDir = '<%=request.getContextPath()%>';
 			return  "<div class=\"row\">"+
-			"<div class=\"san_zuob\">"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
 			"<img src=\""+baseDir+picture+"\" />"+
 			"</div>"+
 			"<div class=\"qqright\">"+

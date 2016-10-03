@@ -6,9 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -20,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-
+import com.yoyo.blhr.dao.model.Members;
 import com.yoyo.blhr.dao.model.User;
 import com.yoyo.blhr.service.LoginService;
+import com.yoyo.blhr.service.MemberService;
 import com.yoyo.blhr.service.UserInfoService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
 import com.yoyo.blhr.util.BlhrConf;
@@ -41,6 +39,8 @@ public class LoginAction {
     private LoginService loginService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private MemberService  memberService;
     
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -145,12 +145,14 @@ public class LoginAction {
     	}
     	BlhrArgumentCache.cacheDataInfo(user.getUserId(), user);
 		BlhrArgumentCache.cacheDataInfo(code, user.getUserId());
+		Members member = memberService.queryUserByCondiation(user.getUserId());
 		req.getSession().setAttribute(Constant.USER_ID, user);
     	ModelAndView mv = new ModelAndView("/blhrf/ke_back");
     	List<Map<String,Object>> courseTitleList = loginService.queryCourseListAndNum();
     	logger.debug("=====username["+user.getWechatname()+"openid["+user.getOpenid()+"]");
     	mv.addObject("username", new String(new BASE64Decoder().decodeBuffer(user.getWechatname()),"UTF-8"));
     	mv.addObject("openId", user.getOpenid());
+    	mv.addObject("userType", member != null ? 2 : 0);
     	mv.addObject("courseTitleList", courseTitleList);
     	mv.addObject("userInfo", user.getUsername());
     	mv.addObject("userId", user.getUserId());

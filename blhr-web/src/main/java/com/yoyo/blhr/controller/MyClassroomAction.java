@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yoyo.blhr.dao.model.FavoriteCourseVo;
@@ -144,13 +145,11 @@ public class MyClassroomAction {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/scCourse")
-	public ModelAndView scCourse(String courseId, String userId) throws IOException {
-		
-		ModelAndView mv = new ModelAndView();
+	@ResponseBody
+	@RequestMapping(value="/scCourse",produces="application/json;charset=UTF-8")
+	public String scCourse(String courseId, String userId) throws IOException {
 		this.myClassroomService.insertMyFavCourse(userId, courseId);
-		mv.addObject("userId", userId);
-		return mv;
+		return "1";
 		
 	}
 

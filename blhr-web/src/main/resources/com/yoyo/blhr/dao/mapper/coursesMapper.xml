@@ -15,6 +15,7 @@
 	    <result column="course_id" property="courseId" jdbcType="VARCHAR"/>
 	    <result column="course_name" property="courseName" jdbcType="VARCHAR"/>
 	    <result column="teacher_id" property="teacherId" jdbcType="VARCHAR"/>
+	    <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
    </resultMap>
   
 	<select id ="queryCourseCountByTeacherId" resultType="java.lang.Integer" parameterType="java.lang.String">
@@ -23,8 +24,8 @@
 	
 	
 	<select id ="queryAllCoursesInfo" resultType="java.util.Map">
-	 select * from (select t.course_id, if(t.category=1,'录入','直播') as category, course_name,n.username,create_time,if(available=1,'正常','已屏蔽') as available,course_state as course_state_code,case course_state when 1 then '未开始' when 2 then '正在直播' 
-	  when 3 then '已结束'  when 8 then '已结束' end as courseState from course t,teachers n where t.teacher_id= n.user_id limit #{0},#{1}) h order by h.create_time desc </select>
+	 select * from (select t.course_id, if(t.category=1,'后台录入','微信端录入') as category, course_name,n.username,create_time,if(available=1,'正常','已屏蔽') as available,course_state as course_state_code,case course_state when 1 then '未开始'
+	  when 3 then '已结束' when 7 then '录入未结束'  when 9 then '录入结束待审核' when 8 then '已结束已审核通过' end as courseState from course t,teachers n where t.teacher_id= n.user_id and course_state != '2' limit #{0},#{1}) h order by h.create_time desc </select>
  
     <update id="updateCourseState" parameterType="java.lang.String">
        update course t set t.available = '2' where t.course_id = #{user_id,jdbcType=VARCHAR}
@@ -124,7 +125,34 @@
 	</select>
 	
 	<select id="queryAllCoursesByTeacherId" resultMap="allCoursesResultMap" parameterType="java.lang.String">
-		select course_id, course_name, teacher_id from course where teacher_id=#{teacher_id,jdbcType=VARCHAR}
+		select course_id, course_name, teacher_id,pay_type from course where teacher_id=#{teacher_id,jdbcType=VARCHAR}
 	</select>
+	
+	
+	<select id="querySpCoursesInfo" resultType="java.util.Map">
+		select course_id,if(category=1,'录入','直播') as category,  course_name,create_time,if(available=1,'正常','已屏蔽') as available,
+		course_state as course_state_code,	case course_state when 7 then '待审核' when 8 then '完成审核'  end as courseState, create_person as username
+		from course  where course_state='9'  or course_state  = '8' order by create_time desc 
+	</select>
+	 
+	 <select id="queryDspCourseByCourseId" resultType="java.util.Map" parameterType="java.lang.String">
+	 	select course_id, if(category=1,'录入','直播') as category,  course_name,create_time,if(available=1,'正常','已屏蔽') as available,
+				case course_state when 7 then '待审核'  end as courseState, create_person 
+			from course where course_id= #{course_id,jdbcType=VARCHAR}
+	 </select>
+	 
+	 <update id="passCourse" parameterType="java.lang.String">
+	 	update course t set t.course_state = '8' where t.course_id = #{id,jdbcType=VARCHAR}
+	 </update>
+	 
+	 <update id="updateCourseById" >
+	 	update course t set t.course_name = #{1},t.course_profile = #{2},
+	    <if test="#{3} != null and #{3} != ''">
+	         t.teacher_id = #{3} ,
+	    </if>
+	     t.course_type = #{4}, t.pay_type = #{5}
+	 	 where t.course_id = #{0}
+	 </update>
+	
 
 </mapper>

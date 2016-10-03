@@ -3,6 +3,7 @@ package com.yoyo.blhr.controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,14 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.StringUtils;
+import org.omg.CORBA.Request;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+
 import com.yoyo.blhr.dao.model.Teachers;
 import com.yoyo.blhr.dao.model.User;
 import com.yoyo.blhr.service.TeachersService;
@@ -90,12 +94,14 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 					// 获得存放文件的物理路径
 					// upload下的某个文件夹 得到当前在线的用户 找到对应的文件夹
 
-					String path = filePath+File.separator+"upload"+File.separator;
+					String path = filePath+File.separator+"upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date());
 					if(!new File(path).exists())
 						new File(path).mkdirs();
 					// 获得文件名
 					fileName = item.getName();
 					// 该方法在某些平台(操作系统),会返回路径+文件名
+					if(StringUtils.isBlank(fileName))
+						continue;
 					fileName = System.currentTimeMillis()+fileName.substring(fileName.lastIndexOf("."));
 					File file = new File(path + File.separator + fileName);
 					path = file.getPath();
@@ -115,6 +121,7 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 			}
 			try {
 				saveTeacher(map,fileName);
+				req.getRequestDispatcher("/blhrb/userManage.jsp").forward(req, resp);
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
@@ -124,12 +131,15 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 		
 		String userId  = map.get("userId");
 		String username = map.get("username");
+		String type = map.get("type");
 		String fullname = map.get("fullname");
 		String profile = map.get("profile");
 		String jobName = map.get("jobName");
 		String idCard = map.get("idCard");
 		String teacherName = map.get("teacherName");
-		String teacherPassword =SequenceUtil.generateMd5EncryptString(map.get("teacherPassword"));
+		String teacherPassword = null;
+		if(StringUtils.isNotEmpty(map.get("teacherPassword")))
+			teacherPassword =SequenceUtil.generateMd5EncryptString(map.get("teacherPassword"));
 		Teachers teacher = new Teachers();
 		teacher.setUserId(userId);
 		teacher.setUsername(username);
@@ -142,16 +152,20 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 		teacher.setState("2");
 		UserManageService userManageService = (UserManageService) applicationContext.getBean("userManageService");
 		TeachersService teachersService = (TeachersService) applicationContext.getBean("teachersService");
-		
-		teachersService.newTeacher(teacher);
-		//更新用户状态category=2
-		userManageService.updateUserToTeacher(userId,"/upload"+File.separator+fileName,teacherName,teacherPassword);
-		User user = ((User)BlhrArgumentCache.getCacheData(userId));
-		if(user == null)
-			user = userManageService.queryUserById(userId);
-	    //TODO 判空
-		user.setCategory("2");
-		user.setPhoto("/upload"+File.separator+fileName);
+		if("1".equals(type)){
+			teachersService.newTeacher(teacher);
+			//更新用户状态category=2
+			userManageService.updateUserToTeacher(userId,"/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName,teacherName,teacherPassword);
+			User user = ((User)BlhrArgumentCache.getCacheData(userId));
+			if(user == null)
+				user = userManageService.queryUserById(userId);
+			//TODO 判空
+			user.setCategory("2");
+			user.setPhoto("/upload"+File.separator+fileName);
+		}else if("2".equals(type)){
+			teachersService.updateTeacher(teacher);
+			userManageService.updateUserToTeacher(userId,StringUtils.isEmpty(fileName)?null:("/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName),teacherName,teacherPassword);
+		}
 		
 	}
 

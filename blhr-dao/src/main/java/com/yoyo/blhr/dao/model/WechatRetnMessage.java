@@ -15,18 +15,16 @@ public class WechatRetnMessage implements Serializable{
 	
 	private static final long serialVersionUID = -1365604754597557984L;
 	
-	// 支付该笔订单的用户 ID
+	// 鏀粯璇ョ瑪璁㈠崟鐨勭敤鎴�ID
 	private String OpenId;	
-	// 公众号 id
+	// 鍏紬鍙�id
 	private String appid;		
-	// 用户是否关注了公众号。1 为关注，0 为未关注
+	// 鐢ㄦ埛鏄惁鍏虫敞浜嗗叕浼楀彿銆� 涓哄叧娉紝0 涓烘湭鍏虫敞
 	private int IsSubscribe;
-	// 时间戳
-	private long TimeStamp;	
-	// 随机字符串；字段来源：商户生成的随机字符
+	// 鏃堕棿鎴�	private long TimeStamp;	
+	// 闅忔満瀛楃涓诧紱瀛楁鏉ユ簮锛氬晢鎴风敓鎴愮殑闅忔満瀛楃
 	private String NonceStr;	
-	// 字段名称：签名
-	private String AppSignature;
+	// 瀛楁鍚嶇О锛氱鍚�	private String AppSignature;
 	// SHA1
 	private String SignMethod;	
 	
@@ -50,24 +48,24 @@ public class WechatRetnMessage implements Serializable{
 	public void setIsSubscribe(int isSubscribe) {
 		IsSubscribe = isSubscribe;
 	}
-	public long getTimeStamp() {
+	/*public long getTimeStamp() {
 		return TimeStamp;
 	}
 	public void setTimeStamp(long timeStamp) {
 		TimeStamp = timeStamp;
-	}
+	}*/
 	public String getNonceStr() {
 		return NonceStr;
 	}
 	public void setNonceStr(String nonceStr) {
 		NonceStr = nonceStr;
 	}
-	public String getAppSignature() {
+	/*public String getAppSignature() {
 		return AppSignature;
 	}
 	public void setAppSignature(String appSignature) {
 		AppSignature = appSignature;
-	}
+	}*/
 	public String getSignMethod() {
 		return SignMethod;
 	}
@@ -75,11 +73,11 @@ public class WechatRetnMessage implements Serializable{
 		SignMethod = signMethod;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "WeChatBuyPost [OpenId=" + OpenId + ", AppId=" + appid
 				+ ", IsSubscribe=" + IsSubscribe + ", TimeStamp=" + TimeStamp
 				+ ", NonceStr=" + NonceStr + ", AppSignature=" + AppSignature
 				+ ", SignMethod=" + SignMethod + "]";
-	}
+	}*/
 }

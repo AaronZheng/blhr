@@ -167,6 +167,19 @@ public interface CoursesDao {
 	
 	/**
 	 * 
+	 * @param courseId
+	 * @param courseNamem
+	 * @param profile
+	 * @param teacherId
+	 * @param courseType
+	 * @param payType
+	 */
+	void updateCourseById(String courseId,String courseNamem,String profile,
+			String teacherId,String courseType,String payType);
+	
+	
+	/**
+	 * 
 	 * @param courseDetailId
 	 * @return
 	 */
@@ -200,6 +213,13 @@ public interface CoursesDao {
 	 * @return
 	 */
 	List<Map<String, Object>> queryAllCoursesByTeacherId(String teacherId);
+	
+	List<Map<String, Object>> querySpCoursesInfo(int startPage, int pageSize);
+
+	Map<String, Object> queryDspCourseByCourseId(String course_id);
+
+	void passCourse(String course_id);
+	
 	
 	
 	

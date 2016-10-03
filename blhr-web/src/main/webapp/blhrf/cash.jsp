@@ -114,7 +114,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="pay_je pay_jeling">
+			<%-- <div class="pay_je pay_jeling">
 				<div class="pay_jetitle">
 					<span>其它支付方式</span>
 					<span></span>
@@ -137,7 +137,7 @@
 						</a>
 					</ul>
 				</div>
-			</div>
+			</div> --%>
 			<div class="xtfoot">
 				<ul>
 					<li>

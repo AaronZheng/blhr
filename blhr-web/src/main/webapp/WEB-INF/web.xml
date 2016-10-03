@@ -67,7 +67,7 @@
      <servlet-class>com.yoyo.blhr.controller.UploadTeacherServlet</servlet-class>
      <init-param>
       <param-name>filePath</param-name>
-      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+      <param-value>/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/</param-value>
      </init-param>
   </servlet>
   
@@ -76,7 +76,7 @@
      <servlet-class>com.yoyo.blhr.controller.ChatServlet</servlet-class>
      <init-param>
       <param-name>filePath</param-name>
-      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+      <param-value>/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/</param-value>
      </init-param>
   </servlet>
   
@@ -85,7 +85,7 @@
      <servlet-class>com.yoyo.blhr.controller.UpdateChatServlet</servlet-class>
      <init-param>
       <param-name>filePath</param-name>
-      <param-value>/root/blhr/apache-tomcat-6.0.45/webapps/blhr-web/</param-value>
+      <param-value>/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/</param-value>
      </init-param>
   </servlet>
   

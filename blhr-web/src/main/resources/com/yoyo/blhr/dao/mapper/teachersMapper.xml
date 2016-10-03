@@ -7,6 +7,9 @@
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="wechatname" property="wechatname" jdbcType="VARCHAR" />
+        <result column="fullname" property="fullname" jdbcType="VARCHAR" />
+        <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="lrrq" property="lrrq" jdbcType="TIMESTAMP" />
         <result column="state" property="state" jdbcType="VARCHAR" />
         <result column="id_card" property="idCard" jdbcType="VARCHAR" />
@@ -34,7 +37,7 @@
 	</select>
 	
 	<select id = "queryTeachersDetail" resultMap = "teachersInfoResultMap" parameterType="java.lang.String">
-		select t.user_id, t.username, t.id_card, n.phone, t.profile
+		select t.user_id, t.username,t.fullname,t.job_name, t.id_card, n.phone,n.wechatname,n.username,n.password, t.profile
 		from teachers t , users n
 		where t.user_id = n.user_id and t.user_id = #{user_id,jdbcType=VARCHAR}
 	</select>
@@ -48,6 +51,29 @@
 		insert teachers (user_id, username, fullname, id_card,job_name, profile, application_time, state, yxbj)
 				values(#{userId},#{username},#{fullname},#{idCard},#{jobName},#{profile},#{applicationTime},#{state},#{yxbj})
 	</insert>
+	
+	<update id="updateTeacher" parameterType= "com.yoyo.blhr.dao.model.Teachers">
+	    update teachers
+	    <set> 
+	       yxbj = 'Y',
+	      <if test="username != null and username != ''">
+	       username = #{username},
+	      </if>
+	        <if test="fullname != null and fullname != ''">
+	     fullname = #{fullname} , 
+	     </if>
+	       <if test="idCard != null and idCard != ''">
+	     id_card = #{idCard},
+	     </if>
+	       <if test="jobName != null and jobName != ''">
+	     job_name = #{jobName}, 
+	     </if>
+	       <if test="profile != null and profile != ''">
+	     profile = #{profile},
+	     </if>
+	   </set>
+	     where user_id = #{userId}
+	</update>
 	
 	
 	  <delete id="deleteTeacherById" parameterType="java.lang.String">

@@ -1,5 +1,6 @@
 package com.yoyo.blhr.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ public class CourseManageService {
 	
 	@Autowired(required=false)
 	private CoursesDao coursesDao;
+	
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	
 	/**
@@ -192,6 +195,13 @@ public class CourseManageService {
 	}
 	
 	
+	public void updateCourseById(String courseId,String courseName,String profile,
+			String teacherId,String courseType,String payType){
+		
+		 this.coursesDao.updateCourseById(courseId,courseName,profile,teacherId,courseType,payType);
+	}
+	
+	
 	/**
 	 * 
 	 * @param courseId
@@ -216,6 +226,28 @@ public class CourseManageService {
 	public int queryWhetherLearn(String userId,String courseId){
 	
 		return this.coursesDao.queryWhetherLearn(userId, courseId);
+	}
+	
+
+	public List<Map<String, Object>> querySpCourseInfo(int startPage,int pageSize) {
+		List<Map<String, Object>> dspCourses = coursesDao.querySpCoursesInfo(startPage, pageSize);
+		for(Map<String, Object> map : dspCourses){
+			map.put("create_time", sdf.format(map.get("create_time")));
+		}
+		return dspCourses;
+	}
+
+
+	public Map<String, Object> queryDspCourseByCourseId(String course_id) {
+		Map<String,Object> course = this.coursesDao.queryDspCourseByCourseId(course_id);
+		course.put("create_time", sdf.format(course.get("create_time")));
+		return course;
+	}
+
+
+	public void passDspCourse(String course_id) {
+		coursesDao.passCourse(course_id);
+		
 	}
 	
 

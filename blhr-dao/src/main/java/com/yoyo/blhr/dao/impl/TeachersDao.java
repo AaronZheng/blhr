@@ -32,6 +32,12 @@ public interface TeachersDao {
 	 */
 	public void newTeacher(Teachers teacher);
 	
+	/**
+	 * 
+	 * @param teacher
+	 */
+	public void updateTeacher(Teachers teacher);
+	
 	
 	/**
 	 * 

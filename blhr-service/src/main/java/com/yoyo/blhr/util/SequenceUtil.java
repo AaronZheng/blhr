@@ -105,8 +105,6 @@ public class SequenceUtil {
 			}
 		}
 		
-
-
 		
 		/**
 		 * @description generate number type MD5码

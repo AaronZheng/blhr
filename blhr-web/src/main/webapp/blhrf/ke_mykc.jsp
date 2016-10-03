@@ -40,8 +40,8 @@
 				</ul>
 			</div>
 			<div class="ke_lr">
-				<a style="background-image: url(<%=request.getContextPath() %>/blhrf/img/kc_vd.png);"href="<%=request.getContextPath() %>/gotoLrKc?userId=${userId}">录入课程</a>
-				<a style="background-image: url(<%=request.getContextPath() %>/blhrf/img/kc_zb.png);"href="<%=request.getContextPath() %>/blhrf/ke_zb.jsp">直播课程</a>
+				<a style="background-image: url(<%=request.getContextPath() %>/blhrf/img/kc_vd.png);"href="<%=request.getContextPath() %>/gotoLrKc?userId=${userId}">录入回放课程</a>
+				<a style="background-image: url(<%=request.getContextPath() %>/blhrf/img/kc_zb.png);"href="<%=request.getContextPath() %>/gotoZbKc?userId=${userId}">创建直播预告</a>
 			</div>
 	</div>
 	</body>

@@ -42,7 +42,7 @@
 						<div class="ke_wodconn_bot">
 							<span><c:out value="${wfbCourses.lrrq}"></c:out></span>
 							<div class="ke_wodconn_botrrr">
-								<a class="jxlr" href="ke_kelr.html" >继续录入</a>
+								<a class="jxlr" href="<%=request.getContextPath() %>/continueInput?courseId=${wfbCourses.courseId}&courseName=${wfbCourses.courseName }&userId=${userId}" >继续录入</a>
 							</div>
 						</div>
 						
