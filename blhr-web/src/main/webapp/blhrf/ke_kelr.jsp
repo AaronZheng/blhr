@@ -27,14 +27,15 @@
 						<div class="log_name_list">
 							<label>课程名称</label>
 							<input type="hidden" id="userId" name="userId" value="${userId }" />
+							<input type="hidden" id="courseId" name="courseId" value="${courseId}" />
 							<input type="hidden" id="courseType" name="courseType" />
 							<input type="hidden" id="category" name="category" value="3" />
 							<input type="hidden" id="numLimit" name="numLimit" />
-							<input type="text" id="courseName" name="courseName" placeholder="最多输入16个字符" />
+							<input type="text" id="courseName" name="courseName" value="${courseName}" placeholder="最多输入16个字符" />
 						</div>
 						<div class="log_name_dec">
 							<label>课程介绍</label>
-							<textarea id="courseIntro" name="courseIntro" placeholder="最多输入42个字符"></textarea>
+							<textarea id="courseIntro" name="courseIntro" value="${courseProfile}" placeholder="最多输入42个字符"></textarea>
 						</div>
 					</div>
 				</div>
@@ -52,7 +53,7 @@
 					<p>请选择</p>
 					<p onclick = "setCourseType('成长')">成长</p>
 					<p onclick = "setCourseType('健康')">健康</p>
-					<p onclick = "setCourseType('美食')">美食</p>
+					<p onclick = "setCourseType('美食')">心理</p>
 					</div>
 				</div>
 				

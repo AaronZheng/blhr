@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -401,7 +402,36 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/saveCourseTitle",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
 	public ModelAndView saveCourseTitle(String courseName,String courseIntro,String courseType,
-			String playTime,String playLimit,String userId,String category) throws IOException, ParseException{
+			String playTime,String playLimit,String userId,String category,String courseId) throws IOException, ParseException{
+		
+		if(StringUtils.isNotBlank(courseId)){
+			Courses course = new Courses();
+			course.setCourseId(courseId);
+			course.setCourseName(courseName);
+			course.setCourseProfile(courseIntro);
+			course.setTeacherId(userId);
+			course.setCategory(category);
+			course.setUserId(userId);
+			course.setLrrq(new Date());
+			course.setCourseState("2");
+			course.setCreateTime(new Date());
+			course.setCourseType(courseType);
+			courseManageService.updateCourseById(courseId, courseName, courseIntro, null, courseType, null);
+			ModelAndView mv = new ModelAndView("/blhrf/lrInputWatch");
+			List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
+			mv.addObject("courseItem", detailMap);
+			mv.addObject("appId", BlhrConf.getInstance().getAppID());
+			mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
+			mv.addObject("courseId", courseId);
+			mv.addObject("userId", userId);
+			mv.addObject("courseName", courseName);
+			return mv;
+			
+		}
+		
+		
+		
+		
 		//TODO 已完成  ....
 		Courses course = new Courses();
 		course.setCourseId(SequenceUtil.generateSequeueString());
@@ -455,6 +485,18 @@ public class CourseManageAction {
 	 * @throws IOException
 	 */
 	@RequestMapping("/continueInput")
+	public ModelAndView continueInput(String courseId,String courseName,String courseProfile,String userId) throws IOException{
+		ModelAndView mv = new ModelAndView("/blhrf/ke_kelr");
+		Map<String,Object> map = courseManageService.queryCourseById(courseId);
+		mv.addObject("courseId", courseId);
+		mv.addObject("userId", userId);
+		mv.addObject("courseName", courseName);
+		mv.addObject("courseProfile", map.get("course_profile"));
+		return mv;
+
+	}
+	
+/*	@RequestMapping("/continueInput")
 	public ModelAndView continueInput(String courseId,String courseName,String userId) throws IOException{
 		ModelAndView mv = new ModelAndView("/blhrf/lrInputWatch");
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
@@ -465,10 +507,10 @@ public class CourseManageAction {
 		mv.addObject("userId", userId);
 		mv.addObject("courseName", courseName);
 		return mv;
-
+		
 	}
 	
-	
+*/	
 	/**
 	 * 
 	 * @return
