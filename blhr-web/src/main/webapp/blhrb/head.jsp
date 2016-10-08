@@ -44,8 +44,6 @@
         </button>
   <a href="#">
         <div class="navbar-brand navbar-brand-center">
-            <img class="navbar-brand-logo hidden-xs" src="<%=request.getContextPath()%>/blhrb/blhrbmc/logo-blue.png" title="XER">
-            <img class="navbar-brand-logo hidden-sm hidden-md hidden-lg" src="<%=request.getContextPath()%>/blhrb/blhrbmc/logo.png" title="XER">
             <span class="navbar-brand-text hidden-xs"> 玻璃海儿管理后台</span>
         </div>
         </a>
@@ -56,11 +54,8 @@
             <!-- Navbar Toolbar Right -->
             <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
                 <li class="dropdown">
-                    <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button">
-              <span class="avatar avatar-online">
-                <img src="<%=request.getContextPath()%>/blhrb/blhrbmc/settings.png" alt="...">
-              </span>
-                    </a>
+                    <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button"
+                    	>退出</a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation">
                             <a href="http://zzk-test.mvp01.com/admin/changePasswordUi" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> 修改密码</a>
@@ -120,6 +115,15 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+function back(){
+	
+	window.location.href="<%=request.getContextPath()%>/blhrb/login/login.jsp";
+	<%-- <%
+	request.getRequestDispatcher("/blhrb/login/login.jsp").forward(request,response);
+	%> 
+	<%response.sendRedirect("/blhr-web/login/login.jsp");%>--%>
+}
+</script>
 </body>
 </html>

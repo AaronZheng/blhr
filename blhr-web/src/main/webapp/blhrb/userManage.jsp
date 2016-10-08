@@ -35,9 +35,9 @@
 				<th data-options="field: 'userId'" hidden = "hidden"></th>
 				<th data-options="field: 'category'" hidden = "hidden"></th>
 				<th data-options="field: 'isMember'" width="15%">是否付费</th> 
-				<th data-options="field: 'username'" width="15%">用户名</th>
-				<th data-options="field: 'wechatname'" width="21%">微信号</th>
-				<th data-options="field: 'lrrq'" width="20%">注册时间</th>
+				<th data-options="field: 'wechatname'" width="21%">微信昵称</th>
+				<th data-options="field: 'lrrq'" width="17%">注册时间</th>
+				<th data-options="field: 'xgrq'" width="17%">结束时间</th>
 				<th data-options="field: 'typeName'" width="15%">付费类型</th>
 				<th data-options="field: 'recordsCount'" width="15%">收听课程数</th>
 			</tr></thead>
@@ -50,7 +50,6 @@
 			 <thead><tr>
 				<th data-options="field: 'userId'"  hidden = "hidden"></th>
 				<th data-options="field: 'state'" width="21%">讲师状态</th> 
-				<th data-options="field: 'username'" width="20%">用户名</th>
 				<th data-options="field: 'wechatname'" width="20%">微信号</th>
 				<th data-options="field: 'lrrq'" width="20%">注册时间</th>
 				<th data-options="field: 'courseCount'" width="20%">创建课程数</th>
@@ -99,31 +98,31 @@
 			</table>
 		</form>
 	</div>
-	<div id="loginTeacherDia" class="easyui-dialog" style="width: 600px; height: 300px">
+	<div id="loginTeacherDia" class="easyui-dialog" style="width: 600px; height: 350px">
 		<form id ="loginTeacherForm" name="loginTeacherForm" action="<%=request.getContextPath()%>/uploadTeacherInfo" method="post"  enctype="multipart/form-data"  style="width: 100%; height: 100%">
 			<table  class="panel-table" border="0" align="center" style="padding: 5px 5px">
 				<tr>
-					<td style="width:80px" align="center">昵称</td>
+					<td style="width:80px" align="right">昵称:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "username" name = "username"/></td>
-					<td style="width:110px">上传图像</td>
+					<td style="width:110px" align="right">上传图像:</td>
 					<td style="width:110px"> <input type='file' id='fileUp' name='fileUp' /></td>
 					</tr>
 				<tr>
-					<td align="center" >姓名  <input type="hidden" id = "type" name ="type" value = "1"><input type="hidden" id = "userIdn" name ="userId"></td>
+					<td align="right" >姓名: <input type="hidden" id = "type" name ="type" value = "1"><input type="hidden" id = "userIdn" name ="userId"></td>
 					<td ><input class="easyui-validatebox" type="text" id = "fullname" name = "fullname"/></td>
-					<td align="center" style="width:80px">身份证</td>
+					<td align="right" style="width:80px">身份证:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "idCard" name = "idCard"/></td>
 				</tr>
 				<tr>
-					<td align="center" >登录用户名</td>
+					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "teacherName" name = "teacherName"/></td>
-					<td align="center" style="width:80px">登录密码</td>
+					<td align="right" style="width:80px">登录密码:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "teacherPassword" name = "teacherPassword"/></td>
 				</tr>
-				<tr><td>讲师职称</td><td colspan="3"> <input style="width: 340px" class="textarea easyui-validatebox" type="text" id = "jobName" name = "jobName"/></td></tr>
+				<tr><td align="right" >讲师职称:</td><td colspan="3"> <textarea  style="width: 340px" class="textarea easyui-validatebox" type="text" id = "jobName" name = "jobName"></textarea></td></tr>
 				<tr>	
-					<td align="center" >个人简介</td>
-					<td  colspan="3" ><input style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "profile" name = "profile"/></td>
+					<td align="right" >个人简介:</td>
+					<td  colspan="3" ><textarea style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "profile" name = "profile"></textarea></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="button" class="easyui-linkbutton" onclick="submitData(1)" value="注册"></a></td>
@@ -137,27 +136,27 @@
 		<form id ="updateTeacherForm" name="updateTeacherForm" action="<%=request.getContextPath()%>/uploadTeacherInfo" method="post"  enctype="multipart/form-data"  style="width: 100%; height: 100%">
 			<table  class="panel-table" border="0" align="center" style="padding: 5px 5px">
 				<tr>
-					<td style="width:80px" align="center">昵称</td>
+					<td style="width:80px" align="right">昵称:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nusername" name = "wechatName"/></td>
-					<td style="width:110px">上传图像</td>
+					<td style="width:110px" align="right">上传图像:</td>
 					<td style="width:110px"> <input type='file' id='nfileUp' name='fileUp' /></td>
 					</tr>
 				<tr>
-					<td align="center" >姓名 <input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
+					<td align="right" >姓名:<input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
 					<td ><input class="easyui-validatebox" type="text" id = "nfullname" name = "fullname"/></td>
-					<td align="center" style="width:80px">身份证</td>
+					<td align="right" style="width:80px">身份证:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nidCard" name = "idCard"/></td>
 				</tr>
 				<tr>
-					<td align="center" >登录用户名</td>
+					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "username"/></td>
-					<td align="center" style="width:80px">登录密码</td>
+					<td align="right" style="width:80px">登录密码:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nteacherPassword" name = "teacherPassword"/></td>
 				</tr>
-				<tr><td>讲师职称</td><td colspan="3"> <input style="width: 340px" class="textarea easyui-validatebox" type="text" id = "njobName" name = "jobName"/></td></tr>
+				<tr><td align="right">讲师职称:</td><td colspan="3"> <textarea style="width: 340px" class="textarea easyui-validatebox" type="text" id = "njobName" name = "jobName"></textarea></td></tr>
 				<tr>	
-					<td align="center" >个人简介</td>
-					<td  colspan="3" ><input style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "nprofile" name = "profile"/></td>
+					<td align="right" >个人简介:</td>
+					<td  colspan="3" ><textarea style="width: 340px" class="textarea easyui-validatebox" type="textarea" id = "nprofile" name = "profile"></textarea></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="button" class="easyui-linkbutton" onclick="submitData(2)" value="修改"></a></td>
@@ -317,7 +316,7 @@ $(document).ready(function() {
 		}
 	}); 
 	$('#user_panel').panel('open');
-	
+	document.getElementById("tb").style.display="none";
 });
 
 
@@ -343,6 +342,7 @@ function quesyUsers(){
 		}
 	});
 	$('#user_panel').panel('open');
+	document.getElementById("tb").style.display="none";
 }
 
 function queryTeachers(){
@@ -362,6 +362,7 @@ function queryTeachers(){
 		} 
 	});
 	$('#teacher_panel').panel('open');
+	document.getElementById("tb").style.display="";
 }
 
 function teacherDetail(userId){
