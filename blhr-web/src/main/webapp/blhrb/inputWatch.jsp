@@ -131,7 +131,7 @@
 							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
 						</div>
 						<div class="qqright" onclick="palyVoice('${list.content_item }')">
-							<div class="qqsky qqvoice" style="width: 200px; height:40px;">
+							<div class="qqsky qqvoice" style="width: ${list.item_length }px; height:40px;">
 								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
 								<div>
 									<div class="voice_move">
@@ -142,13 +142,13 @@
 									</div>
 								</div>
 								<div class="qqvoice_hitit"></div><label> </label>
-								<em></em>
+								<em>${list.item_length }'</em>
 							</div>
 						</div>
 						<div>
 						<div>
-						<span><font style="cursor:pointer; color: red"  onclick="deleteItem(this,'${list.course_detail_id}')">删除</font></span>
-				    	<span><font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></span>	
+						<span  onclick="deleteItem(this,'${list.course_detail_id}')"><font style="cursor:pointer; color: red" >&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; 删除</font></span>
+						<span><font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></span>	
 						</div>
 					    </div>
 					</div>
@@ -267,7 +267,7 @@
 	            	}if("v" == type){
 	             		closeDialog('updateItemDivv','voicename');
 	            		var temp = document.createElement("div");
-						temp.innerHTML = getVoiceContent(data.sourcePath,data.itemId);
+						temp.innerHTML = getVoiceContent(data.sourcePath,data.itemId,data.itemLength);
 						htmlcontentc.removeChild(htmlcontentcc)
 						htmlcontentc.appendChild(temp); 
 	            	}
@@ -318,8 +318,13 @@
 	function showUpdateDiv(content,data,objdiv){
 		
 		this.htmlcontentf = objdiv.parentNode.parentNode.parentNode.parentNode.parentNode;
-		this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode;
-		this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode;
+		if(content == "updateItemDivv"){
+			this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode.parentNode;
+			this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode.parentNode;
+		}else{
+			this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode;
+			this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode;
+		}
 		
 		itemId = data;
 		var aiin = document.getElementById(content);
@@ -365,11 +370,11 @@
 	    			alert("发送语音失败");
 	    		},
 	            success: function(data) { 
-	            	if(data == 1){
+	            	if(data == 0){
 	            		alert("发送语音失败,检查音频是否损坏，然后重新上传");
 	            		return;
 	            	}
-	            	$(".extendDiv").append(getVoiceContent(data.sourcePath,data.detailId));
+	            	$(".extendDiv").append(getVoiceContent(data.sourcePath,data.detailId,data.voiceLength));
 	            	document.getElementById("voicename").value=""; 
 	            }
 	        });
@@ -387,7 +392,7 @@
     			alert("发送图片失败");
     		},
             success: function(data) { 
-            	if(data == 1){
+            	if(data == 0){
             		alert("发送图片失败，检查图片是否损坏，然后重新上传");
             		return;
             	}
@@ -461,7 +466,7 @@
     
     
 	
-	function getVoiceContent(voiceId,itemId){
+	function getVoiceContent(voiceId,itemId,voiceLength){
     	
     	var baserDir = '<%=request.getContextPath() %>';
         var content = "<div><div class=\"row\" >"+
@@ -469,7 +474,7 @@
 			"<img src=\""+baserDir+"/blhrf/img/san_smalltou.png\" />"+
 		"</div>"+
 		"<div class=\"qqright\" onclick=\"palyVoice('"+voiceId+"')\">"+
-			"<div class=\"qqsky qqvoice\" style=\"width: 200px ; height:40px ;\">"+
+			"<div class=\"qqsky qqvoice\" style=\"width: "+(55+parseInt((voiceLength==""||voiceLength == null)?0:voiceLength))+"px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baserDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+
@@ -479,14 +484,20 @@
 						"<img src=\""+baserDir+"/blhrf/img/voice.png\" class=\"voice\">"+
 					"</div>"+
 				"</div>"+
-				"<em></em>"+
+				"<em>"+voiceLength+"'</em>"+
 			"</div>"+
 		"</div>"+
-	"</div>"+
-		"<div class=\"qqvoice_hitit\"></div>"+
+		"<div>"+
+		"<div>"+
+		"<span onclick=\"deleteItem(this,'"+itemId+"')\"><font style=\"cursor:pointer; color: red\">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;删除 &nbsp;</font></span>"+
+    	"<span><font style=\"cursor:pointer; color: red\"   onclick=\"showUpdateDiv('updateItemDivv','"+itemId+"',this)\">更新</font></span>"+	
+		"</div>"+
+	    "</div>"+
+	"</div>";
+		/* "<div class=\"qqvoice_hitit\"></div>"+
 		"<label>&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\">删除</font>"+
 		" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivv','"+itemId+"',this)\">更新</font></label>"+
-		"</div>";
+		"</div>" */
 	return content;
  }
     

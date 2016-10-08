@@ -108,7 +108,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 						} catch (Exception e) {
 							e.printStackTrace();	
 							resp.setContentType("application/json");
-							resp.getOutputStream().write("1".getBytes());
+							resp.getOutputStream().write("0".getBytes());
 							return ;
 						}
 						// 将上传图片的名字记录到数据库中
@@ -125,7 +125,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 					} catch (Throwable e) {
 						e.printStackTrace();
 						resp.setContentType("application/json");
-						resp.getOutputStream().write("1".getBytes());
+						resp.getOutputStream().write("0".getBytes());
 						return ;
 					}  
 					
@@ -140,7 +140,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 				resp.setContentType("application/json");
-				resp.getOutputStream().write("1".getBytes());
+				resp.getOutputStream().write("0".getBytes());
 			}
 	}
 	
@@ -167,6 +167,7 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 	    Map<String,String> rtnmap = new HashMap<String,String>();
 	    rtnmap.put("detailId", courseDetail.getCourseDetailId());
 	    rtnmap.put("sourcePath", courseDetail.getContentItem());
+	    rtnmap.put("voiceLength", itemLength+"");
 	    return new JSONObject(rtnmap).toString();
 	}
 

@@ -12,9 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -310,6 +308,9 @@ public class CourseManageAction {
 		ModelAndView mv = new ModelAndView("/blhrb/inputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
+		for(Map<String,Object> dmp:detailMap){
+			dmp.put("item_length", ((Integer)dmp.get("item_length"))+55);
+		}
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
 		mv.addObject("userId", map.get("userId"));
@@ -469,7 +470,7 @@ public class CourseManageAction {
 		mv.addObject("appId", BlhrConf.getInstance().getAppID());
 		mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
 		mv.addObject("courseId", course.getCourseId());
-		mv.addObject("photoPath", CommonUtil.getUserByUserId(userId).getPhoto());
+		mv.addObject("photoPath", StringUtils.isBlank(CommonUtil.getUserByUserId(userId).getPhoto())?"":CommonUtil.getUserByUserId(userId).getPhoto().replace("\\", "/"));
 		mv.addObject("userId", userId);
 		mv.addObject("courseName", courseName);
 		return mv;

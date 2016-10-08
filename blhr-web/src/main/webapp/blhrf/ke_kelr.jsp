@@ -35,7 +35,7 @@
 						</div>
 						<div class="log_name_dec">
 							<label>课程介绍</label>
-							<textarea id="courseIntro" name="courseIntro" value="${courseProfile}" placeholder="最多输入42个字符"></textarea>
+							<textarea id="courseIntro" name="courseIntro" defaultValue="${courseProfile}" placeholder="最多输入42个字符"></textarea>
 						</div>
 					</div>
 				</div>

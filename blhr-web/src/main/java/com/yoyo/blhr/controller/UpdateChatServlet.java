@@ -20,6 +20,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
 import org.json.JSONObject;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +83,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 				e1.printStackTrace();
 			}
 			// 区分表单域
+			int itemLength = 0;
 			String fileName = null; 
 			Map<String,String> map = new HashMap<String,String>();
 			for (int i = 0; i < items.size(); i++) {
@@ -96,19 +100,36 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 						try {
 							item.write(file);
 						} catch (Exception e) {
+							resp.getOutputStream().write("0".getBytes());
 							e.printStackTrace();
 						}
 					}
+					
+					  MP3File f;
+						try {
+							if(file != null && file.getName().endsWith(".mp3")){
+								f = (MP3File) AudioFileIO.read(file);
+								MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
+								itemLength = audioHeader.getTrackLength();
+							}
+						} catch (Throwable e) {
+							e.printStackTrace();
+							resp.setContentType("application/json");
+							resp.getOutputStream().write("0".getBytes());
+							return ;
+						}  
+					
 				}else{
 					map.put(item.getFieldName(), item.getString("UTF-8"));
 				}
 			}
 			try {
-				String rtns = updateCourseDetail(map,fileName);
+				String rtns = updateCourseDetail(map,fileName,itemLength);
 				resp.setContentType("application/json");
 				resp.getOutputStream().write(rtns.getBytes("UTF-8"));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
+				resp.getOutputStream().write("0".getBytes());
 			}
 	}
 	
@@ -120,7 +141,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public String updateCourseDetail(Map<String,String> map,String fileName) throws NoSuchAlgorithmException{
+	public String updateCourseDetail(Map<String,String> map,String fileName,int length) throws NoSuchAlgorithmException{
 		
 	    Map<String,String> updateItem = new HashMap<String,String>();
 	    updateItem.put("course_detail_id", map.get("itemId"));
@@ -130,8 +151,9 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	    CourseManageService userManageService = (CourseManageService) applicationContext.getBean("courseManageService");
 	    userManageService.updateCourseDetailByBath(lismap);
 	    Map<String,String> rtnmap = new HashMap<String,String>();
-	    rtnmap.put("detailId", map.get("itemId"));
+	    rtnmap.put("itemId", map.get("itemId"));
 	    rtnmap.put("sourcePath","/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
+	    rtnmap.put("itemLength", length+"");
 	    return new JSONObject(rtnmap).toString();
 	}
 
