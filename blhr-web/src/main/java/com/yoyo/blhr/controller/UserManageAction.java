@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yoyo.blhr.dao.model.Members;
 import com.yoyo.blhr.dao.model.PayType;
 import com.yoyo.blhr.dao.model.User;
@@ -79,5 +84,10 @@ public class UserManageAction {
 		return retStr;
 	}
 	
-	
+	@RequestMapping(value="/exit",method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	public void exit(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		String root = request.getContextPath();
+		response.sendRedirect("http://www.baidu.com");
+		//request.getRequestDispatcher("/blhrb/login/login.jsp").forward(request,response);
+	}
 }
