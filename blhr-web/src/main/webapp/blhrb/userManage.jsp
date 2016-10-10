@@ -29,7 +29,7 @@
     	</div>
     	<div name = "iframe_list"></div>
     	<div id = "user_panel" class="easyui-panel" closed ="true" style="width: 100%; ">
-	    <table id = "userslist" class = "easyui-datagrid" style="width: 100%; height: 340px"
+	    <table id = "userslist" class = "easyui-datagrid" style="width: 100%; height: 365px"
 			title= "用户管理（双击注册讲师）" >
 			<thead><tr>
 				<th data-options="field: 'userId'" hidden = "hidden"></th>
@@ -37,7 +37,7 @@
 				<th data-options="field: 'isMember'" width="15%">是否付费</th> 
 				<th data-options="field: 'wechatname'" width="21%">微信昵称</th>
 				<th data-options="field: 'lrrq'" width="17%">注册时间</th>
-				<th data-options="field: 'xgrq'" width="17%">结束时间</th>
+				<th data-options="field: 'expireTime'" width="17%">结束时间</th>
 				<th data-options="field: 'typeName'" width="15%">付费类型</th>
 				<th data-options="field: 'recordsCount'" width="15%">收听课程数</th>
 			</tr></thead>
@@ -45,14 +45,16 @@
 		
 		</div>
 		<div id ="teacher_panel" class="easyui-panel" closed='true' style="width:100%; ">
-		<table id = "teacherslist" class = "easyui-datagrid" style="width: 100%; height: 340px"
+		<table id = "teacherslist" class = "easyui-datagrid" style="width: 100%; height: 365px"
 			title= "讲师管理（双击显示并修改讲师资料）" toolbar="#tb">
 			 <thead><tr>
 				<th data-options="field: 'userId'"  hidden = "hidden"></th>
-				<th data-options="field: 'state'" width="21%">讲师状态</th> 
-				<th data-options="field: 'wechatname'" width="20%">微信号</th>
-				<th data-options="field: 'lrrq'" width="20%">注册时间</th>
-				<th data-options="field: 'courseCount'" width="20%">创建课程数</th>
+				<th data-options="field: 'state'" width="11%">讲师状态</th> 
+				<th data-options="field: 'username'" width="20%">登录用户名</th>
+				<th data-options="field: 'wechatname'" width="20%">微信昵称</th>
+				<th data-options="field: 'fullname'" width="20%">讲师姓名</th>
+				<th data-options="field: 'lrrq'" width="15%">注册时间</th>
+				<th data-options="field: 'courseCount'" width="15%">创建课程数</th>
 				<!-- <th name = "">完成课程数</th>
 				<th>查看资料</th>
 				<th>资格</th> -->
@@ -138,8 +140,13 @@
 				<tr>
 					<td style="width:80px" align="right">昵称:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nusername" name = "wechatName"/></td>
+
 					<td style="width:110px" align="right">上传图像:</td>
 					<td style="width:110px"> <img id="teacherphoto" alt="" style="width: 30px; hight 30px;" src=""> <input type='file' id='nfileUp' name='fileUp' /></td>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 410fdc04481d361bf7fbdc8c796443586e8c9643
 					</tr>
 				<tr>
 					<td align="right" >姓名:<input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
@@ -148,6 +155,11 @@
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nidCard" name = "idCard"/></td>
 				</tr>
 				<tr>
+<<<<<<< .mine
+					<td align="right" >登录用户名:</td>
+					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
+					<td align="right" style="width:80px">登录密码:</td>
+=======
 					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
 					<td align="right" style="width:80px">登录密码:</td>
@@ -280,6 +292,7 @@ $(document).ready(function() {
 	$('#loginTeacherDia').dialog('close');
 	$('#updateTeacherDia').dialog('close');
 	$('#dlg_fileinfo').dialog('close');
+	
 	$("#userslist").datagrid({
 		url : '<%=request.getContextPath()%>/usersManage',
 		toolbar : '#tb',
@@ -315,6 +328,7 @@ $(document).ready(function() {
 			})
 		}
 	}); 
+	
 	$('#user_panel').panel('open');
 	document.getElementById("tb").style.display="none";
 });
@@ -380,7 +394,11 @@ function teacherDetail(userId){
 			document.getElementById("nfullname").value = data[0].fullname;
 			document.getElementById("nteacherName").value = data[0].username;
 			document.getElementById("nteacherPassword").value = "";
+<<<<<<< HEAD
 			document.getElementById("teacherphoto").src = '<%=request.getContextPath()%>/'+ data[0].photo;
+=======
+			document.getElementById("teacherphoto").src = data[0].photo;
+>>>>>>> 410fdc04481d361bf7fbdc8c796443586e8c9643
 			document.getElementById("nuserIdn").value = data[0].userId;
 			document.getElementById("nidCard").value = data[0].idCard;
 			document.getElementById("nprofile").value = data[0].profile;

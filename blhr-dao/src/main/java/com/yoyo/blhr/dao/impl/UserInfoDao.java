@@ -70,6 +70,12 @@ public interface UserInfoDao {
 	 * @param userId
 	 */
 	void updateTeacherToUser(String userId);
+
+
+	public int queryAllUsersNum();
+
+
+	public List<User> queryAllUsersPage(int startPage, int pageSize);
 	
 
 }

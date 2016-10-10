@@ -62,6 +62,8 @@ public interface TeachersDao {
 	 */
 	public Map<String, Object> queryTeacherProfileByCourseId(String courseId);
 
+	public int queryTeachersNum();
+
 
 	
 }
