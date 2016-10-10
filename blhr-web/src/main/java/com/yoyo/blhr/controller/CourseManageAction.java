@@ -405,7 +405,7 @@ public class CourseManageAction {
 	public ModelAndView saveCourseTitle(String courseName,String courseIntro,String courseType,
 			String playTime,String playLimit,String userId,String category,String courseId) throws IOException, ParseException{
 		
-		if(StringUtils.isNotBlank(courseId)){
+		/*if(StringUtils.isNotBlank(courseId)){
 			Courses course = new Courses();
 			course.setCourseId(courseId);
 			course.setCourseName(courseName);
@@ -428,7 +428,7 @@ public class CourseManageAction {
 			mv.addObject("courseName", courseName);
 			return mv;
 			
-		}
+		}*/
 		
 		
 		
@@ -442,10 +442,10 @@ public class CourseManageAction {
 		course.setCategory(category);
 		if("1".equals(course)){
 			course.setCourseState("7");
-		}
+		}else
+			course.setCourseState("2");
 		course.setUserId(userId);
 		course.setLrrq(new Date());
-		course.setCourseState("2");
 		course.setCreateTime(new Date());
 		course.setCourseType(courseType);
 		course.setCreatePerson(((User)BlhrArgumentCache.getCacheData(userId)).getUsername());
