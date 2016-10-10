@@ -138,8 +138,10 @@
 				<tr>
 					<td style="width:80px" align="right">昵称:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nusername" name = "wechatName"/></td>
+
 					<td style="width:110px" align="right">上传图像:</td>
 					<td style="width:110px"> <img id="teacherphoto" alt="" style="width: 30px; hight 30px;" src=""> <input type='file' id='nfileUp' name='fileUp' /></td>
+
 					</tr>
 				<tr>
 					<td align="right" >姓名:<input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
@@ -148,9 +150,15 @@
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nidCard" name = "idCard"/></td>
 				</tr>
 				<tr>
+<<<<<<< .mine
 					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
 					<td align="right" style="width:80px">登录密码:</td>
+=======
+					<td align="right" >登录用户名:</td>
+					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "username"/></td>
+					<td align="right" style="width:80px">登录密码:</td>
+>>>>>>> .theirs
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nteacherPassword" name = "teacherPassword"/></td>
 				</tr>
 				<tr><td align="right">讲师职称:</td><td colspan="3"> <textarea style="width: 340px" class="textarea easyui-validatebox" type="text" id = "njobName" name = "jobName"></textarea></td></tr>
