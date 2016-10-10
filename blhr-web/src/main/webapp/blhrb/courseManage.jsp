@@ -464,13 +464,15 @@ function hide(){
 	 var grid = $('#ttbd');  
 	 var options = grid.datagrid('getPager').data("pagination").options;  
 	 var curr = options.pageNumber;  
+	 var pageSize = Math.ceil(options.pageSize);
+	 //console.log(curr+","+max);
     jQuery.ajax({
 			type : "POST",
 			async : false,
 			url : "<%=request.getContextPath()%>/hideCourse",
 			data:{
 				page:curr,
-				rows:'10',
+				rows:pageSize,
 				course_id:rows[0].course_id
 			},
 			error : function(request) {

@@ -41,9 +41,9 @@ public class CourseManageService {
 	 * @param courseState
 	 * @return
 	 */
-	public List<Map<String,Object>> queryBroadcastCourse(String courseType){
+	public List<Map<String,Object>> queryBroadcastCourse(int startPage,int pageSize,String courseType){
 	
-		return this.coursesDao.queryBroadcastCourse(courseType);
+		return this.coursesDao.queryBroadcastCourse(startPage, pageSize, courseType);
 	}
 	
 	
@@ -248,6 +248,16 @@ public class CourseManageService {
 	public void passDspCourse(String course_id) {
 		coursesDao.passCourse(course_id);
 		
+	}
+
+
+	public int queryAllCourseNum() {
+		return coursesDao.queryAllCourseNum();
+	}
+
+
+	public int queryBroadcastCourseNum() {
+		return coursesDao.queryBroadcastCourseNum();
 	}
 	
 

@@ -37,7 +37,9 @@ public class UserManageAction {
 	
 	@RequestMapping(value="/usersManage",method = RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public String usersManage(HttpServletRequest request, Model model) throws IOException{
+	public String usersManage(String page,String rows) throws IOException{
+		//分页
+		//(Integer.parseInt(page)-1)*10, Integer.parseInt(rows))
 		List<Map<String, Object>> retList = new ArrayList<Map<String,Object>>();
 		List<User> users= this.userManageService.usersManage();
 		for(User user : users){
@@ -52,9 +54,12 @@ public class UserManageAction {
 				PayType payType = this.userManageService.queryPayTypeByCode(payTypeCode);
 				String typeName = payType.getTypeName();
 				map.put("typeName", typeName);
+				//会员结束时间
+				map.put("expireTime", sdf.format(member.getExpireTime()));
 			}else{
 				map.put("isMember","否");
 				map.put("typeName","-");
+				map.put("expireTime","-");
 			}
 			//查询收听课程数
 			int recordsCount = this.userManageService.queryRecordsCountByUserId(userId);

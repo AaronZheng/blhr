@@ -37,7 +37,7 @@
 				<th data-options="field: 'isMember'" width="15%">是否付费</th> 
 				<th data-options="field: 'wechatname'" width="21%">微信昵称</th>
 				<th data-options="field: 'lrrq'" width="17%">注册时间</th>
-				<th data-options="field: 'xgrq'" width="17%">结束时间</th>
+				<th data-options="field: 'expireTime'" width="17%">结束时间</th>
 				<th data-options="field: 'typeName'" width="15%">付费类型</th>
 				<th data-options="field: 'recordsCount'" width="15%">收听课程数</th>
 			</tr></thead>
@@ -49,10 +49,12 @@
 			title= "讲师管理（双击显示并修改讲师资料）" toolbar="#tb">
 			 <thead><tr>
 				<th data-options="field: 'userId'"  hidden = "hidden"></th>
-				<th data-options="field: 'state'" width="21%">讲师状态</th> 
-				<th data-options="field: 'wechatname'" width="20%">微信号</th>
-				<th data-options="field: 'lrrq'" width="20%">注册时间</th>
-				<th data-options="field: 'courseCount'" width="20%">创建课程数</th>
+				<th data-options="field: 'state'" width="11%">讲师状态</th> 
+				<th data-options="field: 'username'" width="20%">登录用户名</th>
+				<th data-options="field: 'wechatname'" width="20%">微信昵称</th>
+				<th data-options="field: 'fullname'" width="20%">讲师姓名</th>
+				<th data-options="field: 'lrrq'" width="15%">注册时间</th>
+				<th data-options="field: 'courseCount'" width="15%">创建课程数</th>
 				<!-- <th name = "">完成课程数</th>
 				<th>查看资料</th>
 				<th>资格</th> -->
@@ -280,6 +282,7 @@ $(document).ready(function() {
 	$('#loginTeacherDia').dialog('close');
 	$('#updateTeacherDia').dialog('close');
 	$('#dlg_fileinfo').dialog('close');
+	
 	$("#userslist").datagrid({
 		url : '<%=request.getContextPath()%>/usersManage',
 		toolbar : '#tb',
@@ -315,6 +318,26 @@ $(document).ready(function() {
 			})
 		}
 	}); 
+	var grid = $('#userslist');  
+	var options = grid.datagrid('getPager').data("pagination").options;  
+	var curr = options.pageNumber;  
+	var pageSize = Math.ceil(options.pageSize);
+	console.log(curr+","+pageSize)
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : '<%=request.getContextPath()%>/usersManage',
+		data:{
+			page:curr,
+			rows:pageSize,
+		},
+		error : function(request) {
+			
+		},
+		success : function(data) {
+			$("#userslist").datagrid("load",data);
+		}
+	});
 	$('#user_panel').panel('open');
 	document.getElementById("tb").style.display="none";
 });

@@ -12,7 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -102,8 +104,9 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/queryCourseInfo" ,produces="application/json;charset=UTF-8")
 	public String queryCourseInfo(String page,String rows){
-		
-		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.queryAllCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
+		List<Map<String,Object>> lismap = courseManageService.queryAllCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows));
+		int total = courseManageService.queryAllCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap, total);
 	}
 	
 	
@@ -114,10 +117,12 @@ public class CourseManageAction {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/queryBroadcastCourseb",produces="application/json;charset=UTF-8")
-	public String queryBroadcastCourse(){
-		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse("2");
+	public String queryBroadcastCourse(String page,String rows){
+		
+		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse((Integer.parseInt(page)-1)*10, Integer.parseInt(rows),"2");
 		handlerResult(lismap);
-		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(lismap);
+		int total = courseManageService.queryBroadcastCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap,total);
 	}
 	
 	/**
@@ -265,20 +270,21 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="deleteCourseByCourseId" ,produces="application/json;charset=UTF-8")
 	public String deleteCourseByCourseId(String page,String rows,String course_id){
-		
 		courseManageService.deleteCourseDetailByCourseId(course_id);
-		courseManageService.deleteCourseById(course_id);;
+		courseManageService.deleteCourseById(course_id);
+		
 		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.queryAllCourseInfo((Integer.parseInt(page)-1)*10,Integer.parseInt(rows)));
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="deleteCourseByCourseIdb" ,produces="application/json;charset=UTF-8")
-	public String deleteCourseByCourseIdb(String course_id){
+	public String deleteCourseByCourseIdb(String page,String rows,String course_id){
 		courseManageService.deleteCourseDetailByCourseId(course_id);
 		courseManageService.deleteCourseById(course_id);;
-		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse("2");
+		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse((Integer.parseInt(page)-1)*10,Integer.parseInt(rows),"2");
 		handlerResult(lismap);
-		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(lismap);
+		int total = courseManageService.queryBroadcastCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap, total);
 	}
 	
 	

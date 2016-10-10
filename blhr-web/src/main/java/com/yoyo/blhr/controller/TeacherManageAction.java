@@ -83,6 +83,12 @@ public class TeacherManageAction {
 			//创建课程数
 			int courseCount = this.teachersService.queryCourseCountByTeacherId(userId);
 			teacher.put("courseCount", courseCount);
+			//讲师状态数字转文字
+			String state = teacher.get("state")+"";
+			if("1".equals(state))
+				teacher.put("state", "账户正常");
+			else if("2".equals(state))
+				teacher.put("state", "资格取消");
 		}
 		//model.addAttribute("teachers", teachers);
 		JSONArray jsonArray = new JSONArray(teachers);

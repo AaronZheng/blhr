@@ -36,10 +36,10 @@
        
     </update>
     
-    <select id="queryBroadcastCourse" parameterType="java.lang.String" resultType="java.util.Map">
+    <select id="queryBroadcastCourse" parameterType="java.util.Map" resultType="java.util.Map">
        select t.course_id, t.course_name, t.pay_type,t.course_type,t.create_person,t.create_time,
          f.fullname,t.play_time,t.person_limit,t.course_state,t.course_state as course_status from course t , teachers f 
-         where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8'
+         where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8' limit #{0},#{1}
     </select>
     
     
@@ -167,5 +167,11 @@
 	 	 where t.course_id = #{0}
 	 </update>
 	
+	<select id ="queryAllCourseNum" resultType="java.lang.Integer" >
+		SELECT COUNT(DISTINCT t.course_id) from course t,teachers n where t.teacher_id= n.user_id  and t.course_state != '2'
+	</select>
 
+	<select id = "queryBroadcastCourseNum" resultType="java.lang.Integer">
+	select COUNT(DISTINCT t.course_id) from course t , teachers f where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8'
+         </select>
 </mapper>
