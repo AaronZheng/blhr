@@ -106,4 +106,10 @@ public class TeachersService {
 	public List<Map<String, Object>> queryAllTeachersInfo(int startPage, int pageSize) {
 		return teachersDao.queryAllCoursesInfo(startPage, pageSize);
 	}
+
+	public int queryTeachersNum() {
+		return this.teachersDao.queryTeachersNum();
+	}
+
+	
 }

@@ -90,4 +90,9 @@
       	select t.user_id, t.job_name, t.fullname, t.profile, u.photo from course c, teachers t, users u where c.course_id =  #{courseId,jdbcType=VARCHAR} 
       	and c.user_id = t.user_id and c.user_id = u.user_id
       </select>
+      
+       <select id="queryTeachersNum" resultType="java.lang.Integer" >
+         select count(user_id) from teachers where yxbj='Y'
+    	</select>
+      
 </mapper>

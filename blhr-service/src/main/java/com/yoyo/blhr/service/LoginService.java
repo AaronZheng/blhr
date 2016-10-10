@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yoyo.blhr.dao.impl.BannerDao;
 import com.yoyo.blhr.dao.impl.LoginDao;
 import com.yoyo.blhr.dao.model.User;
 import com.yoyo.blhr.util.SequenceUtil;
@@ -21,7 +22,8 @@ public class LoginService {
 
     @Autowired(required = false)
     private LoginDao loginDao;
-   
+    @Autowired(required = false)
+    private BannerDao bannerDao;
     /**
      * @param username
      * @param password
@@ -57,6 +59,11 @@ public class LoginService {
 
     	return loginDao.queryCourseListAndNum();
     }
+
+
+	public List<Map<String, Object>> queryBanner() {
+		return bannerDao.queryBanner();
+	}
 
 
 }

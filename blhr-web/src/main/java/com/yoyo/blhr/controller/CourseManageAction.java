@@ -272,8 +272,8 @@ public class CourseManageAction {
 	public String deleteCourseByCourseId(String page,String rows,String course_id){
 		courseManageService.deleteCourseDetailByCourseId(course_id);
 		courseManageService.deleteCourseById(course_id);
-		
-		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.queryAllCourseInfo((Integer.parseInt(page)-1)*10,Integer.parseInt(rows)));
+		int total = courseManageService.queryAllCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(courseManageService.queryAllCourseInfo((Integer.parseInt(page)-1)*10,Integer.parseInt(rows)), total);
 	}
 	
 	@ResponseBody
