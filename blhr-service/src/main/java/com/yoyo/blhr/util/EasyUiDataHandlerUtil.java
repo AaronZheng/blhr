@@ -40,7 +40,21 @@ public class EasyUiDataHandlerUtil {
 		return new JSONObject(map).toString();
 		
 	}
-	
+
+	public static String ConvertListMapToUiGrid2(List<Map<String,Object>> lismap, int total){
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		if(lismap == null || lismap.size() == 0){
+			map.put(TOTAL, 0);
+			map.put(ROWS, new ArrayList<Map<String,Object>>());	
+			return  new JSONObject(map).toString();
+		}
+		map.put(TOTAL, total);
+		map.put(ROWS, lismap);	
+		return new JSONObject(map).toString();
+		
+	}
 	
 	
 	

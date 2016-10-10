@@ -73,8 +73,8 @@ public class TeacherManageAction {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/teachersManage",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public String teachersManage(HttpServletRequest request, Model model) throws IOException{
-		List<Map<String, Object>> teachers= this.teachersService.queryTeachers();
+	public String teachersManage(String page,String rows) throws IOException{
+		List<Map<String, Object>> teachers= this.teachersService.queryAllTeachersInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows));
 		for(Map<String, Object> teacher : teachers){
 			String userId = (String) teacher.get("userId");
 			Date lrrq = (Date)teacher.get("lrrq");
@@ -83,11 +83,19 @@ public class TeacherManageAction {
 			//创建课程数
 			int courseCount = this.teachersService.queryCourseCountByTeacherId(userId);
 			teacher.put("courseCount", courseCount);
+			//讲师状态数字转文字
+			String state = teacher.get("state")+"";
+			if("1".equals(state))
+				teacher.put("state", "账户正常");
+			else if("2".equals(state))
+				teacher.put("state", "资格取消");
 		}
 		//model.addAttribute("teachers", teachers);
-		JSONArray jsonArray = new JSONArray(teachers);
+		/*JSONArray jsonArray = new JSONArray(teachers);
 		
-		return jsonArray.toString();
+		return jsonArray.toString();*/
+		int total = teachersService.queryTeachersNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(teachers, total);
 	}
 	
 	

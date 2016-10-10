@@ -29,7 +29,7 @@
     	</div>
     	<div name = "iframe_list"></div>
     	<div id = "user_panel" class="easyui-panel" closed ="true" style="width: 100%; ">
-	    <table id = "userslist" class = "easyui-datagrid" style="width: 100%; height: 340px"
+	    <table id = "userslist" class = "easyui-datagrid" style="width: 100%; height: 365px"
 			title= "用户管理（双击注册讲师）" >
 			<thead><tr>
 				<th data-options="field: 'userId'" hidden = "hidden"></th>
@@ -37,7 +37,7 @@
 				<th data-options="field: 'isMember'" width="15%">是否付费</th> 
 				<th data-options="field: 'wechatname'" width="21%">微信昵称</th>
 				<th data-options="field: 'lrrq'" width="17%">注册时间</th>
-				<th data-options="field: 'xgrq'" width="17%">结束时间</th>
+				<th data-options="field: 'expireTime'" width="17%">结束时间</th>
 				<th data-options="field: 'typeName'" width="15%">付费类型</th>
 				<th data-options="field: 'recordsCount'" width="15%">收听课程数</th>
 			</tr></thead>
@@ -45,14 +45,16 @@
 		
 		</div>
 		<div id ="teacher_panel" class="easyui-panel" closed='true' style="width:100%; ">
-		<table id = "teacherslist" class = "easyui-datagrid" style="width: 100%; height: 340px"
+		<table id = "teacherslist" class = "easyui-datagrid" style="width: 100%; height: 365px"
 			title= "讲师管理（双击显示并修改讲师资料）" toolbar="#tb">
 			 <thead><tr>
 				<th data-options="field: 'userId'"  hidden = "hidden"></th>
-				<th data-options="field: 'state'" width="21%">讲师状态</th> 
-				<th data-options="field: 'wechatname'" width="20%">微信号</th>
-				<th data-options="field: 'lrrq'" width="20%">注册时间</th>
-				<th data-options="field: 'courseCount'" width="20%">创建课程数</th>
+				<th data-options="field: 'state'" width="11%">讲师状态</th> 
+				<th data-options="field: 'username'" width="20%">登录用户名</th>
+				<th data-options="field: 'wechatname'" width="20%">微信昵称</th>
+				<th data-options="field: 'fullname'" width="20%">讲师姓名</th>
+				<th data-options="field: 'lrrq'" width="15%">注册时间</th>
+				<th data-options="field: 'courseCount'" width="15%">创建课程数</th>
 				<!-- <th name = "">完成课程数</th>
 				<th>查看资料</th>
 				<th>资格</th> -->
@@ -158,7 +160,6 @@
 					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "username"/></td>
 					<td align="right" style="width:80px">登录密码:</td>
->>>>>>> .theirs
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nteacherPassword" name = "teacherPassword"/></td>
 				</tr>
 				<tr><td align="right">讲师职称:</td><td colspan="3"> <textarea style="width: 340px" class="textarea easyui-validatebox" type="text" id = "njobName" name = "jobName"></textarea></td></tr>
@@ -288,6 +289,7 @@ $(document).ready(function() {
 	$('#loginTeacherDia').dialog('close');
 	$('#updateTeacherDia').dialog('close');
 	$('#dlg_fileinfo').dialog('close');
+	
 	$("#userslist").datagrid({
 		url : '<%=request.getContextPath()%>/usersManage',
 		toolbar : '#tb',
@@ -323,6 +325,7 @@ $(document).ready(function() {
 			})
 		}
 	}); 
+	
 	$('#user_panel').panel('open');
 	document.getElementById("tb").style.display="none";
 });

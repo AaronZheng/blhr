@@ -12,7 +12,8 @@
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.easyui.min.js"></script>
  --%>
  <script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
- 
+  <script language="javascript" type="text/javascript"
+	src="<%=request.getContextPath()%>/easyui/locale/easyui-lang-zh_CN.js"></script>
  <script type="text/javascript">
  
    function closeCourse(){
@@ -22,12 +23,17 @@
    var teacherId;
    
    function deleteCourse(courseId){
+		 var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
+		 var curr = options.pageNumber;  
+		 var pageSize = Math.ceil(options.pageSize);
 	   if(window.confirm('你确定要删除该条直播吗？')){
 	           jQuery.ajax({
 					type : "POST",
 					async : false,
 					url : "<%=request.getContextPath()%>/deleteCourseByCourseIdb",
 					data:{
+						page:curr,
+						rows:pageSize,
 						course_id:courseId
 					},
 					error : function(request) {
@@ -233,6 +239,8 @@
 						  onclick="creatBroadcast()">创建直播</a> 
 						  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
 						    onclick="inputBroadcast()">录入直播</a>
+						    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						    onclick="deleteCourse()">删除直播</a>
 						</div>
 						
 						

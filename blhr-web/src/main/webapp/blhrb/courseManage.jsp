@@ -12,9 +12,9 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.min.js"></script>
 <%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" /> --%>
 <%-- <script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
- --%><script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.form.js"></script>
+ --%><%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.form.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>
-
+ --%>
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.easyui.min.js"></script>
  --%>
  <script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
@@ -24,7 +24,7 @@
 <body>
 <div id ="coursePanel" class="easyui-panel" style="width:100%; ">
 			<table id="ttbd" class="easyui-datagrid" title="课程管理"
-							style="width: 100%; height: 380px" singleSelect=true rownumbers=true
+							style="width: 100%; height: 365px" singleSelect=true rownumbers=true
 							 url='<%=request.getContextPath()%>/queryCourseInfo' pagination="true"
 							toolbar="#tb">
 							<thead>
@@ -383,14 +383,15 @@ function deletecourseInfo(){
 	var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
 	 var grid = $('#ttbd');  
 	 var options = grid.datagrid('getPager').data("pagination").options;  
-	 var curr = options.pageNumber;  
+	 var curr = options.pageNumber; 
+	 var pageSize = Math.ceil(options.pageSize);
    jQuery.ajax({
 			type : "POST",
 			async : false,
 			url : "<%=request.getContextPath()%>/deleteCourseByCourseId",
 			data:{
 				page:curr,
-				rows:'10',
+				rows:pageSize,
 				course_id:rows[0].course_id
 			},
 			error : function(request) {
@@ -472,13 +473,15 @@ function hide(){
 	 var grid = $('#ttbd');  
 	 var options = grid.datagrid('getPager').data("pagination").options;  
 	 var curr = options.pageNumber;  
+	 var pageSize = Math.ceil(options.pageSize);
+	 //console.log(curr+","+max);
     jQuery.ajax({
 			type : "POST",
 			async : false,
 			url : "<%=request.getContextPath()%>/hideCourse",
 			data:{
 				page:curr,
-				rows:'10',
+				rows:pageSize,
 				course_id:rows[0].course_id
 			},
 			error : function(request) {

@@ -15,6 +15,10 @@ import com.yoyo.blhr.dao.model.LearnRecords;
 public interface CoursesDao {
 
 	
+	
+
+	
+
 	/**
 	 * 
 	 * @param course
@@ -55,7 +59,7 @@ public interface CoursesDao {
 	 * @param course_state
 	 * @return
 	 */
-	List<Map<String,Object>> queryBroadcastCourse(String courseType);
+	List<Map<String,Object>> queryBroadcastCourse(Integer startPage,Integer pageSize, String courseType);
 	
 	
 	/**
@@ -219,6 +223,10 @@ public interface CoursesDao {
 	Map<String, Object> queryDspCourseByCourseId(String course_id);
 
 	void passCourse(String course_id);
+
+	int queryAllCourseNum();
+
+	int queryBroadcastCourseNum();
 	
 	
 	

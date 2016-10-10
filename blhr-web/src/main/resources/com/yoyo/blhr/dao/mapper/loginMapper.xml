@@ -86,7 +86,7 @@
     </select>
 
 	<select id = "queryAllUsers" resultMap="userInfoResultMap">
-	 	select * from users  where yxbj = 'Y'
+	 	select * from users  where yxbj = 'Y' 
 	</select>
 	
 	<select id = "dataSta" resultMap="userStatResultMap" parameterType="java.lang.String">

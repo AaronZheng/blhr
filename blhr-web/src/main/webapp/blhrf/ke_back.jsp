@@ -32,12 +32,10 @@
 					</div>
 					<div class="main_image">
 						<ul>
-							<li><span class="banimg" style="background-image: url(<%=request.getContextPath() %>/blhrf/img/baner.jpg);"></span>
-							</li>
-							<li><span class="banimg" style="background-image: url(<%=request.getContextPath() %>/blhrf/img/baner.jpg);"></span>
-							</li>
-							<li><span class="banimg" style="background-image: url(<%=request.getContextPath() %>/blhrf/img/baner.jpg);"></span>
-							</li>
+							<c:forEach items="${banner }" var="ban">
+								<li><span class="banimg" style="background-image: url(${ban.pic_link});"></span>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
