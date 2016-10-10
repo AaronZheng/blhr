@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id = "queryTeachersDetail" resultMap = "teachersInfoResultMap" parameterType="java.lang.String">
-		select t.user_id, t.username,t.fullname,t.job_name, t.id_card, n.phone,n.wechatname,n.username,n.password, t.profile
+		select t.user_id, t.username,t.fullname,t.job_name, t.id_card,n.photo,n.phone,n.wechatname,n.username,n.password, t.profile
 		from teachers t , users n
 		where t.user_id = n.user_id and t.user_id = #{user_id,jdbcType=VARCHAR}
 	</select>
