@@ -221,8 +221,6 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 
 <script>
 
-document.getElementsByTagName("ui-loader")[0].style.display ="none";
-
   function inputCourseContent(){
 	  
 		var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 

@@ -362,8 +362,8 @@ function queryTeachers(){
 		onDblClickRow:function(rowIndex, rowData){
 			console.log(rowIndex);
 			console.log(rowData);
-			userId = rowData.userId;
-			teacherDetail(rowData.userId)
+			userId = rowData.user_id;
+			teacherDetail(rowData.user_id)
 		} 
 	});
 	$('#teacher_panel').panel('open');
@@ -380,7 +380,6 @@ function teacherDetail(userId){
 			
 		},
 		success : function(data) {
-			console.log(data);
 			document.getElementById("nusername").value = data[0].wechatname;
 			document.getElementById("nfullname").value = data[0].fullname;
 			document.getElementById("nteacherName").value = data[0].username;
