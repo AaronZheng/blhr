@@ -1,12 +1,12 @@
 
-    function scCourse(baseDir,courseId,useId){
+    function scCourse(baseDir,courseId,userId){
     	$.ajax({
 			type : "POST",
 			async : false,
 			url : baseDir+"/scCourse",
 			data : {
 				"courseId" : courseId,
-				"useId" : useId
+				"userId" : userId
 			},
 			error : function(request) {
 				alert("内容发送失败!");

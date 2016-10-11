@@ -711,7 +711,6 @@ public class CourseManageAction {
 	 */
 	@RequestMapping("/openCourseProfile")
 	public ModelAndView openCourseProfile(String userId,String courseId,String courseName,String teacherId) throws IOException{
-		
 		ModelAndView mv = new ModelAndView("/blhrf/playback");
 		Members member = memberService.queryUserByCondiation(userId);
 		//讲师简介
