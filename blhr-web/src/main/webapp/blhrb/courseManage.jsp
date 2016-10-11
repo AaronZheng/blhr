@@ -280,12 +280,19 @@ function creatInputCourse(type){
 				alert(request);
 			},
 			success : function(data) {
+				 var grid = $('#ttbd');  
+				 var options = grid.datagrid('getPager').data("pagination").options;  
+				 var curr = options.pageNumber; 
+				 var pageSize = Math.ceil(options.pageSize);
+				 
 				if("1" == data)
 					 jQuery.ajax({
 						type : "POST",
 						async : false,
 						url : '<%=request.getContextPath()%>/queryBroadcastCourseb',
 						data:{
+							page:curr,
+							rows:pageSize,
 						},
 						error : function(request) {
 							alert(request);

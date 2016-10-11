@@ -47,7 +47,7 @@
 				<div class="ke_backlist">
 					<div class="ke_backlist_top">
 						<c:if test="${list.pay_type == 2}">
-						   <img src="<%=request.getContextPath() %>/blhrf/img/vip.jpg"/>
+						   <img src="<%=request.getContextPath() %>/blhrf/img/vip.png"/>
 						</c:if>
 						<c:if test="${list.pay_type == 1}">
 						   <img src="<%=request.getContextPath() %>/blhrf/img/mian.jpg"/>
