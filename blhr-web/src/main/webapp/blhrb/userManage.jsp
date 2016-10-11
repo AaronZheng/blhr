@@ -143,10 +143,6 @@
 
 					<td style="width:110px" align="right">上传图像:</td>
 					<td style="width:110px"> <img id="teacherphoto" alt="" style="width: 30px; hight 30px;" src=""> <input type='file' id='nfileUp' name='fileUp' /></td>
-<<<<<<< HEAD
-=======
-
->>>>>>> 410fdc04481d361bf7fbdc8c796443586e8c9643
 					</tr>
 				<tr>
 					<td align="right" >姓名:<input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
@@ -155,11 +151,6 @@
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nidCard" name = "idCard"/></td>
 				</tr>
 				<tr>
-<<<<<<< .mine
-					<td align="right" >登录用户名:</td>
-					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
-					<td align="right" style="width:80px">登录密码:</td>
-=======
 					<td align="right" >登录用户名:</td>
 					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
 					<td align="right" style="width:80px">登录密码:</td>
@@ -394,11 +385,7 @@ function teacherDetail(userId){
 			document.getElementById("nfullname").value = data[0].fullname;
 			document.getElementById("nteacherName").value = data[0].username;
 			document.getElementById("nteacherPassword").value = "";
-<<<<<<< HEAD
 			document.getElementById("teacherphoto").src = '<%=request.getContextPath()%>/'+ data[0].photo;
-=======
-			document.getElementById("teacherphoto").src = data[0].photo;
->>>>>>> 410fdc04481d361bf7fbdc8c796443586e8c9643
 			document.getElementById("nuserIdn").value = data[0].userId;
 			document.getElementById("nidCard").value = data[0].idCard;
 			document.getElementById("nprofile").value = data[0].profile;
