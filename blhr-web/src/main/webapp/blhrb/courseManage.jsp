@@ -221,8 +221,6 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 
 <script>
 
-document.getElementsByTagName("ui-loader")[0].style.display ="none";
-
   function inputCourseContent(){
 	  
 		var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
@@ -284,12 +282,19 @@ function creatInputCourse(type){
 				alert(request);
 			},
 			success : function(data) {
+				 var grid = $('#ttbd');  
+				 var options = grid.datagrid('getPager').data("pagination").options;  
+				 var curr = options.pageNumber; 
+				 var pageSize = Math.ceil(options.pageSize);
+				 
 				if("1" == data)
 					 jQuery.ajax({
 						type : "POST",
 						async : false,
 						url : '<%=request.getContextPath()%>/queryBroadcastCourseb',
 						data:{
+							page:curr,
+							rows:pageSize,
 						},
 						error : function(request) {
 							alert(request);
