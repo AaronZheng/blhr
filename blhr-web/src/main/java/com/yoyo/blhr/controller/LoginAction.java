@@ -132,8 +132,6 @@ public class LoginAction {
      */
     @RequestMapping("/wechatlogin")
     public ModelAndView wechatLoginAction(HttpServletRequest req,String code,String state,String userId) throws IOException{
-		userId = "oA4ZPwOtm1nGXf8LveH2PaidrAcg";
-
     	logger.debug("=====微信登录获取code为["+code+"]状态值为state["+state+"] userId["+userId+"]====");
     	User user = null;
    /* 	if(BlhrArgumentCache.getCacheData(code) != null)
