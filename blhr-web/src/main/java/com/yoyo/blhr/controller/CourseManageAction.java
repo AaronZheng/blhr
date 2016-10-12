@@ -87,7 +87,6 @@ public class CourseManageAction {
 	
 	@Autowired
 	private UserManageService userManageService;
-	
 	@Autowired
 	private MyClassroomService myClassroomService;
 	@Autowired
@@ -314,9 +313,9 @@ public class CourseManageAction {
 		ModelAndView mv = new ModelAndView("/blhrb/inputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
-		for(Map<String,Object> dmp:detailMap){
+		/*for(Map<String,Object> dmp:detailMap){
 			dmp.put("item_length", ((Integer)dmp.get("item_length"))+55);
-		}
+		}*/
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
 		mv.addObject("userId", map.get("userId"));

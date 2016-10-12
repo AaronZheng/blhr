@@ -131,7 +131,7 @@
 							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
 						</div>
 						<div class="qqright" onclick="palyVoice('${list.content_item }')">
-							<div class="qqsky qqvoice" style="width: ${list.item_length }px; height:40px;">
+							<div class="qqsky qqvoice" style="width: ${list.item_length + 55 }px; height:40px;">
 								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
 								<div>
 									<div class="voice_move">
