@@ -232,7 +232,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 		var courseId = rows[0].course_id;
 		var course_state_code = rows[0].course_state_code;
 		if(course_state_code != 7){
-			alert("你选着的课程状态不正确!")
+			alert("已审核通过的课程不能够在录入，可以在课程审核时进行修改!")
 			return ;
 		}
 		window.location.href = "<%=request.getContextPath()%>/openBackBroadcast?courseId="+courseId;

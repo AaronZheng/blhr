@@ -8,7 +8,8 @@
         <result column="wechat_name" property="wechatname" jdbcType="VARCHAR" />
         <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-        <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+        <result column="order_state" property="orderState" jdbcType="TIMESTAMP" />
+        <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
         <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
         <result column="intro" property="intro" jdbcType="VARCHAR" />
     </resultMap>
@@ -32,9 +33,9 @@
  
 	
 	<select id="queryOrders" resultMap = "ordersInfoResultMap">
-		select b.type_name, a.username, a.wechat_name, a.start_time, a.end_time, a.order_state
+		select b.type_name, a.username, a.wechat_name, a.start_time, a.lrrq as payTime, a.end_time, a.order_state
 		from orders a, pay_type b
-		where a.pay_type_id = b.type_code
+		where a.pay_type_id = b.type_code order by a.lrrq desc
 	</select>
 	
 	<select id = "ordersSta" resultMap="ordersStatMap" parameterType="java.lang.String">

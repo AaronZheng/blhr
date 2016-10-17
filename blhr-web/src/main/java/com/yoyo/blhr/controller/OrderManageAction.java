@@ -41,9 +41,9 @@ public class OrderManageAction {
 			map.put("wechatname", CommonUtil.base64ToString((String)map.get("wechatname"), "UTF-8"));
 			String orderState = (String)map.get("orderState");
 			if("1".equals(orderState))
-				map.put("orderState", "正常");
+				map.put("orderState", "已支付");
 			else if("2".equals(orderState))
-				map.put("orderState", "无效");
+				map.put("orderState", "未支付");
 		} 
 		JSONArray jsonArray = new JSONArray(orders);
 		return jsonArray.toString();

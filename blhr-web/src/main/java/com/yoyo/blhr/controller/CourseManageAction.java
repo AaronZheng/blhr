@@ -313,12 +313,15 @@ public class CourseManageAction {
 		ModelAndView mv = new ModelAndView("/blhrb/inputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
+		User user = userManageService.queryUserById((String)map.get("user_id"));
 		/*for(Map<String,Object> dmp:detailMap){
 			dmp.put("item_length", ((Integer)dmp.get("item_length"))+55);
 		}*/
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
 		mv.addObject("userId", map.get("userId"));
+		mv.addObject("photo", user.getPhoto() == null ?"":user.getPhoto());
+		mv.addObject("userType", user.getCategory());
 		mv.addObject("courseItem", detailMap);
 		return mv;
 	}
@@ -333,10 +336,13 @@ public class CourseManageAction {
 	public ModelAndView reviewCourse(String userId,String courseId){
 		ModelAndView mv = new ModelAndView("/blhrb/reviewInputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
+		User user = userManageService.queryUserById((String)map.get("user_id"));
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
-		mv.addObject("userId", map.get("userId"));
+		mv.addObject("userId", map.get("user_id"));
+		mv.addObject("photo", user.getPhoto());
+		mv.addObject("userType", user.getCategory());
 		mv.addObject("courseItem", detailMap);
 		return mv;
 	}

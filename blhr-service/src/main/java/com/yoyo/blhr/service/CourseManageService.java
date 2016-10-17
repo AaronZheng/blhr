@@ -260,5 +260,4 @@ public class CourseManageService {
 		return coursesDao.queryBroadcastCourseNum();
 	}
 	
-
 }
