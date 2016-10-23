@@ -57,11 +57,11 @@
 					<li><span>6个月付费会员</span>
 						<a href="<%=request.getContextPath() %>/payAction?userId=${userId}&payType=2">开通</a>
 					</li>
+						<li><span>3个月付费会员</span>
+					    <a href="<%=request.getContextPath() %>/payAction?userId=${userId}&payType=4">开通</a>
+					</li>
 					<li><span>1个月付费会员</span>
 						<a href="<%=request.getContextPath() %>/payAction?userId=${userId}&payType=3">开通</a>
-					</li>
-					<li><span>24小时体验会员</span>
-					    <a href="<%=request.getContextPath() %>/payAction?userId=${userId}&payType=4">开通</a>
 					</li>
 				</ul>
 			</div>

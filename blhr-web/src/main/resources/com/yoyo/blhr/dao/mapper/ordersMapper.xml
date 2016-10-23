@@ -44,7 +44,7 @@
 	
 	<insert id="saveOrders" parameterType="com.yoyo.blhr.dao.model.Orders">
 	    insert into orders values(#{orderId},#{userId},#{payTypeId},#{username},#{wechatName},
-	#{startTime},#{endTime},#{orderState},#{yxbj})
+	#{startTime},#{endTime},#{orderState},#{yxbj},NOW())
 	</insert>
 	
 	<update id="updateOrder" parameterType="java.lang.String">

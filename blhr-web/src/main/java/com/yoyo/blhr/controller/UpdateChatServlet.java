@@ -41,8 +41,9 @@ import com.yoyo.blhr.service.CourseManageService;
 public class UpdateChatServlet extends HttpServlet implements ApplicationContextAware{
 
 	private String filePath;
+	
 	@Autowired
-	private static ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
 	private static final long serialVersionUID = 8715087482553916163L;
 
@@ -79,7 +80,6 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 			try {
 				items = sfu.parseRequest(req);
 			} catch (FileUploadException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			// 区分表单域
@@ -162,7 +162,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
-		UpdateChatServlet.applicationContext = applicationContext;
+		this.applicationContext = applicationContext;
 	}
 
 }

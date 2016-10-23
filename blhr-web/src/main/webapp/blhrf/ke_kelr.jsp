@@ -21,7 +21,7 @@
 
 	<body style="background-color: #E8E8E8;">
 		<div class="bodybox">
-			<form id="mycourse" name="mycourse" action="<%=request.getContextPath() %>/saveCourseTitle" method="post">
+			<form id="mycourse" name="mycourse" action="<%=request.getContextPath() %>/saveCourseTitle">
 				<div class="log_one">
 					<div class="log_name log_namonee">
 						<div class="log_name_list">

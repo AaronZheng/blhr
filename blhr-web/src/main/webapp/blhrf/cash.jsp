@@ -81,10 +81,11 @@
 						<c:if test="${payType==1}"><h3>玻璃海一年月员套餐</h3></c:if>
 						
 					    <c:if test="${payType==2}"><h3>玻璃海6个月员套餐</h3></c:if>
+					    
+					    <c:if test="${payType==4}"><h3>玻璃海3个月员套餐</h3></c:if>
 						
 						<c:if test="${payType==3}"><h3>玻璃海1个月员套餐</h3></c:if>
 						
-						<c:if test="${payType==4}"><h3>玻璃海24小时会员套餐</h3></c:if>
 						<span>产品说明:付款后立即生效</span>
 					</div>
 					<div class="pay_ddcon_you">

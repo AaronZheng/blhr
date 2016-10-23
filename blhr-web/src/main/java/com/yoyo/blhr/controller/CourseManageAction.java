@@ -412,37 +412,9 @@ public class CourseManageAction {
 	 * @throws ParseException 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/saveCourseTitle",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
+	@RequestMapping(value="/saveCourseTitle",produces = "text/html;charset=UTF-8", method=RequestMethod.GET)
 	public ModelAndView saveCourseTitle(String courseName,String courseIntro,String courseType,
 			String playTime,String playLimit,String userId,String category,String courseId) throws IOException, ParseException{
-		
-		/*if(StringUtils.isNotBlank(courseId)){
-			Courses course = new Courses();
-			course.setCourseId(courseId);
-			course.setCourseName(courseName);
-			course.setCourseProfile(courseIntro);
-			course.setTeacherId(userId);
-			course.setCategory(category);
-			course.setUserId(userId);
-			course.setLrrq(new Date());
-			course.setCourseState("2");
-			course.setCreateTime(new Date());
-			course.setCourseType(courseType);
-			courseManageService.updateCourseById(courseId, courseName, courseIntro, null, courseType, null);
-			ModelAndView mv = new ModelAndView("/blhrf/lrInputWatch");
-			List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
-			mv.addObject("courseItem", detailMap);
-			mv.addObject("appId", BlhrConf.getInstance().getAppID());
-			mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
-			mv.addObject("courseId", courseId);
-			mv.addObject("userId", userId);
-			mv.addObject("courseName", courseName);
-			return mv;
-			
-		}*/
-		
-		
-		
 		
 		//TODO 已完成  ....
 		Courses course = new Courses();

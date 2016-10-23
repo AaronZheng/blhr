@@ -10,29 +10,6 @@
         <result column="profile" property="teacherProfile" jdbcType="VARCHAR" />
     </resultMap>
     
-      <resultMap id="venderCarrierRelationMap" type="com.yoyo.blhr.dao.model.VenderCarrierRelation">
-        <result column="vender_id" property="venderId" jdbcType="INTEGER"/>
-        <result column="carrier_id" property="carrierId" jdbcType="INTEGER"/>
-        <result column="carrier_name" property="carrierName" jdbcType="VARCHAR"/>
-        <result column="carrier_type" property="carrierType" jdbcType="INTEGER"/>
-        <result column="sort" property="sort" jdbcType="INTEGER"/>
-        <result column="cod_flag" property="codFlag" jdbcType="INTEGER"/>
-        <result column="print_flag" property="printFlag" jdbcType="INTEGER"/>
-        <result column="agree_flag" property="agreeFlag" jdbcType="INTEGER"/>
-        <result column="comment" property="comment" jdbcType="VARCHAR"/>
-        <result column="description" property="description" jdbcType="VARCHAR"/>
-        <result column="pin" property="pin" jdbcType="VARCHAR"/>
-        <result column="use_flag" property="useFlag" jdbcType="VARCHAR"/>
-        <result column="link" property="link" jdbcType="VARCHAR"/>
-        <result column="is_default" property="isDefault" jdbcType="INTEGER"/>
-        <result column="template_name" property="templateName" jdbcType="VARCHAR"/>
-        <result column="jd_account" property="jdAccount" jdbcType="INTEGER"/>
-        <result column="yn" property="yn" jdbcType="INTEGER"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-        <result column="syn_time" property="synTime" jdbcType="TIMESTAMP"/>
-    </resultMap>
-    
     <resultMap id="userInfoResultMap" type="com.yoyo.blhr.dao.model.User">
         <result column="user_id" property="userId" jdbcType="VARCHAR" />
         <result column="username" property="username" jdbcType="VARCHAR" />
@@ -126,9 +103,4 @@
 	      k.user_id = h.user_id order by h.lrrq desc
 	</select>
 	
-	    <insert id="insertRelation" parameterType="com.yoyo.blhr.dao.model.VenderCarrierRelation">
-        insert into pop_vender_carrier_relation(vender_id,carrier_id,carrier_name,is_default,sort,cod_flag,print_flag,comment,yn,create_time,update_time,syn_time) VALUES
-        (#{venderId},#{carrierId},#{carrierName},#{isDefault},#{sort},#{codFlag},#{printFlag},#{comment},#{yn},#{createTime},#{updateTime},NOW())
-    </insert>
-
 </mapper>

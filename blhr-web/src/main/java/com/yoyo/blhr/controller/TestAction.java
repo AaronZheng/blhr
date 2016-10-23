@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.yoyo.blhr.dao.impl.LoginDao;
-import com.yoyo.blhr.dao.model.VenderCarrierRelation;
 import com.yoyo.blhr.util.BlhrArgumentCache;
 import com.yoyo.blhr.util.CommonUtil;
 import com.yoyo.blhr.util.ResourceEnumType;
@@ -44,12 +42,6 @@ public class TestAction {
 	public ModelAndView insertRelation(){
 		
 		ModelAndView mv = new ModelAndView("index");
-		VenderCarrierRelation vcr = new VenderCarrierRelation();
-		vcr.setVenderId(123L);
-		vcr.setCarrierId(456L);
-		//vcr.setIsDefault(null);
-		vcr.setYn(0);
-		loginDao.insertRelation(vcr);
 		return mv;
 	}
 	

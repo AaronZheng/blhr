@@ -507,15 +507,21 @@
     function getTextPanel(chatcontent,itemId){
     	var baseDir = '<%=request.getContextPath() %>';
     	return "<div><div class=\"row\">"+
-		"<div class=\"san_zuob\">"+
-		"<img src=\""+baseDir+"/blhrf/img/san_smalltou.png\" />"+
-		"</div>"+
+    	"<div class=\"san_zuob\">"+
+ 		"<img src=\""+baseDir+photoPath+"\" />"+
+ 		"</div>"+
 		"<div class=\"qqright\">"+
 			"<div class=\"qqsky\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
-				"<div class=\"qqtext\">"+chatcontent+" &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\">删除</font>"+
-				" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivText','${list.course_detail_id}',this)\">更新</font>"+
-				"</div>"+
+				"<div class=\"qqtext\">AAddddddd"+chatcontent+""+
+/* 				"<div class=\"qqtext\">"+chatcontent+" <font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\"></font>"+ */
+/* 				" <font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivText','${list.course_detail_id}',this)\"></font>"+
+ */				"</div>"+
+				"<div id=\"nbdiv\" class=\"nbdiv\" style=\"display:none\"><ul onclick=\"deleteItem(this,'"+itemId+"')\">"+
+				"<li>"+
+					"<span>删除</span>"+
+				"</li>"+
+			"</ul></div>"+
 			"</div>"+
 		"</div>"+
 	"</div></div>";
@@ -696,6 +702,9 @@
 					alert("内容发送失败!");
 				else{
 					$(".extendDiv").append(getTextPanel(chatcontent));
+					$(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
+						$(this).parents(".qqsky").find("ul").fadeIn(300);
+					});
 					document.body.scrollTop += 10;
 					document.getElementById("chatcontent").value = "";
 				}

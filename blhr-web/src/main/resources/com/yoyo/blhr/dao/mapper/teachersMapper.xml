@@ -82,7 +82,7 @@
     
     <select id ="queryAllCoursesInfo" resultType="java.util.Map">
 	 select
-        a.user_id, a.wechatname, a.lrrq, b.username, b.state
+        a.user_id, a.wechatname, b.fullname, a.lrrq, b.username, b.state
         from users a, teachers b 
         where a.yxbj = 'Y' and a.user_id = b.user_id limit #{0},#{1} </select>
         

@@ -32,29 +32,6 @@
 				<div class="l_content_coonn">
 					<div class="kjgyfuy">
 		
-					<%-- <div class="row abcd"  style="display: none;">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky qqvoice">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div>
-									<div class="voice_move">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-									<div class="voice_moveooo">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-								</div>
-								<div class="qqvoice_hitit"></div>
-							<!-- 	<label>11"</label> -->
-								<em></em>
-							</div>
-						</div>
-					</div> --%>
-					
-					
 				 <c:forEach items="${courseItem }" var="list">
 					
 				 <c:if test="${list.content_type == 't'}">
@@ -181,7 +158,7 @@
 <script type="text/javascript">
 	
 	wx.config({
-	    //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 	    appId: '${appId}', // 必填，公众号的唯一标识
 	    timestamp: '${chat_signature_package.timestamp}', // 必填，生成签名的时间戳
 	    nonceStr: '${chat_signature_package.noncestr}', // 必填，生成签名的随机串
@@ -291,13 +268,35 @@
 					return "";
 				}
 			
-				if(type == "v")
+				if(type == "v"){
 				   $(".extendDiv").append(getVoiceContent(vid,data));
-				else if(type = "p")
+			    	$(".qqsky").on("taphold", function(e) {
+						$(".qqsky").find("ul").fadeIn(300);
+					});
+			    	$(document).ready(function() {
+						$("span."+data).click(function() {
+							if(deleteItem(data))
+								return;
+							var nodeInfo = document.getElementById(data);
+							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+						});
+					});
+				}else if(type = "p"){
 				   $(".extendDiv").append(getPhotoContent(vid,data));
-		    	$(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
-					$(this).parents(".qqsky").find("ul").fadeIn(300);
-				});
+				   $(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
+					   $(this).parents(".qqsky").find("ul").fadeIn(300);
+				   });
+			    	$(document).ready(function() {
+						$("span."+data).click(function() {
+							if(deleteItem(data))
+								return;
+							var nodeInfo = document.getElementById(data);
+							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+						});
+					});
+				}
 			}
 		});
     }
@@ -342,9 +341,18 @@
 				if(data == null || data == "")
 					alert("内容发送失败!");
 				else{
-					$(".extendDiv").append(getTextPanel(chatcontent,data.itemId));
-			    	$(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
-						$(this).parents(".qqsky").find("ul").fadeIn(300);
+					$(".extendDiv").append(getTextPanel(chatcontent,data));
+			    	$(".qqsky").on("taphold", function(e) {
+						$(".qqsky").find("ul").fadeIn(300);
+					});
+			    	$(document).ready(function() {
+						$("span."+data).click(function() {
+							if(deleteItem(data))
+								return;
+							var nodeInfo = document.getElementById(data);
+							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+						});
 					});
 					document.body.scrollTop += 10;
 					document.getElementById("chatcontent").value = "";
@@ -450,8 +458,7 @@
 	
 
 	
-	function deleteItem(chatdiv,courseDetailItem){
-		alert("aaaaa");
+	function deleteItem(courseDetailItem){
 			$.ajax({
 				type : "GET",
 				async : false,
@@ -463,11 +470,11 @@
 					alert("删除失败!");
 				},
 				success : function(data) {
-					if("1" != data)
+					if("1" != data){
 						alert("删除失败!");
-					else{
-						 if (chatdiv != null)
-							 chatdiv.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(chatdiv.parentNode.parentNode.parentNode.parentNode);
+						return true;
+					}else{
+						return false;
 					}
 				}
 			});
@@ -494,9 +501,9 @@
 /* 				"<div class=\"qqtext\">"+chatcontent+" <font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\"></font>"+ */
 /* 				" <font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivText','${list.course_detail_id}',this)\"></font>"+
  */				"</div>"+
-				"<div id=\"nbdiv\" class=\"nbdiv\" style=\"display:none\"><ul onclick=\"deleteItem(this,'"+itemId+"')\">"+
+				"<div id=\"nbdiv\" class=\"nbdiv\" style=\"display:block\"><ul>"+
 				"<li>"+
-					"<span>删除</span>"+
+					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+
 				"</li>"+
 			"</ul></div>"+
 			"</div>"+

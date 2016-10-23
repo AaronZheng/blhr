@@ -110,7 +110,7 @@
                         </a>
                     </li>
                     <li class="site-menu-item has-sub">
-                        <a href="<%=request.getContextPath()%>/blhrb/banner.jsp" target="view_frame" data-dropdown-toggle="false">
+                        <a href="<%=request.getContextPath()%>/initBannerPage" target="view_frame" data-dropdown-toggle="false">
                             <i class="site-menu-icon md-palette" aria-hidden="true"></i>
                             <span class="site-menu-title">banner管理</span>
                         </a>
