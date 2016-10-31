@@ -21,8 +21,8 @@
 
 	<body style="background-color: #E8E8E8;">
 		<div class="bodybox">
-			<form id="mycourse" name="mycourse" action="<%=request.getContextPath() %>/saveCourseTitle" method="post">
-				<div class="log_one">
+<%-- 			<form id="mycourse" name="mycourse" action="<%=request.getContextPath() %>/createBroadcase" method="post">
+ --%>				<div class="log_one">
 					<div class="log_name log_namonee">
 						<div class="log_name_list">
 							<label>课程名称</label>
@@ -59,47 +59,90 @@
 				<div class="log_tj log_tjone">
 					<input type="button" onclick="submit()" value="开始直播" />
 				</div>
-			</form>
-
+<!-- 			</form>
+ -->
 		</div>
 		
-		<script type="text/javascript">
+	<script type="text/javascript">
 		
-		   var courseType;
-		   var numLimit;
-		   
-		   function setLimit(numLimit){
-			   this.numLimit = numLimit;
-			   document.getElementById("numLimit").value = numLimit;
-		   }
-		   
-		   function setCourseType(courseType){
-			   this.courseType = courseType;
-			   document.getElementById("courseType").value = courseType;
-		   }
-		  
-		    function submit(){
-		    	var courseName = document.getElementById("courseName").value;
-		    	var courseIntro = document.getElementById("courseIntro").value;
-			  if(courseName == null || courseName == ""){
-				  alert("请填写课程名称");
-				  return ;
-			  }
-			  if(courseType == null || courseType == ""){
-				  alert("请填限制课程类别");
-				  return ;
-			  }
-			  if(numLimit == null || numLimit == ""){
-				  alert("请填选择限制人数");
-				  return ;
-			  }
-			  if(courseIntro == null || courseIntro == ""){
-				  alert("请填写课程简介");
-				  return;
-			  }
-			  
-			  $("#mycourse").submit();
-		    }
+		$(document).ready(function() {
+			var courseType = '${courseType}';
+			if(courseType == "成长")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
+			else if(courseType == "健康")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(2).html());
+			else if(courseType == "心理")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(3).html());
+			else
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(0).html());
+
+			$(".ke_kcfl ul li").click(function() {
+				$(".ke_kcfl_dexiala").slideToggle();
+			});
+		});
+		var baseDir = '<%=request.getContextPath()%>';
+		var courseType;
+		var numLimit;
+	  
+		function setLimit(numLimit){
+			this.numLimit = numLimit;
+			document.getElementById("numLimit").value = numLimit;
+		}
+	   
+	  
+		function setCourseType(courseType){
+			this.courseType = courseType;
+			document.getElementById("courseType").value = courseType;
+		}
+	  
+		function submit(){
+			var courseName = document.getElementById("courseName").value;
+			var courseIntro = document.getElementById("courseIntro").value;
+			if(courseName == null || courseName == ""){
+				alert("请填写课程名称");
+				return ;
+			}
+			if(courseType == null || courseType == ""){
+				alert("请填限制课程类别");
+				return ;
+			}
+		/* 	if(numLimit == null || numLimit == ""){
+				alert("请填选择限制人数");
+				return ;
+			} */
+			if(courseIntro == null || courseIntro == ""){
+				alert("请填写课程简介");
+				return;
+			}
+			
+			
+	    	$.ajax({
+				type : "GET",
+				async : false,
+				url : "<%=request.getContextPath()%>/createBroadcaseb",
+			    contentType:"application/x-www-form-urlencoded; charset=utf-8",
+				data : {
+					"courseName" : courseName,
+					"courseType" : courseType,
+					"userId" : '${userId}',
+					"courseIntro" : courseIntro
+				},
+				error : function(request) {
+					alert("内容发送失败!");
+				},
+				success : function(data) {
+					if(data == "1"){
+						alert("创建课程成功，等待审核完成!");
+						window.open(baseDir+"/searchMyCourses?userId=${userId}");
+					}else{
+						alert("内容发送失败!");
+					}
+				}
+			});
+			
+		/* 	$("#mycourse").submit();
+			alert("创建课程成功，等待审核完成!"); */
+		}
 		
 		</script>
 		

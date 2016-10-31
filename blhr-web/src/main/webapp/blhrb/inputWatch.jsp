@@ -2,18 +2,18 @@
 <%@ include file="/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="Keywords" content="" />
-		<meta name="Description" content="" />
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>录入课程</title>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" />
-		<style type="text/css">
-	    	#divcss5{ margin:10px auto} 
-            #divcss5 img{ border-radius:50%}
-		</style>
-<script language="javascript" type="text/javascript"
+<head>
+	<meta charset="utf-8" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>录入课程</title>
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" />
+	<style type="text/css">
+    	#divcss5{ margin:10px auto} 
+           #divcss5 img{ border-radius:50%}
+	</style>
+    <script language="javascript" type="text/javascript"
 	src="<%=request.getContextPath() %>/js/jquery-2.1.4.js"></script>
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.form.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>

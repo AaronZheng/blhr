@@ -153,6 +153,13 @@ public interface CoursesDao {
 	 */
 	List<Map<String,Object>> queryCourseByType(String type);
 	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	List<Map<String,Object>> queryBroadCastCourseByType();
+	
 	
 	/**
 	 * 
@@ -167,6 +174,13 @@ public interface CoursesDao {
 	 * @return
 	 */
 	Map<String,Object> queryCourseById(String courseId);
+	
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	Integer queryCourseDetailSize(String courseId);
 	
 	
 	/**

@@ -19,6 +19,10 @@
   			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
 		<![endif]-->
 	</head>
+	<style type="text/css">
+    	#divcss5{ margin:10px auto} 
+           #divcss5 img{ border-radius:50%}
+	</style>
 
 	<body style="background-color: #E8E8E8;" onload="window.scrollTo(0,document.body.scrollHeight);">
 		<div class="titleTop">
@@ -28,86 +32,14 @@
 
 		<div class="watchDiv">
 			<div class="l_title">${courseName}</div>
+			 <div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
+				<img src="<%=request.getContextPath() %>/blhrf/img/up.png" />
+            </div>
 			<div class="l_content">
 				<div class="l_content_coonn">
 					<div class="kjgyfuy">
-		
-				 <c:forEach items="${courseItem }" var="list">
-					
-				 <c:if test="${list.content_type == 't'}">
-				 <div>
-					<div class="row" id="${list.course_detail_id}">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div class="qqtext">${list.content_item }
-							</div>
-							 <ul>
-									<li>
-										<span onclick="deleteItem(this,'${list.course_detail_id}')">删除</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					</div>
-				 </c:if>
-				 
-				  <c:if test="${list.content_type == 'p'}">
-				  <div>
-					<div class="row"  id="${list.course_detail_id}">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<img src="<%=request.getContextPath() %>${list.content_item }" class="contentImg"> 
-								 <ul>
-									<li>
-										<span onclick="deleteItem(this,'${list.course_detail_id}')">删除</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					</div>
-				 </c:if>
-				 
-				  <c:if test="${list.content_type == 'v'}">
-					<div class="row"  id="${list.course_detail_id}"  onclick="palyVoiceB('${list.content_item }')">
-						<div class="san_zuob">
-							<img src="<%=request.getContextPath() %>/blhrf/img/san_smalltou.png" />
-						</div>
-						<div class="qqright">
-							<div class="qqsky qqvoice" style="width:200px ; height:40px ;">
-								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
-								<div>
-									<div class="voice_move">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-									<div class="voice_moveooo">
-										<img src="<%=request.getContextPath() %>/blhrf/img/voice.png" class="voice">
-									</div>
-								</div>
-								<div class="qqvoice_hitit"></div><label> </label>
-								<em></em>
-								 <ul>
-									<li>
-										<span onclick="deleteItem(this,'${list.course_detail_id}')">删除</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				 </c:if>
-			    </c:forEach>
-					
-			
 					<div id="extendDiv" class="extendDiv"></div>
+					<div id="voiceTmp" class="voiceTmp" style="display: none;"></div>
 					</div>
 				</div>
 			</div>
@@ -118,9 +50,6 @@
 				<div class="foot_footleft">
 					<img src="<%=request.getContextPath() %>/blhrf/img/llll_zuo.jpg"/>
 				</div>
-				<%-- <div class="foot_footright">
-					<img src="<%=request.getContextPath() %>/blhrf/img/llll_you.png"/>
-				</div> --%>
 				<div class="fuzhi_box">
 					<a>按住 说话</a>
 				</div>
@@ -156,9 +85,14 @@
 	
 
 <script type="text/javascript">
-	
-	wx.config({
-	    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+
+   var photoPath = "${photoPath}";
+   var totalSize = '${totalSize}';
+   var rowNum = totalSize - 10 < 0 ? 0 : totalSize - 10;
+   var pageSize = 10;
+   
+   wx.config({
+	  //  debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 	    appId: '${appId}', // 必填，公众号的唯一标识
 	    timestamp: '${chat_signature_package.timestamp}', // 必填，生成签名的时间戳
 	    nonceStr: '${chat_signature_package.noncestr}', // 必填，生成签名的随机串
@@ -174,7 +108,7 @@
 		            'downloadImage'
 	     ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 	});
-
+	
     wx.ready(function(){
     	
     	var flag = false;
@@ -213,7 +147,6 @@
     		return false;
     	});
 
-
     	var hy = setInterval(shuwntwo, 600);
     	var hyone = setInterval(shown, 600);
     	$(".qqvoice").bind("click", function() {
@@ -244,9 +177,108 @@
     	}
     });
     
-    var photoPath = "${photoPath}";
-    //var photoPath = "";
-    
+    var vm ;
+	  function myrefresh(){ 
+		  
+		  if(rowNum < 0){
+			  document.getElementById("xxdjt_jt").style.display ="none";
+			  return;
+		  }
+		  
+			$.ajax({
+				type : "GET",
+				async : false,
+				url : "<%=request.getContextPath()%>/cycleQueryCourseDetail",
+				data : {
+					"courseId" : '${courseId}',
+					"rowNum" : rowNum,
+					"pageSize" : pageSize
+				},
+				error : function(request) {
+					alert("内容更新失败!");
+				},
+				success : function(data) {
+				    vm = JSON.parse(data);
+				    var baseDir = '<%=request.getContextPath()%>';
+					if("0" != vm.size){
+						for(var i = 0;i < vm.data.length;i++){
+							if(vm.data[i].content_type == 'v'){
+								var timestamp = new Date().getTime();
+								//voices[voices.length] = timestamp;
+								$(".voiceTmp").append("<audio id=\""+timestamp+"\" src=\""+baseDir+vm.data[i].content_item+"\" preload=\"auto\" ></audio>");
+								$(".extendDiv").append(getReVoiceContent(timestamp,vm.data[i].course_detail_id));
+							  	$("."+vm.data[i].course_detail_id).on("taphold", function(e) {
+							  		var id = e.currentTarget.className.split(" ")[2];
+									$("."+id).find("ul").fadeIn(300);
+								});
+						    	$(document).ready(function(e) {
+						    		var itemId = vm.data[i].course_detail_id;
+									$("#"+itemId).click(function(e) {
+										var id = e.target.className;
+										if(deleteItem(id))
+											return;
+										var nodeInfo = document.getElementById(id);
+										nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+										removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
+									});
+								});
+							}else if(vm.data[i].content_type == 'p'){
+							    $(".extendDiv").append(getPhotoContent(baseDir+vm.data[i].content_item,vm.data[i].course_detail_id));
+							  	$("."+vm.data[i].course_detail_id).on("taphold", function(e) {
+							  		var id = e.currentTarget.className.split(" ")[1];
+									$("."+id).find("ul").fadeIn(300);
+								});
+						    	$(document).ready(function(e) {
+									$("#"+vm.data[i].course_detail_id).click(function(e) {
+										var id = e.target.className;
+										if(deleteItem(id))
+											return;
+										var nodeInfo = document.getElementById(id);
+										nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+										removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
+									});
+								});
+							}else if(vm.data[i].content_type == 't'){
+								$(".extendDiv").append(getTextPanel(vm.data[i].content_item,vm.data[i].course_detail_id));
+								var itemId = vm.data[i].course_detail_id;
+								$("."+itemId).on("taphold", function(e) {
+									var id = e.currentTarget.className.split(" ")[1];
+									$("."+id).find("ul").fadeIn(300);
+									//$("#"+itemId).find("ul").fadeIn(300);
+								});
+						    	$(document).ready(function() {
+									$("#"+itemId).click(function(e) {
+										var id = e.target.className;
+										if(deleteItem(id))
+											return;
+										var nodeInfo = document.getElementById(id);
+										nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+										removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+									});
+								});
+								document.body.scrollTop += 10;
+								document.getElementById("chatcontent").value = "";
+							}
+						}
+						if(vm.data.length < 10){
+				            document.getElementById("xxdjt_jt").style.display ="none";
+						}
+						rowNum = rowNum - vm.data.length;
+						$(".qqvoice").on("click", function() {
+							$(this).toggleClass("qqvoice_showandhide");
+							if($(this).hasClass("qqvoice_showandhide")) {
+								$(this).find(".voice_moveooo").hide().siblings().show();
+								$(this).find("em").hide();
+							} else {
+								$(this).find(".voice_move").hide().siblings().show();
+							}
+						});
+					}
+				}
+			});
+		} 
+
+	setTimeout('myrefresh()',1); 
     
     function synchronizedData(contentId,type,vid){
     	$.ajax({
@@ -269,31 +301,31 @@
 				}
 			
 				if(type == "v"){
-				   $(".extendDiv").append(getVoiceContent(vid,data));
-			    	$(".qqsky").on("taphold", function(e) {
-						$(".qqsky").find("ul").fadeIn(300);
+					$(".extendDiv").append(getVoiceContent(vid,data));
+			    	$("."+data).on("taphold", function(e) {
+						$("."+data).find("ul").fadeIn(300);
 					});
 			    	$(document).ready(function() {
-						$("span."+data).click(function() {
+						$("#"+data).click(function() {
 							if(deleteItem(data))
 								return;
 							var nodeInfo = document.getElementById(data);
-							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
-							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
 						});
 					});
 				}else if(type = "p"){
 				   $(".extendDiv").append(getPhotoContent(vid,data));
-				   $(".qqsky .push_hit,.qqsky .qqtext").on("taphold", function(e) {
-					   $(this).parents(".qqsky").find("ul").fadeIn(300);
-				   });
+			    	$("."+data).on("taphold", function(e) {
+						$("."+data).find("ul").fadeIn(300);
+					});
 			    	$(document).ready(function() {
-						$("span."+data).click(function() {
+						$("#"+data).click(function() {
 							if(deleteItem(data))
 								return;
 							var nodeInfo = document.getElementById(data);
-							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
-							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)
+							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
+							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
 						});
 					});
 				}
@@ -307,6 +339,15 @@
 				 localId: voiceId
 			      }); 
     }
+    
+    
+    function rePlayVoice(voiceId){
+		var voiceRaido = document.getElementById(voiceId);
+		if(voiceRaido != null)
+			voiceRaido.play();
+    }
+    
+    
     
     
 
@@ -342,11 +383,11 @@
 					alert("内容发送失败!");
 				else{
 					$(".extendDiv").append(getTextPanel(chatcontent,data));
-			    	$(".qqsky").on("taphold", function(e) {
-						$(".qqsky").find("ul").fadeIn(300);
+			    	$("."+data).on("taphold", function(e) {
+						$("."+data).find("ul").fadeIn(300);
 					});
 			    	$(document).ready(function() {
-						$("span."+data).click(function() {
+						$("#"+data).click(function() {
 							if(deleteItem(data))
 								return;
 							var nodeInfo = document.getElementById(data);
@@ -357,7 +398,6 @@
 					document.body.scrollTop += 10;
 					document.getElementById("chatcontent").value = "";
 				}
-					
 			}
 		});
     }
@@ -379,23 +419,22 @@
 					    success: function (res) {
 					        var serverId = res.serverId; // 返回图片的服务器端ID
 					        synchronizedData(serverId,"p",localIds.toString());
-						     
 					    }
 					});
 			    }
 			});
     }
     
+    
 
-	
-	function getVoiceContent(voiceId,itemId){
+	function getReVoiceContent(voiceId,itemId){
     	var baseDir = '<%=request.getContextPath() %>';
-        var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
-		"<div class=\"san_zuob\">"+
+        var content = "<div><div class=\"row\" onclick=\"rePlayVoice('"+voiceId+"')\" >"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
 		"<img src=\""+baseDir+photoPath+"\" />"+
 		"</div>"+
 		"<div class=\"qqright\">"+
-			"<div class=\"qqsky qqvoice\" style=\"width:200px ; height:40px ;\">"+
+			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:200px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+
@@ -410,7 +449,39 @@
 				"<em></em>"+
 				"<ul>"+
 				"<li>"+
-					"<span onclick=\"deleteItem(this,'"+itemId+"')\">删除</span>"+
+					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+
+				"</li>"+
+			"</ul>"+
+			"</div>"+
+			"</div>"+
+	"</div></div>";
+	return content;
+ }
+
+	
+	function getVoiceContent(voiceId,itemId){
+    	var baseDir = '<%=request.getContextPath() %>';
+        var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
+		"<img src=\""+baseDir+photoPath+"\" />"+
+		"</div>"+
+		"<div class=\"qqright\">"+
+			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:200px ; height:40px ;\">"+
+				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
+				"<div>"+
+					"<div class=\"voice_move\">"+
+						"<img src=\""+baseDir+"/blhrf/img/voice.png\" class=\"voice\">"+
+					"</div>"+
+					"<div class=\"voice_moveooo\">"+
+						"<img src=\""+baseDir+"/blhrf/img/voice.png\" class=\"voice\">"+
+					"</div>"+
+				"</div>"+
+				"<div class=\"qqvoice_hitit\"></div>"+
+				"<label></label>"+
+				"<em></em>"+
+				"<ul>"+
+				"<li>"+
+					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+
 				"</li>"+
 			"</ul>"+
 			"</div>"+
@@ -424,16 +495,16 @@
     	
     	var baseDir = '<%=request.getContextPath() %>';
     	return  "<div><div class=\"row\">"+
-		"<div class=\"san_zuob\">"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
 		"<img src=\""+baseDir+photoPath+"\" />"+
     	"</div>"+
     	"<div class=\"qqright\">"+
-		"<div class=\"qqsky\">"+
+		"<div class=\"qqsky "+itemId+"\">"+
 		"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 		"<img src=\""+phtotPath+"\" class=\"contentImg\"></img>"+
 		"<ul>"+
 		"<li>"+
-			"<span onclick=\"deleteItem(this,'"+itemId+"')\">删除</span>"+
+		    "<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+
 		"</li>"+
 	    "</ul>"+
 		"</div>"+
@@ -491,11 +562,11 @@
     function getTextPanel(chatcontent,itemId){
     	var baseDir = '<%=request.getContextPath() %>';
     	return "<div><div class=\"row\">"+
-		"<div class=\"san_zuob\">"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
  		"<img src=\""+baseDir+photoPath+"\" />"+
  		"</div>"+
 		"<div class=\"qqright\">"+
-			"<div class=\"qqsky\">"+
+			"<div class=\"qqsky "+itemId+"\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div class=\"qqtext\">"+chatcontent+""+
 /* 				"<div class=\"qqtext\">"+chatcontent+" <font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'"+itemId+"')\"></font>"+ */

@@ -8,7 +8,7 @@
 		<meta name="Keywords" content="" />
 		<meta name="Description" content="" />
 		<meta name="viewport" content="width=device-width,initial-scale=0.5,minimum-scale=0.5,maximum-scale=0.5,user-scalable=no" />
-		<title>玻璃海儿</title>
+		<title>微儿健康</title>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" />
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
@@ -44,7 +44,7 @@
 						
 					    <li style="background-image: url(<%=request.getContextPath() %>/blhrf/img/xt_1.png);" class="xt_1">
 							<div>
-								<span>玻璃海VIP套餐</span>
+								<span>微儿健康VIP套餐</span>
 								<span>
 							<img src="<%=request.getContextPath() %>/blhrf/img/xt_jt.png"/>
 						 </span></div>

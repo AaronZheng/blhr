@@ -48,6 +48,9 @@
 							    <c:if test="${wfbCourses.courseState == 9}">
 							    	<div>等待审核</div>
 							    </c:if>
+							     <c:if test="${wfbCourses.courseState == 1}">
+							    	<div>等待审核</div>
+							    </c:if>
 							</div>
 						</div>
 					</div>

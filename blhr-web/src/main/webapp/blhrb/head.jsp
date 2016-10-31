@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>玻璃海微儿后台管理系统</title>
+<title>微儿健康后台管理系统</title>
 </head>
 
 <link rel="apple-touch-icon" href="http://zzk-test.mvp01.com/resources/assets/images/apple-touch-icon.png">
@@ -44,7 +44,7 @@
         </button>
   <a href="#">
         <div class="navbar-brand navbar-brand-center">
-            <span class="navbar-brand-text hidden-xs">玻璃海微儿后台管理系统</span>
+            <span class="navbar-brand-text hidden-xs">微儿健康后台管理系统</span>
         </div>
         </a>
     </div>

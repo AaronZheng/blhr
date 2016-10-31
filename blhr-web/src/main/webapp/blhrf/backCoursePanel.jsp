@@ -67,9 +67,9 @@
 		</div>
 
 	</div>
-		<div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
-					<img src="<%=request.getContextPath() %>/blhrf/img/wqeasdads.png" />
-			     	</div>
+	<div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
+				<img src="<%=request.getContextPath() %>/blhrf/img/wqeasdads.png" />
+	</div>
 
 
 </body>

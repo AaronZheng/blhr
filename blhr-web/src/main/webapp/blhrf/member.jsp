@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div class="xt_jj_txt">
-						<label>玻璃海账号:</label><span class="name">${username}</span>
+						<label>微儿健康账号:</label><span class="name">${username}</span>
 					</div>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 
 				<div class="xt_tc_tittle">
 					<div class="xt_tc_tittlecon">
-						玻璃海VIP套餐
+						微儿健康VIP套餐
 							<c:if test="${isMember==2}">续费</c:if>
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 			<div class="xt_qx">
 				<div class="xt_tc_tittle_2">
 					<div class="xt_tc_tittlecon">
-						玻璃海VIP会员特权
+						微儿健康VIP会员特权
 						<a href="">会员服务协议&gt;</a>
 					</div>
 				</div>

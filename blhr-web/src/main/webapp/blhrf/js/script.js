@@ -68,12 +68,12 @@ $(document).ready(function() {
 		$(".allzbkcDiv").show();
 		$(".learningDiv").hide();
 	});
-
-	$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(0).html());
+/*
+	$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
 	$(".ke_kcfl ul li").click(function() {
 		$(".ke_kcfl_dexiala").slideToggle();
 	});
-
+*/
 	$(".ke_kcfl_dexiala p").click(function() {
 		$(".ke_kcfl .ls_san").html($(this).html());
 		$(".ke_kcfl_dexiala").slideToggle();
@@ -114,27 +114,27 @@ $(document).ready(function() {
 		}
 	});
 
-	$(".push_hit").on("taphold", function(e) {
+/*	$(".push_hit").on("taphold", function(e) {
 		$(this).parents(".qqsky").find("ul").fadeIn(300);
 		var hu=$(this).siblings("img").attr("src");
 		$(this).parents(".push_hitinnner").siblings("ul").find(".hujigyft img").attr("src",hu);
-	});
-	$(".push_hitoonnee").on("click", function(e) {
+	});*/
+/*	$(".push_hitoonnee").on("click", function(e) {
 		$(this).parents(".qqsky").find("ul").fadeIn(300);
 		var hu=$(this).siblings("img").attr("src");
 		$(this).parents(".push_hitinnner").siblings("ul").find(".hujigyft img").attr("src",hu);
-	});
-	$(".qqvoice,.qqsky").on("taphold", function(e) {
+	});*/
+/*	$(".qqvoice,.qqsky").on("taphold", function(e) {
 		$(this).find("ul").fadeIn(300);
 		
-	});
-	$(document).on("touchstart", function(e) {
+	});*/
+	/*$(document).on("touchstart", function(e) {
 		flag = true;
 		if(flag == true) {
 			$(".qqsky").find("ul").fadeOut(300);
 
 		}
-	});
+	});*/
 
 	var hy = setInterval(shuwntwo, 600);
 	var hyone = setInterval(shown, 600);

@@ -16,7 +16,7 @@
 <a href="<%=request.getContextPath()%>/initsharePage">分享测试</a>
 <a href="<%=request.getContextPath()%>/initChatPage">聊天测试</a>
 <a href="<%=request.getContextPath()%>/initMyClassInfo?userId=zhangjie">我的课堂</a>
-<a href="<%=request.getContextPath()%>/initLogin">玻璃海儿后台管理系统</a>
+<a href="<%=request.getContextPath()%>/initLogin">微儿健康后台管理系统</a>
 <a href="<%=request.getContextPath()%>/blhrf/touchT.jsp">长按按钮测试</a>
 <%-- <a href="<%=request.getContextPath()%>/../blhrb/index.jsp">用户管理(会员讲师)</a>
 <a href="<%=request.getContextPath()%>/../blhrb/dataStat.jsp">订单</a> --%>

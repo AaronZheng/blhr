@@ -4,9 +4,9 @@
 <html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
-<title>玻璃海儿后台管理系统</title>
-<meta name="keywords" content="玻璃海儿后台管理系统" />
-<meta name="description" content="玻璃海儿后台管理系统" />
+<title>微儿健康后台管理系统</title>
+<meta name="keywords" content="微儿健康后台管理系统" />
+<meta name="description" content="微儿健康后台管理系统" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -53,7 +53,7 @@
 <body>
 
 	<div class="page-container">
-		<h1>玻璃海儿后台管理系统</h1>
+		<h1>微儿健康后台管理系统</h1>
 			<input type="text" name="username" id="username" placeholder="用户名" value="zhangsan"><br/>
 			<input type="password" name="password" id="password" placeholder="密码" value="zhangsan"><br/>
 			<button type="button" onclick="submit()">提交</button><br/>
@@ -68,7 +68,7 @@
 				<br />
 				<br />
 			</p>
-			<p>版权所有：北京玻璃海文化交流有限责任公司</p>
+			<p>版权所有：北京微儿健康文化交流有限责任公司</p>
 		</div>
 	</div>
 	

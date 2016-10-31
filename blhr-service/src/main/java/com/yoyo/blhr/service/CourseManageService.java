@@ -173,6 +173,16 @@ public class CourseManageService {
 		return this.coursesDao.queryCourseByType(type);
 	}
 	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public List<Map<String,Object>> queryBroadCastCourseByType(){
+		
+		return this.coursesDao.queryBroadCastCourseByType();
+	}
+	
 	
 	/**
 	 * 
@@ -192,6 +202,11 @@ public class CourseManageService {
 	public Map<String,Object> queryCourseById(String courseId){
 		
 		return this.coursesDao.queryCourseById(courseId);
+	}
+	
+	
+	public Integer queryCourseDetailSize(String courseId){
+		return this.coursesDao.queryCourseDetailSize(courseId);
 	}
 	
 	

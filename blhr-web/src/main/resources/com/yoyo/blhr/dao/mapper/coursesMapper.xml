@@ -54,7 +54,12 @@
     
     <select id="queryCourseByType" resultType="java.util.Map" parameterType="java.lang.String">
         select h.*,k.photo,n.`profile` from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
-	      on t.course_id = f.course_id where t.course_state = #{type} and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and k.user_id = h.user_id
+	      on t.course_id = f.course_id where t.course_state = #{type} and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and k.user_id = h.user_id order by h.lrrq desc
+    </select>
+    
+        <select id="queryBroadCastCourseByType" resultType="java.util.Map" parameterType="java.lang.String">
+        select h.*,k.photo,n.`profile` from teachers n,users k ,( select t.*,count(f.course_id) as num from course t LEFT JOIN learn_records f  
+	      on t.course_id = f.course_id where (t.course_state = 2 or t.course_state = 4) and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and k.user_id = h.user_id order by h.lrrq desc
     </select>
     
     <update id="updateCourseDetailByBath"  parameterType="java.util.List">
@@ -98,6 +103,10 @@
 	
 	<select id="queryCourseById" resultType="java.util.Map" parameterType="java.lang.String">
 	   select * from course where course_id=#{0}
+	</select>
+	
+	<select id="queryCourseDetailSize" resultType="java.lang.Integer">
+	   select count(1) from course_detail where course_id = #{0}
 	</select>
 	
 	
@@ -161,7 +170,7 @@
 		        t.course_type = #{4} ,
 		   </if>
 		   <if test="#{5} != null and #{5} != ''">
-		        t.course_type = #{5} ,
+		        t.pay_type = #{5} ,
 		   </if>
 	    </set>
 	 	 where t.course_id = #{0}
