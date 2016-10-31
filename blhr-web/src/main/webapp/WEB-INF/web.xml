@@ -71,6 +71,16 @@
      </init-param>
   </servlet>
   
+  
+    <servlet>
+     <servlet-name>BannerServlet</servlet-name>
+     <servlet-class>com.yoyo.blhr.controller.WBannerServlet</servlet-class>
+     <init-param>
+      <param-name>filePath</param-name>
+      <param-value>/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/</param-value>
+     </init-param>
+  </servlet>
+  
   <servlet>
      <servlet-name>ChatServlet</servlet-name>
      <servlet-class>com.yoyo.blhr.controller.ChatServlet</servlet-class>
@@ -113,6 +123,11 @@
 	 <servlet-mapping>
 	   <servlet-name>ChatServlet</servlet-name>
 	   <url-pattern>/ChatServlet</url-pattern>
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>
+	   <servlet-name>BannerServlet</servlet-name>
+	   <url-pattern>/BannerServlet</url-pattern>
 	 </servlet-mapping>
 	 
 	 <servlet-mapping>

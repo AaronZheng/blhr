@@ -42,10 +42,17 @@
 						<div class="ke_wodconn_bot">
 							<span><c:out value="${wfbCourses.lrrq}"></c:out></span>
 							<div class="ke_wodconn_botrrr">
-								<a class="jxlr" href="<%=request.getContextPath() %>/continueInput?courseId=${wfbCourses.courseId}&courseName=${wfbCourses.courseName }&courseIntro=${wfbCourses.courseProfile }&userId=${userId}" >继续录入</a>
+							   	<c:if test="${wfbCourses.courseState == 7}">
+							    	<a class="jxlr" href="<%=request.getContextPath() %>/continueInput?courseId=${wfbCourses.courseId}&courseName=${wfbCourses.courseName }&courseIntro=${wfbCourses.courseProfile }&userId=${userId}" >继续录入</a>
+							    </c:if>
+							    <c:if test="${wfbCourses.courseState == 9}">
+							    	<div>等待审核</div>
+							    </c:if>
+							     <c:if test="${wfbCourses.courseState == 1}">
+							    	<div>等待审核</div>
+							    </c:if>
 							</div>
 						</div>
-						
 					</div>
 				
 					</c:forEach>

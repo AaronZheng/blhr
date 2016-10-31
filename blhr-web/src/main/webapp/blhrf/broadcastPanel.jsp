@@ -20,18 +20,18 @@
 	src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
-<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
-		<![endif]-->
+	<style type="text/css">
+    	#divcss5{ margin:10px auto} 
+        #divcss5 img{ border-radius:50%}
+	</style>
 </head>
 
 <body style="background-color: #E8E8E8;" onload="window.scrollTo(0,document.body.scrollHeight);">
-	<div class="titleTop">
+<%-- 	<div class="titleTop">
 		<img src="<%=request.getContextPath() %>/blhrf/img/zb.png"
 			class="zbImg"> 课程内容 <span class="topText">(200人正在学)</span> <a
 			class="sukc" href="<%=request.getContextPath() %>/blhrf/#">课程信息</a>
-	</div>
+	</div> --%>
 
 	<div class="watchDiv">
 		<div class="l_title">${courseName}</div>
@@ -103,11 +103,11 @@
 						for(var i = 0;i < vm.data.length;i++){
 							document.body.scrollTop += 10;
 							if(vm.data[i].content_type == 'v'){
-								$(".extendDiv").append(getVoiceContent(baseDir+vm.data[i].content_item));
+								$(".extendDiv").append(getVoiceContent(baseDir+vm.data[i].content_item,vm.data[i].item_length,'${photoPath}'));
 							}else if(vm.data[i].content_type == 'p'){
-							    $(".extendDiv").append(getPhotoContent(baseDir+vm.data[i].content_item));
+							    $(".extendDiv").append(getPhotoContent(baseDir+vm.data[i].content_item,'${photoPath}'));
 							}else if(vm.data[i].content_type == 't'){
-								$(".extendDiv").append(getTextPanel(vm.data[i].content_item));
+								$(".extendDiv").append(getTextPanel(vm.data[i].content_item,'${photoPath}'));
 							}
 						}
 						rowNum = vm.currentSize;
@@ -116,11 +116,11 @@
 			});
 		} 
 		
-		function getTextPanel(chatcontent){
+		function getTextPanel(chatcontent,photoPath){
 	    	var baseDir = '<%=request.getContextPath() %>';
 	    	return "<div class=\"row\">"+
-			"<div class=\"san_zuob\">"+
-			"<img src=\""+baseDir+"/blhrf/img/san_smalltou.png\" />"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
+			"<img src=\""+baseDir+photoPath+"\" />"+
 			"</div>"+
 			"<div class=\"qqright\">"+
 				"<div class=\"qqsky\">"+
@@ -140,15 +140,15 @@
 		
 		
 		
-		function getVoiceContent(voiceId){
+		function getVoiceContent(voiceId,voiceLong,photoPath){
 	    	
 	    	var baserDir = '<%=request.getContextPath() %>';
 	        var content = "<div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
-			"<div class=\"san_zuob\">"+
-				"<img src=\""+baserDir+"/blhrf/img/san_smalltou.png\" />"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
+			"<img src=\""+baserDir+photoPath+"\" />"+
 			"</div>"+
 			"<div class=\"qqright\">"+
-				"<div class=\"qqsky qqvoice\">"+
+				"<div class=\"qqsky qqvoice\" style=\"width:"+(voiceLong+80)+"px ; height:40px ;\">"+
 					"<img class=\"qqsky_fri\" src=\""+baserDir+"/blhrf/img/jt_jt.png\" />"+
 					"<div>"+
 						"<div class=\"voice_move\">"+
@@ -159,7 +159,7 @@
 						"</div>"+
 					"</div>"+
 					"<div class=\"qqvoice_hitit\"></div>"+
-					"<label>11\"</label>"+
+					"<label>"+voiceLong+" \"</label>"+
 					"<em></em>"+
 				"</div>"+
 			"</div>"+
@@ -178,12 +178,12 @@
 	    }
 	    
 	    
-		function getPhotoContent(phtotPath){
+		function getPhotoContent(phtotPath,photoPath){
 	    	
 			var baseDir = '<%=request.getContextPath()%>';
 			return  "<div class=\"row\">"+
-			"<div class=\"san_zuob\">"+
-			"<img src=\""+baseDir+"/blhrf/img/san_smalltou.png\" />"+
+			"<div class=\"san_zuob\" id=\"divcss5\">"+
+			"<img src=\""+baseDir+photoPath+"\" />"+
 			"</div>"+
 			"<div class=\"qqright\">"+
 				"<div class=\"qqsky\">"+

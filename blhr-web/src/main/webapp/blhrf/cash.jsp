@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/include/taglib.jsp"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -66,7 +66,7 @@
 						</div>
 					</div>
 					<div class="xt_jj_txt">
-						玻璃海账号:${username }
+						微儿健康账号:${username }
 					</div>
 					<!--<div class="pay_gq">您的VIP会员已过期</div>-->
 				</div>
@@ -78,13 +78,14 @@
 				<div class="pay_ddcon">
 					<div class="pay_ddcon_zuo">
 						<p>您已经选择：</p>
-						<c:if test="${payType==1}"><h3>玻璃海一年月员套餐</h3></c:if>
+						<c:if test="${payType==1}"><h3>微儿健康一年月员套餐</h3></c:if>
 						
-					    <c:if test="${payType==2}"><h3>玻璃海6个月员套餐</h3></c:if>
+					    <c:if test="${payType==2}"><h3>微儿健康6个月员套餐</h3></c:if>
+					    
+					    <c:if test="${payType==4}"><h3>微儿健康3个月员套餐</h3></c:if>
 						
-						<c:if test="${payType==3}"><h3>玻璃海1个月员套餐</h3></c:if>
+						<c:if test="${payType==3}"><h3>微儿健康1个月员套餐</h3></c:if>
 						
-						<c:if test="${payType==4}"><h3>玻璃海24小时会员套餐</h3></c:if>
 						<span>产品说明:付款后立即生效</span>
 					</div>
 					<div class="pay_ddcon_you">

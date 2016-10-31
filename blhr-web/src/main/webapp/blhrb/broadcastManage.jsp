@@ -48,6 +48,30 @@
        }
    }
    
+   function editReport(courseId){
+	 var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
+	 var curr = options.pageNumber;  
+	 var pageSize = Math.ceil(options.pageSize);
+	   if(window.confirm('你确定要发布直播预告？')){
+	 jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/updateCourseState",
+			data:{
+				page:curr,
+				rows:pageSize,
+				course_id:courseId
+			},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				$("#ttbd").datagrid("loadData",data);
+			}
+	});
+	   }
+   }
+   
  /*   $('#cc').combobox({ 
 	   url:'combobox_data.json', 
 	   valueField:'id', 

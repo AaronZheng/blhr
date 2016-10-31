@@ -32,9 +32,11 @@
 								    <th field="course_id" hidden="true"></th>
 								    <th field="course_state_code" hidden="true"></th>
 									<th field="category" width="14%" align="center">课程分类</th>
-									<th field="course_name" width="30%" align="center">课程名称</th>
-									<th field="username" width="15%" align="center">创建者</th>
-									<th field="create_time" width="20%" align="center">创建时间</th>
+									<th field="course_name" width="15%" align="center">课程名称</th>
+									<th field="username" width="10%" align="center">创建者</th>
+									<th field="fullname" width="15%" align="center">讲师姓名</th>
+									<th field="payType" width="10%" align="center">费用</th>
+									<th field="create_time" width="15%" align="center">创建时间</th>
 									<th field="courseState" width="10%" align="center">课程进度</th>
 									<th field="available" width="10%" align="center">课程状态</th>
 								</tr>
@@ -42,10 +44,10 @@
 						</table>
 
 						<div id="tb">
-							<a href="#" class="easyui-linkbutton" iconCls="icon-cut"
+							<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-cut"
 								plain="true" onclick="hide()">屏蔽</a> 
 								<a href="#" class="easyui-linkbutton" iconCls="icon-edit"
-								plain="true" onclick="openCourseDetail()">编辑</a> 
+								plain="true" onclick="openCourseDetail()">编辑</a>  -->
 								<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
 								plain="true" onclick="deletecourseInfo()">删除</a>
 								  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
@@ -104,8 +106,8 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 	</select> 
     </td><td >费用</td><td >
        <select id="payTypeUCP" class="easyui-combobox" name="payType" style="width:200px;"> 
-		<option value="1">收费</option> 
-		<option value="2">免费</option> 
+		<option value="1">免费</option> 
+		<option value="2">收费</option> 
 	   </select> 
     </td></tr>
     <tr><td >类型</td><td colspan="3">
@@ -134,8 +136,8 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 	</select> 
     </td><td >费用</td><td >
        <select id="payType" class="easyui-combobox" name="payType" style="width:200px;"> 
-		<option value="1">收费</option> 
-		<option value="2">免费</option> 
+		<option value="1">免费</option> 
+		<option value="2">收费</option> 
 	   </select> 
     </td></tr>
     <tr><td >类型</td><td colspan="3">
@@ -230,7 +232,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 		var courseId = rows[0].course_id;
 		var course_state_code = rows[0].course_state_code;
 		if(course_state_code != 7){
-			alert("你选着的课程状态不正确!")
+			alert("已审核通过的课程不能够在录入，可以在课程审核时进行修改!")
 			return ;
 		}
 		window.location.href = "<%=request.getContextPath()%>/openBackBroadcast?courseId="+courseId;
@@ -379,6 +381,10 @@ function saveupdateCourseDetail(){
 
 
 function deletecourseInfo(){
+	
+	if(!window.confirm('你确定要删除该条课程信息吗？'))
+		return;
+	
 	var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
 	 var grid = $('#ttbd');  
 	 var options = grid.datagrid('getPager').data("pagination").options;  
@@ -607,7 +613,7 @@ function dspCourseEdit(){
 			success : function(data) {
 				$('#dspCourseDetail').dialog('open');
 				$("#form").form("load",data[0]);
-				lll
+				//lll
 			}
 	});
 }

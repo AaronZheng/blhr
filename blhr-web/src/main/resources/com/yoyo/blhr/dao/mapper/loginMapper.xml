@@ -102,5 +102,5 @@
 	      on t.course_id = f.course_id where t.course_state = '3' or t.course_state ='8' and t.yxbj = 'Y' GROUP BY course_id) h where n.user_id = k.user_id and 
 	      k.user_id = h.user_id order by h.lrrq desc
 	</select>
-
+	
 </mapper>

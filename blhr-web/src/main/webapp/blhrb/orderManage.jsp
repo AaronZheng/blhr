@@ -30,8 +30,9 @@
 				<th data-options="field: 'typeName'" width="15%">订单类型</th>
 				<th data-options="field: 'username'" width="15%">用户名</th>
 				<th data-options="field: 'wechatname'" width="15%" >微信号</th>
-				<th data-options="field: 'startTime'" width="20%" >开始时间</th>
-				<th data-options="field: 'endTime'" width="20%" >结束时间</th>
+				<th data-options="field: 'payTime'" width="10%" >下单时间</th>
+				<th data-options="field: 'startTime'" width="10%" >开始时间</th>
+				<th data-options="field: 'endTime'" width="10%" >结束时间</th>
 				<th data-options="field: 'orderState'" width="15%" >订单状态</th>
 			</tr>
 		</thead>

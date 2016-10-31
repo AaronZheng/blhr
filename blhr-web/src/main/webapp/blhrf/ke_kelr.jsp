@@ -35,7 +35,7 @@
 						</div>
 						<div class="log_name_dec">
 							<label>课程介绍</label>
-							<textarea id="courseIntro" name="courseIntro" defaultValue="${courseProfile}" placeholder="最多输入42个字符"></textarea>
+							<textarea id="courseIntro" name="courseIntro"  placeholder="最多输入42个字符">${courseProfile}</textarea>
 						</div>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 					<div class="ke_kcfl_dexiala" style="overflow: hidden;clear: both;">
 					<p>请选择</p>
 					<p onclick = "setCourseType('成长')">成长</p>
-					<p onclick = "setCourseType('健康')">健康</p>
+					<p  onclick = "setCourseType('健康')">健康</p>
 					<p onclick = "setCourseType('美食')">心理</p>
 					</div>
 				</div>
@@ -65,6 +65,24 @@
 		</div>
 		
 		<script type="text/javascript">
+		
+		$(document).ready(function() {
+			var courseType = '${courseType}';
+			if(courseType == "成长")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
+			else if(courseType = "健康")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(2).html());
+			else if(courseType = "心理")
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(3).html());
+			else
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
+
+
+			$(".ke_kcfl ul li").click(function() {
+				$(".ke_kcfl_dexiala").slideToggle();
+			});
+		});
+
 		
 		   var courseType;
 		   var numLimit;

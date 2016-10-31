@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 <meta name="description" content="xer">
 <meta name="author" content="">
-<title>玻璃海后台管理系统</title>
+<title>微儿健康后台管理系统</title>
 <link rel="apple-touch-icon" href="http://zzk-test.mvp01.com/resources/assets/images/apple-touch-icon.png">
 <link rel="shortcut icon" href="http://zzk-test.mvp01.com/resources/assets/images/favicon.ico">
 <!-- Stylesheets -->
@@ -23,6 +23,6 @@
 </frameset>
 
 <footer class="site-footer">
-    <div class="site-footer-legal">2016 玻璃海儿 系统支持 by <a href="https://www.mvp01.com/?from=zzk" target="_blank">MVP01.COM</a></div>
+    <div class="site-footer-legal">2016 微儿健康 系统支持 by <a href="https://www.mvp01.com/?from=zzk" target="_blank">MVP01.COM</a></div>
     </footer><!-- Core  -->
 </body></html>

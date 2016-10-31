@@ -12,9 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.yoyo.blhr.dao.model.Courses;
 import com.yoyo.blhr.dao.model.LearnRecords;
@@ -55,7 +52,7 @@ public class CourseManageAction {
 	@Autowired
 	private CourseManageService courseManageService;
 	
-	private final static String EDIT_REPORT = "编辑预告";
+	private final static String EDIT_REPORT = "发布预告";
 	
 	private final static String DELETE = "删除";
 	
@@ -87,7 +84,6 @@ public class CourseManageAction {
 	
 	@Autowired
 	private UserManageService userManageService;
-	
 	@Autowired
 	private MyClassroomService myClassroomService;
 	@Autowired
@@ -288,6 +284,19 @@ public class CourseManageAction {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value="updateCourseState" ,produces="application/json;charset=UTF-8")
+	public String updateCourseState(String page,String rows,String course_id){
+
+		courseManageService.updateCourseToEnd(course_id, "4");
+		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse((Integer.parseInt(page)-1)*10,Integer.parseInt(rows),"2");
+		handlerResult(lismap);
+		int total = courseManageService.queryBroadcastCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap, total);
+	
+	}
+	
+	
 	
 	/**
 	 * 
@@ -296,7 +305,17 @@ public class CourseManageAction {
 	@RequestMapping("/queryBroadCastCourse")
 	public ModelAndView queryBroadCastCourse(String userId){
 		ModelAndView mv = new ModelAndView("/blhrf/zb_zbkc");
-		List<Map<String,Object>> courses = this.courseManageService.queryCourseByType("2");
+		List<Map<String,Object>> courses = this.courseManageService.queryBroadCastCourseByType();
+		mv.addObject("userId", userId);
+		mv.addObject("courseTitleList", courses);
+		return mv;
+	}
+	
+	
+	@RequestMapping("/queryBroadCastCourseByType")
+	public ModelAndView queryBroadCastCourseByType(String userId){
+		ModelAndView mv = new ModelAndView("/blhrf/zb_zbkc");
+		List<Map<String,Object>> courses = this.courseManageService.queryBroadCastCourseByType();
 		mv.addObject("userId", userId);
 		mv.addObject("courseTitleList", courses);
 		return mv;
@@ -314,12 +333,15 @@ public class CourseManageAction {
 		ModelAndView mv = new ModelAndView("/blhrb/inputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
-		for(Map<String,Object> dmp:detailMap){
+		User user = userManageService.queryUserById((String)map.get("user_id"));
+		/*for(Map<String,Object> dmp:detailMap){
 			dmp.put("item_length", ((Integer)dmp.get("item_length"))+55);
-		}
+		}*/
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
 		mv.addObject("userId", map.get("userId"));
+		mv.addObject("photo", user.getPhoto() == null ?"":user.getPhoto());
+		mv.addObject("userType", user.getCategory());
 		mv.addObject("courseItem", detailMap);
 		return mv;
 	}
@@ -334,10 +356,13 @@ public class CourseManageAction {
 	public ModelAndView reviewCourse(String userId,String courseId){
 		ModelAndView mv = new ModelAndView("/blhrb/reviewInputWatch");
 		Map<String,Object> map = courseManageService.queryCourseById(courseId);
+		User user = userManageService.queryUserById((String)map.get("user_id"));
 		List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
 		mv.addObject("courseName", map.get("course_name"));
 		mv.addObject("courseId", map.get("course_id"));
-		mv.addObject("userId", map.get("userId"));
+		mv.addObject("userId", map.get("user_id"));
+		mv.addObject("photo", user.getPhoto());
+		mv.addObject("userType", user.getCategory());
 		mv.addObject("courseItem", detailMap);
 		return mv;
 	}
@@ -397,66 +422,99 @@ public class CourseManageAction {
 	
 	
 	/**
-	 * 
 	 * @param courseName
 	 * @param courseIntro
 	 * @param userId
 	 * @return
 	 * @throws IOException
-	 * 
 	 * @throws ParseException 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/saveCourseTitle",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
+	@RequestMapping(value="/saveCourseTitle",produces="application/json;charset=UTF-8", method=RequestMethod.POST)
 	public ModelAndView saveCourseTitle(String courseName,String courseIntro,String courseType,
 			String playTime,String playLimit,String userId,String category,String courseId) throws IOException, ParseException{
 		
-		if(StringUtils.isNotBlank(courseId)){
-			Courses course = new Courses();
-			course.setCourseId(courseId);
+		Courses course = null;
+		boolean isNew = false;
+		ModelAndView mv ;
+		if(StringUtils.isBlank(courseId)){
+			//TODO 已完成  ....
+			isNew = true;
+			course = new Courses();
+			course.setCourseId(SequenceUtil.generateSequeueString());
 			course.setCourseName(courseName);
 			course.setCourseProfile(courseIntro);
 			course.setTeacherId(userId);
 			course.setCategory(category);
+			if("1".equals(course)){
+				course.setCourseState("7");
+			}else
+				course.setCourseState("2");
 			course.setUserId(userId);
 			course.setLrrq(new Date());
-			course.setCourseState("2");
 			course.setCreateTime(new Date());
 			course.setCourseType(courseType);
-			courseManageService.updateCourseById(courseId, courseName, courseIntro, null, courseType, null);
-			ModelAndView mv = new ModelAndView("/blhrf/lrInputWatch");
+			course.setCreatePerson(((User)BlhrArgumentCache.getCacheData(userId)).getUsername());
+			if(playTime != null)
+				course.setPlayTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(playTime));
+			if(playLimit != null)
+				course.setPersonLimit(Integer.parseInt(playLimit));
+			else
+				course.setPersonLimit(200);
+			course.setLrrq(new Date());
+			course.setYxbj("Y");
+			course.setAvailable("1");
+			courseId = course.getCourseId();
+		}
+		if("3".equals(category)){
+			if(isNew)
+				course.setCourseState("7");
+			else{
+				courseManageService.updateCourseById(courseId, courseName, courseIntro, null, courseType, null);
+			}
+			mv = new ModelAndView("/blhrf/lrInputWatch");
 			List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(courseId);
 			mv.addObject("courseItem", detailMap);
-			mv.addObject("appId", BlhrConf.getInstance().getAppID());
-			mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
-			mv.addObject("courseId", courseId);
-			mv.addObject("userId", userId);
-			mv.addObject("courseName", courseName);
-			return mv;
-			
-		}
-		
-		
-		
-		
-		//TODO 已完成  ....
+		}else
+			mv = new ModelAndView("/blhrf/inputWatch");
+		if(isNew)
+			courseManageService.saveCourseTitle(course);
+		else
+			mv.addObject("totalSize",courseManageService.queryCourseDetailSize(courseId));
+		mv.addObject("appId", BlhrConf.getInstance().getAppID());
+		mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
+		mv.addObject("courseId", courseId);
+		mv.addObject("photoPath", StringUtils.isBlank(CommonUtil.getUserByUserId(userId).getPhoto())?"":CommonUtil.getUserByUserId(userId).getPhoto().replace("\\", "/"));
+		mv.addObject("userId", userId);
+		mv.addObject("courseName", courseName);
+		return mv;
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="createBroadcaseb",produces="application/json;charset=UTF-8")
+	public String createBroadcaseb(String courseName,String courseIntro,String courseType,
+			String playTime,String playLimit,String userId,String category,String courseId){
+
 		Courses course = new Courses();
 		course.setCourseId(SequenceUtil.generateSequeueString());
 		course.setCourseName(courseName);
 		course.setCourseProfile(courseIntro);
 		course.setTeacherId(userId);
 		course.setCategory(category);
-		if("1".equals(course)){
-			course.setCourseState("7");
-		}
+		course.setCourseState("1");
 		course.setUserId(userId);
 		course.setLrrq(new Date());
-		course.setCourseState("2");
 		course.setCreateTime(new Date());
 		course.setCourseType(courseType);
 		course.setCreatePerson(((User)BlhrArgumentCache.getCacheData(userId)).getUsername());
 		if(playTime != null)
-			course.setPlayTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(playTime));
+			try {
+				course.setPlayTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(playTime));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		if(playLimit != null)
 			course.setPersonLimit(Integer.parseInt(playLimit));
 		else
@@ -464,22 +522,9 @@ public class CourseManageAction {
 		course.setLrrq(new Date());
 		course.setYxbj("Y");
 		course.setAvailable("1");
-		ModelAndView mv ;
-		if("3".equals(category)){
-			course.setCourseState("7");
-			mv = new ModelAndView("/blhrf/lrInputWatch");
-			List<Map<String,Object>> detailMap = courseManageService.queryCourseDetailById(course.getCourseId());
-			mv.addObject("courseItem", detailMap);
-		}else
-			mv = new ModelAndView("/blhrf/inputWatch");
+		courseId = course.getCourseId();
 		courseManageService.saveCourseTitle(course);
-		mv.addObject("appId", BlhrConf.getInstance().getAppID());
-		mv.addObject(ResourceEnumType.chat_signature_package.getValue(), BlhrArgumentCache.getCacheData(ResourceEnumType.chat_signature_package.getValue()));
-		mv.addObject("courseId", course.getCourseId());
-		mv.addObject("photoPath", StringUtils.isBlank(CommonUtil.getUserByUserId(userId).getPhoto())?"":CommonUtil.getUserByUserId(userId).getPhoto().replace("\\", "/"));
-		mv.addObject("userId", userId);
-		mv.addObject("courseName", courseName);
-		return mv;
+		return "1";
 	}
 	
 	
@@ -499,6 +544,7 @@ public class CourseManageAction {
 		mv.addObject("userId", userId);
 		mv.addObject("courseName", courseName);
 		mv.addObject("courseProfile", map.get("course_profile"));
+		mv.addObject("courseType",map.get("course_type"));
 		return mv;
 
 	}
@@ -521,9 +567,10 @@ public class CourseManageAction {
 	/**
 	 * 
 	 * @return
+	 * @throws IOException 
 	 */
 	@RequestMapping("/openCourseDetail")
-	public ModelAndView openCourseDetail(String userId,String courseId,String courseName){
+	public ModelAndView openCourseDetail(String userId,String courseId,String courseName) throws IOException{
 		ModelAndView mv = new ModelAndView("/blhrf/broadcastPanel");
 		LearnRecords record = new LearnRecords();
 		record.setCourse_id(courseId);
@@ -533,6 +580,7 @@ public class CourseManageAction {
 		record.setRecordsId(SequenceUtil.generateSequeueString());
 		courseManageService.saveLearnedCourse(record);
 		mv.addObject("userId", userId);
+		mv.addObject("photoPath", StringUtils.isBlank(CommonUtil.getUserByUserId(userId).getPhoto())?"":CommonUtil.getUserByUserId(userId).getPhoto().replace("\\", "/"));
 		mv.addObject("courseId", courseId);
 		mv.addObject("courseName", courseName);
 		return mv;
@@ -727,7 +775,6 @@ public class CourseManageAction {
 		mv.addObject("userType", member != null?2:0);
 		mv.addObject("courseName", courseName);
 		mv.addObject("teacherId", teacherId);
-		
 		return mv;
 	}
 	

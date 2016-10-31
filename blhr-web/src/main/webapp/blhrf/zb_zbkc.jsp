@@ -52,7 +52,7 @@
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_tu.jpg"/>
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_wen.jpg"/>
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
-						<h3><div onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}')">${list.course_name }</div></h3>
+						<h3><div onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&teacherId=${list.teacher_id}')">${list.course_name }</div></h3>
 					</div>
 					<div class="ke_backlist_mid">
 						${list.profile }
@@ -62,7 +62,12 @@
 							<img src="<%=request.getContextPath() %>/${list.photo }"/>
 						</div>
 						<div class="ke_yu" >
-						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}">观看直播</a>
+						<c:if test="${list.course_state == 2}">
+						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name }">观看直播</a>
+						    </c:if>
+						  <c:if test="${list.course_state == 4}">
+						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name }">直播预告</a>
+						    </c:if>
 						</div>
 						<div class="ke_shu">
 							${list.num }人学过

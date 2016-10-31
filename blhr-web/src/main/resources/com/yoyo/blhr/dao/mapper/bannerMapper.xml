@@ -5,6 +5,24 @@
 	<select id = "queryBanner" resultType="java.util.Map">
 		select * from banner
 	</select>
+	
+	<update id="updateBannerInfo">
+	  update banner
+	      <set>
+            <if test="#{1} != null">
+               pic_link = #{1},
+            </if>
+            <if test="#{2} != null">
+               pic_address = #{2},
+            </if>
+          </set>
+          where pic_sort = #{0}
+	</update>
+	
+	
+	<select id="queryBannerInfo" resultType="java.util.Map">
+	   select pic_link, pic_address,pic_sort from banner
+	</select>
 
 
 </mapper>

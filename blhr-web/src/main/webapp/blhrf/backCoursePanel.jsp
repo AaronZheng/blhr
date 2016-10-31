@@ -20,10 +20,6 @@
 	src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
-<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
-		<![endif]-->
 		<style type="text/css">
 	    	#divcss5{ margin:10px auto} 
             #divcss5 img{ border-radius:50%}
@@ -71,9 +67,9 @@
 		</div>
 
 	</div>
-		<div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
-					<img src="<%=request.getContextPath() %>/blhrf/img/wqeasdads.png" />
-			     	</div>
+	<div class="xxdjt_jt" id="xxdjt_jt" onclick="myrefresh()">
+				<img src="<%=request.getContextPath() %>/blhrf/img/wqeasdads.png" />
+	</div>
 
 
 </body>
@@ -90,16 +86,15 @@
 	  var currentVoiceId;
 	  var voiceMove;
 	  var voicesSetTime = new Array();
-
 	
 
-		function shown() {
+	 function shown() {
 			$("."+currentVoiceId+"voice_move").css("width", "3px").animate({
 				"width": 15 + "px"
 			}, 600, function() {
 				$("."+currentVoiceId+"voice_move").css("width", "3px");
 			});
-		}
+	  }
 	  function myrefresh(){ 
 			$.ajax({
 				type : "GET",
@@ -280,16 +275,29 @@
 			"<div class=\"qqright\">"+
 				"<div class=\"qqsky\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
+				"<span class=\"push_hitinnner\"  >"+
 					"<img src=\""+phtotPath+"\" class=\"contentImg\"></img>"+
+				"<a class=\"push_hit push_hitoonnee\" onclick=\"openBigPicture($(this))\"></a>"+
+				"</span>"+
+				"<ul>"+
+				"<li style=\"width: 100%;background-color: transparent;top: 30%;\">"+
+					"<div class=\"hujigyft\">"+
+						"<img src=\""+phtotPath+"\" class=\"contentImg\" style=\"width: 100%;height:100%\" >"+
+					"</div>"+
+				"</li>"+
+			    "</ul>"+
 				"</div>"+
 			"</div>"+
 		"</div>";
-	   
-		}
-		
+	}
 	    
-		setTimeout('myrefresh()',1); 
+	setTimeout('myrefresh()',1); 
 	
+	function openBigPicture(pictureDiv){
+		    pictureDiv.parents(".qqsky").find("ul").fadeIn(300);
+			var hu=pictureDiv.siblings("img").attr("src");
+			pictureDiv.siblings("ul").find(".hujigyft img").attr("src",hu);
+	}
 	</script>
 
 </html>

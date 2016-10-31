@@ -140,8 +140,9 @@
 				<tr>
 					<td style="width:80px" align="right">昵称:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nusername" name = "wechatName"/></td>
+
 					<td style="width:110px" align="right">上传图像:</td>
-					<td style="width:110px"> <input type='file' id='nfileUp' name='fileUp' /></td>
+					<td style="width:110px"> <img id="teacherphoto" alt="" style="width: 30px; hight 30px;" src=""> <input type='file' id='nfileUp' name='fileUp' /></td>
 					</tr>
 				<tr>
 					<td align="right" >姓名:<input type="hidden" id = "type" name ="type" value = "2"> <input type="hidden" id = "nuserIdn" name ="userId"></td>
@@ -151,7 +152,7 @@
 				</tr>
 				<tr>
 					<td align="right" >登录用户名:</td>
-					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "username"/></td>
+					<td ><input class="easyui-validatebox" type="text" id = "nteacherName" name = "teacherName"/></td>
 					<td align="right" style="width:80px">登录密码:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id = "nteacherPassword" name = "teacherPassword"/></td>
 				</tr>
@@ -361,8 +362,8 @@ function queryTeachers(){
 		onDblClickRow:function(rowIndex, rowData){
 			console.log(rowIndex);
 			console.log(rowData);
-			userId = rowData.userId;
-			teacherDetail(rowData.userId)
+			userId = rowData.user_id;
+			teacherDetail(rowData.user_id)
 		} 
 	});
 	$('#teacher_panel').panel('open');
@@ -379,11 +380,11 @@ function teacherDetail(userId){
 			
 		},
 		success : function(data) {
-			console.log(data);
 			document.getElementById("nusername").value = data[0].wechatname;
 			document.getElementById("nfullname").value = data[0].fullname;
 			document.getElementById("nteacherName").value = data[0].username;
 			document.getElementById("nteacherPassword").value = "";
+			document.getElementById("teacherphoto").src = '<%=request.getContextPath()%>/'+ data[0].photo;
 			document.getElementById("nuserIdn").value = data[0].userId;
 			document.getElementById("nidCard").value = data[0].idCard;
 			document.getElementById("nprofile").value = data[0].profile;

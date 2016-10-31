@@ -3,7 +3,6 @@ package com.yoyo.blhr.dao.impl;
 import org.springframework.stereotype.Repository;
 
 import com.yoyo.blhr.dao.model.User;
-
 import java.util.List;
 import java.util.Map;
 
@@ -57,5 +56,12 @@ public interface LoginDao {
     public List<Map<String, Object>> dataSta(String date);
     
 
+    /**
+     * 
+     * @param format
+     * @return
+     */
 	public int totalBefore7days(String format);
+	
+	
 }

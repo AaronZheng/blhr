@@ -4,16 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.servlet.ModelAndView;
+import com.yoyo.blhr.dao.impl.LoginDao;
 import com.yoyo.blhr.util.BlhrArgumentCache;
 import com.yoyo.blhr.util.CommonUtil;
 import com.yoyo.blhr.util.ResourceEnumType;
 
 @Controller
 public class TestAction {
+	
+	@Autowired
+    private LoginDao loginDao;
 	
 	@RequestMapping("/getPictureInfoTest")
 	public String getPictureInfo() throws IOException{
@@ -33,6 +37,15 @@ public class TestAction {
 		file.mkdirs();
 		
 	}
+	
+	@RequestMapping("/insertRelation")
+	public ModelAndView insertRelation(){
+		
+		ModelAndView mv = new ModelAndView("index");
+		return mv;
+	}
+	
+	
 	
 
 }

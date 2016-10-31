@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>玻璃海后台管理系统</title>
+<title>微儿健康后台管理系统</title>
 </head>
 
 <link rel="apple-touch-icon" href="http://zzk-test.mvp01.com/resources/assets/images/apple-touch-icon.png">
@@ -44,7 +44,7 @@
         </button>
   <a href="#">
         <div class="navbar-brand navbar-brand-center">
-            <span class="navbar-brand-text hidden-xs"> 玻璃海儿管理后台</span>
+            <span class="navbar-brand-text hidden-xs">微儿健康后台管理系统</span>
         </div>
         </a>
     </div>
@@ -103,11 +103,16 @@
                         </a>
                     </li>
                    
-                   
                     <li class="site-menu-item has-sub">
                         <a href="<%=request.getContextPath()%>/blhrb/dataStat.jsp" target="view_frame" data-dropdown-toggle="false">
                             <i class="site-menu-icon md-palette" aria-hidden="true"></i>
                             <span class="site-menu-title">数据统计</span>
+                        </a>
+                    </li>
+                    <li class="site-menu-item has-sub">
+                        <a href="<%=request.getContextPath()%>/initBannerPage" target="view_frame" data-dropdown-toggle="false">
+                            <i class="site-menu-icon md-palette" aria-hidden="true"></i>
+                            <span class="site-menu-title">banner管理</span>
                         </a>
                     </li>
                 </ul>

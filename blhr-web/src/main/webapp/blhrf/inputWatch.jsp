@@ -14,15 +14,15 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/script.js"></script>
-		<!--[if (gte IE 6)&(lte IE 8)]>
-  			<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/selectivizr.js"></script>
-  			<noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/[fallback css]" /></noscript>
-		<![endif]-->
+		<style type="text/css">
+	    	#divcss5{ margin:10px auto} 
+	        #divcss5 img{ border-radius:50%}
+		</style>
 	</head>
 
 	<body style="background-color: #E8E8E8;" onload="window.scrollTo(0,document.body.scrollHeight);">
 		<div class="titleTop">
-			<img src="<%=request.getContextPath() %>/blhrf/img/zb.png" class="zbImg"> 直播课程 <span class="topText">(200人正在学)</span>
+			<img src="<%=request.getContextPath() %>/blhrf/img/zb.png" class="zbImg"> 直播课程 <span class="topText"></span>
 			<a class="sukc" href="<%=request.getContextPath() %>/endCourse?userId=${userId}&courseId=${courseId}&category=1">结束课程</a>
 		</div>
 
@@ -109,7 +109,7 @@
 	
 	//var voiceId ;
 	wx.config({
-	  //  debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	   // debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 	    appId: '${appId}', // 必填，公众号的唯一标识
 	    timestamp: '${chat_signature_package.timestamp}', // 必填，生成签名的时间戳
 	    nonceStr: '${chat_signature_package.noncestr}', // 必填，生成签名的随机串
@@ -148,15 +148,16 @@
     			wx.stopRecord({
 	 				success: function (res) {
 	 				var voiceId = res.localId;
-					$(".extendDiv").append(getVoiceContent(voiceId));
 					document.body.scrollTop += 10;
+					$(".extendDiv").append(getVoiceContent(voiceId,'${photoPath}'));
 					wx.uploadVoice({
 				 	 	      localId: voiceId.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 				 	 	      isShowProgressTips: 1, // 默认为1，显示进度提示
 				 	 		  success: function (res) {
 				 	 	      var serverId = res.serverId; // 返回图片的服务器端ID
 				 	 	      //alert("上传语音成功"+serverId);
-				 	 	      synchronizedData(serverId,"v");
+				 	 	      var voiceLength = synchronizedData(serverId,"v");
+
 				 	 	   }
 				 	 	}); 
 	  			    }
@@ -212,8 +213,10 @@
 			},
 			success : function(data) {
 				//var vm = JSON.parse(data);
-				if("1" != data)
+				if(-1 == data)
 					alert("内容发送失败!");
+				else
+					return data;
 			}
 		});
     }
@@ -246,10 +249,10 @@
 			},
 			success : function(data) {
 				//var vm = JSON.parse(data);
-				if("1" != data)
+				if(-1 == data)
 					alert("内容发送失败!");
 				else{
-					$(".extendDiv").append(getTextPanel(chatcontent));
+					$(".extendDiv").append(getTextPanel(chatcontent,'${photoPath}'));
 					document.body.scrollTop += 10;
 					document.getElementById("chatcontent").value = "";
 				}
@@ -267,7 +270,6 @@
 			    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
 			    success: function (res) {
 			        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-			      $(".extendDiv").append(getPhotoContent(localIds));
 				  document.body.scrollTop += 10;
 			      wx.uploadImage({
 					    localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -276,6 +278,7 @@
 					        var serverId = res.serverId; // 返回图片的服务器端ID
 					      //  alert("上传图片成功"+serverId);
 					        synchronizedData(serverId,"p");
+						    $(".extendDiv").append(getPhotoContent(localIds,'${photoPath}'));
 					    }
 					});
 			    }
@@ -283,12 +286,12 @@
     }
     
     
-    function getVoiceContent(voiceId){
+    function getVoiceContent(voiceId,photoPath){
     	
     	var baserDir = '<%=request.getContextPath() %>';
         var content = "<div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
-		"<div class=\"san_zuob\">"+
-			"<img src=\""+baserDir+"/blhrf/img/san_smalltou.png\" />"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
+		"<img src=\""+baserDir+photoPath+"\" />"+
 		"</div>"+
 		"<div class=\"qqright\">"+
 			"<div class=\"qqsky qqvoice\">"+
@@ -311,12 +314,12 @@
   
  }
     
-    function getPhotoContent(phtotPath){
+    function getPhotoContent(phtotPath,photoPath){
     	
     	var baseDir = '<%=request.getContextPath() %>';
     	return  "<div class=\"row\">"+
-		"<div class=\"san_zuob\">"+
-		"<img src=\""+baseDir+"/blhrf/img/san_smalltou.png\" />"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
+		"<img src=\""+baseDir+photoPath+"\" />"+
 	"</div>"+
 	"<div class=\"qqright\">"+
 		"<div class=\"qqsky\">"+
@@ -328,11 +331,11 @@
     	
   }
     
-    function getTextPanel(chatcontent){
+    function getTextPanel(chatcontent,photoPath){
     	var baseDir = '<%=request.getContextPath() %>';
     	return "<div class=\"row\">"+
-		"<div class=\"san_zuob\">"+
-		"<img src=\""+baseDir+"/blhrf/img/san_smalltou.png\" />"+
+		"<div class=\"san_zuob\" id=\"divcss5\">"+
+		"<img src=\""+baseDir+photoPath+"\" />"+
 		"</div>"+
 		"<div class=\"qqright\">"+
 			"<div class=\"qqsky\">"+
