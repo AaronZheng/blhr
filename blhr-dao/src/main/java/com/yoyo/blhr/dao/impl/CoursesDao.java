@@ -191,6 +191,7 @@ public interface CoursesDao {
 	 * @param teacherId
 	 * @param courseType
 	 * @param payType
+	 * @param weight 
 	 */
 	void updateCourseById(String courseId,String courseNamem,String profile,
 			String teacherId,String courseType,String payType);
@@ -241,6 +242,10 @@ public interface CoursesDao {
 	int queryAllCourseNum();
 
 	int queryBroadcastCourseNum();
+
+	void updateCourseByIdAddWeight(String courseId, String courseName,
+			String profile, String teacherId, String courseType,
+			String payType, int weight);
 	
 	
 	

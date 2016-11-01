@@ -274,5 +274,13 @@ public class CourseManageService {
 	public int queryBroadcastCourseNum() {
 		return coursesDao.queryBroadcastCourseNum();
 	}
+
+
+	public void updateCourseByIdAddWeight(String courseId, String courseName,
+			String profile, String teacherId, String courseType,
+			String payType, int weight) {
+		 this.coursesDao.updateCourseByIdAddWeight(courseId,courseName,profile,teacherId,courseType,payType,weight);
+		
+	}
 	
 }

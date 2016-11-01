@@ -65,4 +65,13 @@
 		select count(order_id) from orders where start_time &lt; #{date,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="queryOrdersPage"  resultMap = "ordersInfoResultMap">
+		select b.type_name, a.username, a.wechat_name, a.start_time, a.lrrq as payTime, a.end_time, a.order_state
+		from orders a, pay_type b
+		where a.pay_type_id = b.type_code and a.yxbj='Y' order by a.lrrq desc limit #{0},#{1}
+	</select>
+	
+	<select id ="queryAllOrdersNum" resultType="java.lang.Integer" >
+		SELECT COUNT(DISTINCT order_id) from orders where yxbj='Y'
+	</select>
 </mapper>

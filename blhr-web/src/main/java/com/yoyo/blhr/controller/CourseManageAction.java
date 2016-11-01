@@ -138,8 +138,8 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/createBroadcastReport",produces="application/json;charset=UTF-8")
 	public String createBroadcastReport(String courseName,String profile,String teacherId,String playTime,
-			String courseType,String payType,String personLimit,String courseState,String category) throws ParseException{
-		
+			String courseType,String payType,String personLimit,String courseState,String category, String weight) throws ParseException{
+		int weight_ = Integer.parseInt(weight);
 		Courses course = new Courses();
 		course.setCourseId(SequenceUtil.generateSequeueString());
 		course.setTeacherId(teacherId);
@@ -159,6 +159,7 @@ public class CourseManageAction {
 		course.setAvailable("1");
 		course.setCategory(category);
 		course.setCourseState(courseState);
+		course.setWeight(weight_);
 		this.courseManageService.saveCourseTitle(course);
 		return "1";
 	}
@@ -842,10 +843,14 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/saveUpdateCourseProfile" ,produces="application/json;charset=UTF-8")
 	public String saveUpdateCourseProfile(String courseId,String courseName,String profile,
-			String teacherId,String courseType,String payType){
-		
-		courseManageService.updateCourseById(courseId,courseName,profile,
-				teacherId,courseType,payType);
+			String teacherId,String courseType,String payType,String weight){
+		//加入了权重
+		int weight_ = 1;
+		if(!weight.equals("")){
+			weight_ = Integer.parseInt(weight);
+		}
+		courseManageService.updateCourseByIdAddWeight(courseId,courseName,profile,
+				teacherId,courseType,payType,weight_);
 		
 		return "1";
 		

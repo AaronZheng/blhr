@@ -24,8 +24,9 @@
 	
 	
 	<select id ="queryAllCoursesInfo" resultType="java.util.Map">
-	 select * from (select t.course_id, if(t.category=1,'后台录入','微信端录入') as category, course_name,n.username,create_time,if(available=1,'正常','已屏蔽') as available,n.fullname,if(t.pay_type=1,'免费','收费') as payType, course_state as course_state_code,case course_state when 1 then '未开始'
-	  when 3 then '已结束' when 7 then '录入未结束'  when 9 then '录入结束待审核' when 8 then '已结束已审核通过' end as courseState from course t,teachers n where t.teacher_id= n.user_id and course_state != '2' limit #{0},#{1}) h order by h.create_time desc </select>
+	 select t.course_id, if(t.category=1,'后台录入','微信端录入') as category, course_name,n.username,create_time,if(available=1,'正常','已屏蔽') as available,n.fullname,if(t.pay_type=1,'免费','收费') as payType, course_state as course_state_code,case course_state when 1 then '未开始'
+	  when 3 then '已结束' when 7 then '录入未结束'  when 9 then '录入结束待审核' when 8 then '已结束已审核通过' end as courseState, weight from course t,teachers n 
+	  where t.teacher_id= n.user_id and course_state != '2'order by weight desc,create_time desc  limit #{0},#{1} </select>
  
     <update id="updateCourseState" parameterType="java.lang.String">
        update course t set t.available = '2' where t.course_id = #{user_id,jdbcType=VARCHAR}
@@ -86,8 +87,8 @@
     
     <insert id="saveCourseTitle" parameterType="com.yoyo.blhr.dao.model.Courses">
        insert into course (pay_type,create_person,play_time,course_type,person_limit,course_id,course_name,course_profile,user_id,category,teacher_id,create_time,course_state,
-          available,lrrq,yxbj) values(#{payType},#{createPerson},#{playTime},#{courseType},#{personLimit},#{courseId},#{courseName},#{courseProfile},#{userId} ,#{category},#{teacherId},
-          #{createTime},#{courseState},#{available},#{lrrq},#{yxbj})
+          available,lrrq,yxbj,weight) values(#{payType},#{createPerson},#{playTime},#{courseType},#{personLimit},#{courseId},#{courseName},#{courseProfile},#{userId} ,#{category},#{teacherId},
+          #{createTime},#{courseState},#{available},#{lrrq},#{yxbj},#{weight})
     </insert>
     
    <select id="searchMyCourses" resultMap = "myCoursesResultMap" parameterType="java.lang.String">
@@ -183,4 +184,30 @@
 	<select id = "queryBroadcastCourseNum" resultType="java.lang.Integer">
 	select COUNT(DISTINCT t.course_id) from course t , teachers f where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8'
          </select>
+      
+       <update id="updateCourseByIdAddWeight" >
+	 	update course t
+	 	<set>
+		   <if test="#{1} != null and #{1} != ''">
+		       t.course_name = #{1},
+		   </if>
+		   <if test="#{2} != null and #{2} != ''">
+		      t.course_profile = #{2},
+		   </if>
+		   <if test="#{3} != null and #{3} != ''">
+		        t.teacher_id = #{3} ,
+		   </if>
+		    <if test="#{4} != null and #{4} != ''">
+		        t.course_type = #{4} ,
+		   </if>
+		   <if test="#{5} != null and #{5} != ''">
+		        t.pay_type = #{5} ,
+		   </if>
+		   <if test="#{6} != null and #{6} != ''">
+		        t.weight = #{6} ,
+		   </if>
+	    </set>
+	 	 where t.course_id = #{0}
+	 </update>
+         
 </mapper>

@@ -55,4 +55,8 @@ public interface OrderDao {
 	 */
 	Integer totalOrdersBef7days(String format);
 
+	List<Map<String, Object>> queryOrdersPage(int startPage, int pageSize);
+
+	int queryAllOrdersNum();
+
 }

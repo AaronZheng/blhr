@@ -5,15 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yoyo.blhr.service.OrderManageService;
 import com.yoyo.blhr.util.CommonUtil;
+import com.yoyo.blhr.util.EasyUiDataHandlerUtil;
 
 @Controller
 public class OrderManageAction {
@@ -31,8 +35,10 @@ public class OrderManageAction {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/orderManage",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	public String orderManage(HttpServletRequest request) throws IOException{
-		List<Map<String, Object>> orders = this.orderManageService.queryOrders();
+	public String orderManage(String page,String rows) throws IOException{
+		List<Map<String,Object>> orders = orderManageService.queryOrdersPage((Integer.parseInt(page)-1)*10, Integer.parseInt(rows));
+		int total = orderManageService.queryAllOrdersNum();
+		//List<Map<String, Object>> orders = this.orderManageService.queryOrders();
 		for(Map<String, Object> map : orders){
 			Date startTime = (Date)map.get("startTime");
 			Date endTime = (Date)map.get("endTime");
@@ -45,7 +51,9 @@ public class OrderManageAction {
 			else if("2".equals(orderState))
 				map.put("orderState", "未支付");
 		} 
-		JSONArray jsonArray = new JSONArray(orders);
-		return jsonArray.toString();
+		/*JSONArray jsonArray = new JSONArray(orders);
+		return jsonArray.toString();*/
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(orders, total);
+				
 	}
 }
