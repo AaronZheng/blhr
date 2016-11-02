@@ -248,7 +248,7 @@ public interface CoursesDao {
 			String payType, int weight);
 	
 	
-	
+	Map<String,Object> queryDetailByItemId(String itemId);
 	
 
 }

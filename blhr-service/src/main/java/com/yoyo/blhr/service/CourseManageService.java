@@ -80,6 +80,14 @@ public class CourseManageService {
 		coursesDao.updateCourseDetailByBath(lismap);
 	}
 	
+	/**
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	public Map<String,Object> queryDetailByItemId(String itemId){
+		return this.coursesDao.queryDetailByItemId(itemId);
+	}
 	
 	/**
 	 * 
