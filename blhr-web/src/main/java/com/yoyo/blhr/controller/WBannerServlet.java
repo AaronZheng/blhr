@@ -23,14 +23,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import com.yoyo.blhr.service.BannerService;
+import com.yoyo.blhr.service.BeanUtils;
 
 @Controller
-public class WBannerServlet extends HttpServlet implements ApplicationContextAware{
+public class WBannerServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -782531569218633779L;
-	
-	@Autowired
-	private static ApplicationContext applicationContext;
 	
 	private String filePath;
 
@@ -118,7 +116,7 @@ public class WBannerServlet extends HttpServlet implements ApplicationContextAwa
 			if(map == null || map.isEmpty() || (StringUtils.isBlank(map.get("link"))&&StringUtils.isBlank(map.get("photoPath")))){
 				return "1";
 			}
-			BannerService bannerService = (BannerService) applicationContext.getBean("bannerService");
+			BannerService bannerService = (BannerService) BeanUtils.applicationContext.getBean("bannerService");
 			String link = StringUtils.isBlank(map.get("link"))?null:map.get("link");
 			if(StringUtils.isNotBlank(fileName)){
 				fileName = "upload"+File.separator+"banner"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName;
@@ -129,14 +127,6 @@ public class WBannerServlet extends HttpServlet implements ApplicationContextAwa
 			e.printStackTrace();
 			return "2";
 		}
-	}
-	
-	
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		WBannerServlet.applicationContext = applicationContext;
 	}
 
 }

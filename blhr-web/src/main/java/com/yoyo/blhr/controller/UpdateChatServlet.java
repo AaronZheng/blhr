@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 
+import com.yoyo.blhr.service.BeanUtils;
 import com.yoyo.blhr.service.CourseManageService;
 
 /**
@@ -38,13 +39,10 @@ import com.yoyo.blhr.service.CourseManageService;
  *
  */
 @Controller
-public class UpdateChatServlet extends HttpServlet implements ApplicationContextAware{
+public class UpdateChatServlet extends HttpServlet{
 
 	private String filePath;
 	
-	@Autowired
-	private ApplicationContext applicationContext;
-
 	private static final long serialVersionUID = 8715087482553916163L;
 
 	@Override
@@ -148,7 +146,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	    updateItem.put("content_item", "/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    List<Map<String,String>> lismap = new ArrayList<Map<String,String>>();
 	    lismap.add(updateItem);
-	    CourseManageService userManageService = (CourseManageService) applicationContext.getBean("courseManageService");
+	    CourseManageService userManageService = (CourseManageService) BeanUtils.applicationContext.getBean("courseManageService");
 	    userManageService.updateCourseDetailByBath(lismap);
 	    Map<String,String> rtnmap = new HashMap<String,String>();
 	    rtnmap.put("itemId", map.get("itemId"));
@@ -158,11 +156,5 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	}
 
 
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext = applicationContext;
-	}
 
 }

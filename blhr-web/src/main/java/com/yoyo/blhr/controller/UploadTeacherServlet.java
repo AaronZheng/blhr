@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import com.yoyo.blhr.dao.model.Teachers;
 import com.yoyo.blhr.dao.model.User;
+import com.yoyo.blhr.service.BeanUtils;
 import com.yoyo.blhr.service.TeachersService;
 import com.yoyo.blhr.service.UserManageService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
@@ -37,11 +38,9 @@ import com.yoyo.blhr.util.SequenceUtil;
  *
  */
 @Controller
-public class UploadTeacherServlet extends HttpServlet implements ApplicationContextAware{
+public class UploadTeacherServlet extends HttpServlet{
 
 	private String filePath;
-	@Autowired
-	private static ApplicationContext applicationContext;
 
 	private static final long serialVersionUID = 8715087482553916163L;
 
@@ -147,8 +146,8 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 		teacher.setApplicationTime(new Date());
 		teacher.setYxbj("Y");
 		teacher.setState("2");
-		UserManageService userManageService = (UserManageService) applicationContext.getBean("userManageService");
-		TeachersService teachersService = (TeachersService) applicationContext.getBean("teachersService");
+		UserManageService userManageService = (UserManageService) BeanUtils.applicationContext.getBean("userManageService");
+		TeachersService teachersService = (TeachersService) BeanUtils.applicationContext.getBean("teachersService");
 		if("1".equals(type)){
 			teachersService.newTeacher(teacher);
 			//更新用户状态category=2
@@ -164,14 +163,6 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 			userManageService.updateUserToTeacher(userId,StringUtils.isEmpty(fileName)?null:("/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName),teacherName,teacherPassword);
 		}
 		 
-	}
-
-
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		UploadTeacherServlet.applicationContext = applicationContext;
 	}
 
 }
