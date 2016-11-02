@@ -30,16 +30,21 @@ public class LoginFilterHandler implements Filter{
 		
 		HttpServletRequest request = (HttpServletRequest)req;
 	    String requestUrl = request.getServletPath();
-	    if("/wechatlogin".equals(requestUrl)||requestUrl.endsWith(".js")||requestUrl.endsWith(".css")||requestUrl.endsWith(".jpg")||(requestUrl != null &&requestUrl.startsWith("/blhrf"))
+	    if(requestUrl == null)
+	    	requestUrl = "";
+	/*    if("/wechatlogin".equals(requestUrl)||requestUrl.endsWith(".js")||requestUrl.endsWith(".css")||requestUrl.endsWith(".jpg")||(requestUrl != null &&requestUrl.startsWith("/blhrf"))
 	    		||requestUrl.endsWith(".png")||"/initLogin".equals(requestUrl)||"/validateLoginInfo".equals(requestUrl)){
 	    	chain.doFilter(req, res);
 	    	return;
-	    }
-	    if((this.ignores != null && this.ignores.contains(requestUrl))||request.getSession().getAttribute("backuserId") != null)
+	    }*/
+	  /*  if((this.ignores != null && this.ignores.contains(requestUrl))||request.getSession().getAttribute("backuserId") != null)
 	    	chain.doFilter(req, res);
-	    else{
+	    else{*/
+	    if(((HttpServletRequest)req).getSession().getAttribute("backuserId") == null && ("/loginMainPage".equals(requestUrl) || "/blhrb/frame.jsp".equals(requestUrl)||requestUrl.startsWith("/blhrb")))
 	    	request.getRequestDispatcher("/initLogin").forward(req, res);
-	    }
+	    else
+	    	chain.doFilter(req, res);
+	    //}
 
 	    
 		

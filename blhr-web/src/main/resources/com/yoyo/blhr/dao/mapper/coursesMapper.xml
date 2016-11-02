@@ -33,8 +33,11 @@
     
     <update id="updateCourseToEnd" >
        update course t set t.course_state = #{1} where t.course_id = #{0}
-       
     </update>
+    
+    <select id="queryDetailByItemId" resultMap="java.util.Map" parameterType="java.lang.String">
+       select * from course_detail where course_detail_id = #{itemId}
+    </select>
     
     <select id="queryBroadcastCourse" parameterType="java.util.Map" resultType="java.util.Map">
        select t.course_id, t.course_name, t.pay_type,t.course_type,t.create_person,t.create_time,

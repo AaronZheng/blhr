@@ -172,6 +172,8 @@ public class CourseManageAction {
 	@ResponseBody
 	@RequestMapping(value="/deleteCourseDetailItem",produces="application/json;charset=UTF-8")
 	public String deleteCourseDetailItem(String itemId){
+		Map<String,Object> map = this.courseManageService.queryDetailByItemId(itemId);
+		if(map.get(key))
 		this.courseManageService.deleteCourseDetailByItemId(itemId);
 		return "1";
 	}

@@ -108,6 +108,15 @@ public class CourseManageService {
 		coursesDao.deleteCourseDetailByItemId(itemId);
 	}
 	
+	/**
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	public Map<String,Object> queryDetailByItemId(String itemId){
+		return this.coursesDao.queryDetailByItemId(itemId);
+	}
+	
 	
 	/**
 	 * 

@@ -242,6 +242,8 @@ public interface CoursesDao {
 
 	int queryBroadcastCourseNum();
 	
+	Map<String,Object> queryDetailByItemId(String itemId);
+	
 	
 	
 	
