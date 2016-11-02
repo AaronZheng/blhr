@@ -2,6 +2,7 @@ package com.yoyo.blhr.service;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,15 @@ public class OrderManageService {
 	public void updateOrder(String nonce_str){
 		
 		orderDao.updateOrder(nonce_str);
+	}
+
+	public List<Map<String, Object>> queryOrdersPage(int startPage,int pageSize) {
+		
+		return orderDao.queryOrdersPage(startPage, pageSize);
+	}
+
+	public int queryAllOrdersNum() {
+		return orderDao.queryAllOrdersNum();
 	}
 	
 }

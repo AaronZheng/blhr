@@ -52,6 +52,8 @@ public class Courses implements Serializable{
 	
 	private String yxbj;
 	
+	private int weight;
+	
 	
 	
 
@@ -209,6 +211,14 @@ public class Courses implements Serializable{
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 
 }

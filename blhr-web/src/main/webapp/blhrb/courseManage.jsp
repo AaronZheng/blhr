@@ -31,14 +31,15 @@
 								<tr>
 								    <th field="course_id" hidden="true"></th>
 								    <th field="course_state_code" hidden="true"></th>
-									<th field="category" width="14%" align="center">课程分类</th>
+									<th field="category" width="10%" align="center">课程分类</th>
 									<th field="course_name" width="15%" align="center">课程名称</th>
 									<th field="username" width="10%" align="center">创建者</th>
-									<th field="fullname" width="15%" align="center">讲师姓名</th>
+									<th field="fullname" width="10%" align="center">讲师姓名</th>
 									<th field="payType" width="10%" align="center">费用</th>
 									<th field="create_time" width="15%" align="center">创建时间</th>
 									<th field="courseState" width="10%" align="center">课程进度</th>
 									<th field="available" width="10%" align="center">课程状态</th>
+									<th field="weight" width="6%" align="center">权重</th>
 								</tr>
 							</thead>
 						</table>
@@ -110,13 +111,16 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 		<option value="2">收费</option> 
 	   </select> 
     </td></tr>
-    <tr><td >类型</td><td colspan="3">
+    <tr><td >类型</td><td>
        <select class="easyui-combobox"  id="courseTypeUCP" style="width:200px;"> 
 			<option value="成长">成长</option> 
 		    <option value="健康">健康</option> 
 		    <option value="美食">美食</option> 
 	   </select> 
-       </td></tr>
+       </td><td >权重</td>
+    	<td><input  id="weightUCP" style="width: 200px;" class="easyui-numberbox"  type="text" name="weightUCP" 
+    	min="1" max="100" precision="0" missingMessage="必须填写1~100之间的数字"/></td>
+    </tr>
     </table>
      <input type="button" value="保存修改" onclick="saveUpdateCourseProfle('7')">
 </div>
@@ -128,7 +132,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
             top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
     <center><h3>创建课程简介</h3>
    <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
-    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;" class="easyui-textbox"  type="text" name="courseName" /></td></tr>
+    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;" class="easyui-textbox"  type="text" name="courseName" validType="length[0,14]"/></td></tr>
     <tr><td  colspan="1">课程简介</td><td  colspan="3"><textarea id="profile" name="profile" style="width: 400px;height:60px;"></textarea></td></tr>
     <tr><td  style="width: 100px; height: 20px;" >讲师</td><td>
     <select id="teacherId"  class="easyui-combobox" valueField='userId',textField='fullname',
@@ -140,13 +144,18 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 		<option value="2">收费</option> 
 	   </select> 
     </td></tr>
-    <tr><td >类型</td><td colspan="3">
+    <tr><td >类型</td>
+    	<td>
        <select class="easyui-combobox"  id="courseType" style="width:200px;"> 
 			<option value="成长">成长</option> 
 		    <option value="健康">健康</option> 
 		    <option value="美食">心理</option> 
 	   </select> 
-       </td></tr>
+       </td>
+    	<td >权重</td>
+    	<td><input  id="weight" style="width: 200px;" class="easyui-numberbox"  type="text" name="weight" 
+    	min="1" max="100" precision="0" required="true" missingMessage="必须填写1~100之间的数字"/></td>
+    </tr>
     </table>
     <div>
     <input type="button" value="创建" onclick="creatInputCourse('7')">
@@ -264,6 +273,7 @@ function creatInputCourse(type){
 	var profile = document.getElementById("profile").value;
 	var courseType = document.getElementById("courseType").value;
 	var payType = document.getElementById("payType").value;
+	var weight = document.getElementById("weight").value;
 	
 	   jQuery.ajax({
 			type : "POST",
@@ -276,6 +286,7 @@ function creatInputCourse(type){
 				courseType:courseType,
 				payType:payType,
 				courseState: type,
+				weight : weight,
 				category: '1'
 			},
 			error : function(request) {
@@ -548,6 +559,8 @@ function updateCourseProfile(){
 				 $('#teacherIdUCP').combobox('select', data.teacher_id);
 				 $('#payTypeUCP').combobox('select', data.pay_type);
 				 $('#courseTypeUCP').combobox('select', data.course_type);
+				//document.getElementById("weightUCP").value = data.weight;
+				 $('#weightUCP').numberbox('setValue', data.weight);
 				//$("#courseDetailGrid").datagrid("loadData",data);
 			}
 	});
@@ -564,7 +577,9 @@ function saveUpdateCourseProfle(){
 	var payType = document.getElementById("payTypeUCP").value;
 	var teacherIdUCP = $('#teacherIdUCP').combobox('getValue');
 	var payType = $('#payTypeUCP').combobox('getValue');
-
+	var weight = document.getElementById("weightUCP").value;
+	//var weight = $("weightUCP").numberbox('getValue');
+	
 	<%--   $('#teacherIdUCP').combobox({   
 	         url:'<%=request.getContextPath()%>/queryTeachers',
 	         valueField:'userId',   
@@ -587,7 +602,8 @@ function saveUpdateCourseProfle(){
 				profile:profile,
 				teacherId:teacherIdUCP,
 				courseType:courseType,
-				payType:payType
+				payType:payType,
+				weight:weight
 			},
 			error : function(request) {
 				alert(request);
