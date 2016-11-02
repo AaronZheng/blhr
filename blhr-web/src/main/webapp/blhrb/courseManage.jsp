@@ -165,7 +165,9 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 </div>
 <div id ="spCoursePanel" class="easyui-panel" closed='true' style="width:100%; ">
 	<table id="sp_grid" class="easyui-datagrid" title="待审批课程"
-		style="width: 100%; height: 380px" toolbar="#tb2">
+		style="width: 100%; height: 380px" toolbar="#tb2" 
+		 url='<%=request.getContextPath()%>/querySpCourseInfo'
+		 singleSelect=true rownumbers=true pagination="true">
 		<thead>
 			<tr>
 			    <th field="course_id" hidden="true"></th>
@@ -518,13 +520,14 @@ function hide(){
  
 //显示待审批课程
 function spCourseContent(){
+	 
 	$('#coursePanel').panel('close');
-	$("#sp_grid").datagrid({
+	<%-- $("#sp_grid").datagrid({
 		url : '<%=request.getContextPath()%>/querySpCourseInfo',
 		pagination : 'true',
 		singleSelect : 'true',
 		rownumbers : true
-	});
+	}); --%>
 	$('#spCoursePanel').panel('open');
 }
 

@@ -246,6 +246,10 @@ public interface CoursesDao {
 			String profile, String teacherId, String courseType,
 			String payType, int weight);
 	Map<String,Object> queryDetailByItemId(String itemId);
+
+	int queryAllSpCourseNum();
+
+
 	
 	
 	

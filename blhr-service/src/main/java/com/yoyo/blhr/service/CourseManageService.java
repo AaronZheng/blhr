@@ -292,4 +292,9 @@ public class CourseManageService {
 		 this.coursesDao.updateCourseByIdAddWeight(courseId,courseName,profile,teacherId,courseType,payType,weight);
 		
 	}
+
+
+	public int queryAllSpCourseNum() {
+		return coursesDao.queryAllSpCourseNum();
+	}
 	}

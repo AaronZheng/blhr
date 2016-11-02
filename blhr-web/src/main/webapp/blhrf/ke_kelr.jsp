@@ -31,7 +31,7 @@
 							<input type="hidden" id="courseType" name="courseType" />
 							<input type="hidden" id="category" name="category" value="3" />
 							<input type="hidden" id="numLimit" name="numLimit" />
-							<input type="text" id="courseName" name="courseName" value="${courseName}" placeholder="最多输入16个字符" />
+							<input type="text" id="courseName" name="courseName" value="${courseName}" placeholder="最多输入14个字符" />
 						</div>
 						<div class="log_name_dec">
 							<label>课程介绍</label>
@@ -53,7 +53,7 @@
 					<p>请选择</p>
 					<p onclick = "setCourseType('成长')">成长</p>
 					<p  onclick = "setCourseType('健康')">健康</p>
-					<p onclick = "setCourseType('美食')">心理</p>
+					<p onclick = "setCourseType('心理')">心理</p>
 					</div>
 				</div>
 				
@@ -68,11 +68,12 @@
 		
 		$(document).ready(function() {
 			var courseType = '${courseType}';
+			debugger;
 			if(courseType == "成长")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
-			else if(courseType = "健康")
+			else if(courseType == "健康")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(2).html());
-			else if(courseType = "心理")
+			else if(courseType == "心理")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(3).html());
 			else
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
@@ -102,6 +103,10 @@
 		    	var courseIntro = document.getElementById("courseIntro").value;
 			  if(courseName == null || courseName == ""){
 				  alert("请填写课程名称");
+				  return ;
+			  }
+			  if(courseName.length > 14 ){
+				  alert("最多输入14个字符");
 				  return ;
 			  }
 			  if(courseType == null || courseType == ""){

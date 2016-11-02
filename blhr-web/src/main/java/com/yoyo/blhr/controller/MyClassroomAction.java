@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import sun.misc.BASE64Encoder;
+
 import com.yoyo.blhr.dao.model.FavoriteCourseVo;
 import com.yoyo.blhr.dao.model.LearnRecordsVo;
 import com.yoyo.blhr.dao.model.Members;
@@ -33,8 +35,6 @@ import com.yoyo.blhr.util.BlhrArgumentCache;
 import com.yoyo.blhr.util.BlhrConf;
 import com.yoyo.blhr.util.CommonUtil;
 import com.yoyo.blhr.util.Constant;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * 
@@ -234,7 +234,12 @@ public class MyClassroomAction {
 	@ResponseBody
 	@RequestMapping(value="/scCourse",produces="application/json;charset=UTF-8")
 	public String scCourse(String courseId, String userId) throws IOException {
-		this.myClassroomService.insertMyFavCourse(userId, courseId);
+		//判断是否已经收藏
+		boolean isExist = myClassroomService.queryIsMyFavCourseByUserIdAndCourseId(userId,courseId);
+		if(isExist == true)
+			this.myClassroomService.insertMyFavCourse(userId, courseId);
+		else 
+			return "2";
 		return "1";
 		
 	}

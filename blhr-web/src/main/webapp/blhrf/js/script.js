@@ -12,10 +12,12 @@
 				alert("内容发送失败!");
 			},
 			success : function(data) {
-				if("1" != data)
-					alert("课程收藏失败!");
-				else{
+				if("1" == data)
 					alert("课程收藏成功!");
+				else if("2" == data){
+					alert("该课程您已收藏!");
+				}else{
+					alert("课程收藏失败!");
 				}
 					
 			}

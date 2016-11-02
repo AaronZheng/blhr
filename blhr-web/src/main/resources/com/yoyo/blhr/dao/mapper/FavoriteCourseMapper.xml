@@ -22,5 +22,8 @@
                values(#{favorite_id},#{user_id},#{course_id},#{lrrq},#{yxbj})
 	</insert>
 
-
+  <select id="queryIsMyFavCourseByUserIdAndCourseId" resultType="java.util.Map"  parameterType="java.lang.String">
+        select f.course_id  from favorite_course f
+        where  f.user_id =#{0} and f.course_id = #{1}
+    </select>
 </mapper>
