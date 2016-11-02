@@ -358,6 +358,8 @@
 		
 	
 	  $("#btn_file").change(function() {  
+/* 		  if(document.getElementById("voicename").value == null || document.getElementById("voicename").value == "")
+			  return; */
 		    $("#uploadvioce").ajaxSubmit({
 	            type: 'post', // 提交方式 get/post
 	            url: '<%=request.getContextPath() %>/ChatServlet', // 需要提交的 url

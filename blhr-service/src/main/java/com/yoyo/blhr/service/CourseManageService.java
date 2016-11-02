@@ -108,6 +108,15 @@ public class CourseManageService {
 		coursesDao.deleteCourseDetailByItemId(itemId);
 	}
 	
+	/**
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	public Map<String,Object> queryDetailByItemId(String itemId){
+		return this.coursesDao.queryDetailByItemId(itemId);
+	}
+	
 	
 	/**
 	 * 
@@ -266,6 +275,7 @@ public class CourseManageService {
 	}
 
 
+
 	public int queryAllCourseNum() {
 		return coursesDao.queryAllCourseNum();
 	}
@@ -282,5 +292,4 @@ public class CourseManageService {
 		 this.coursesDao.updateCourseByIdAddWeight(courseId,courseName,profile,teacherId,courseType,payType,weight);
 		
 	}
-	
-}
+	}

@@ -55,14 +55,14 @@
             <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
                 <li class="dropdown">
                     <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button"
-                    	>退出</a>
+                    	onclick="logOut()">退出</a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation">
                             <a href="http://zzk-test.mvp01.com/admin/changePasswordUi" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> 修改密码</a>
                         </li>
                         <li class="divider" role="presentation"></li>
                         <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem" logouturl="/doLogout" successurl="/loginUi" id="logout"><i class="icon wb-power" aria-hidden="true"></i> 退出</a>
+                            <a href="javascript:void(0)" role="menuitem" logouturl="/doLogout" successurl="/loginUi" id="logout"><i class="icon wb-power" aria-hidden="true" onclick="logOut()"></i> 退出</a>
                         </li>
                     </ul>
                 </li>
@@ -121,9 +121,9 @@
     </div>
 </div>
 <script type="text/javascript">
-function back(){
-	
-	window.location.href="<%=request.getContextPath()%>/blhrb/login/login.jsp";
+function logOut(){
+	<%request.getSession().removeAttribute("backuserId");%>
+	window.parent.location.href="<%=request.getContextPath()%>/blhrb/login/login.jsp";
 	<%-- <%
 	request.getRequestDispatcher("/blhrb/login/login.jsp").forward(request,response);
 	%> 
