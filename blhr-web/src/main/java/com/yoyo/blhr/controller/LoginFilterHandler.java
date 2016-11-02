@@ -40,7 +40,7 @@ public class LoginFilterHandler implements Filter{
 	  /*  if((this.ignores != null && this.ignores.contains(requestUrl))||request.getSession().getAttribute("backuserId") != null)
 	    	chain.doFilter(req, res);
 	    else{*/
-	    if(((HttpServletRequest)req).getSession().getAttribute("backuserId") == null && ("/loginMainPage".equals(requestUrl) || "/blhrb/frame.jsp".equals(requestUrl)||requestUrl.startsWith("/blhrb")))
+	    if(((HttpServletRequest)req).getSession().getAttribute("backuserId") == null && ("/loginMainPage".equals(requestUrl) || "/blhrb/frame.jsp".equals(requestUrl)))
 	    	request.getRequestDispatcher("/initLogin").forward(req, res);
 	    else
 	    	chain.doFilter(req, res);
