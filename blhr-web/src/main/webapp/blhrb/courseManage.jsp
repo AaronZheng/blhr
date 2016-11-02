@@ -132,7 +132,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
             top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
     <center><h3>创建课程简介</h3>
    <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
-    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;" class="easyui-textbox"  type="text" name="courseName" validType="length[0,14]"/></td></tr>
+    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;"  type="text" name="courseName" validType="length[0,14]"/></td></tr>
     <tr><td  colspan="1">课程简介</td><td  colspan="3"><textarea id="profile" name="profile" style="width: 400px;height:60px;"></textarea></td></tr>
     <tr><td  style="width: 100px; height: 20px;" >讲师</td><td>
     <select id="teacherId"  class="easyui-combobox" valueField='userId',textField='fullname',
@@ -470,7 +470,13 @@ function inputBroadcast(){
 
 
 function creatBroadcast(){
-	   
+	document.getElementById("courseName").value = '';
+	 document.getElementById("profile").value = '';
+	 $('#teacherId').combobox('select', '');
+	 $('#payType').combobox('select', '');
+	 $('#courseType').combobox('select', '');
+	 $('#weight').numberbox('setValue', '');
+	
 	   $('#createBroadcastPanel').dialog('open');
 	   $('#teacherId').combobox({   
 	         url:'<%=request.getContextPath()%>/queryTeachers',
