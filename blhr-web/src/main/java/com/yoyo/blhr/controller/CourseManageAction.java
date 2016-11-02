@@ -1,5 +1,6 @@
 package com.yoyo.blhr.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -174,8 +175,13 @@ public class CourseManageAction {
 	@RequestMapping(value="/deleteCourseDetailItem",produces="application/json;charset=UTF-8")
 	public String deleteCourseDetailItem(String itemId){
 	Map<String,Object> map = this.courseManageService.queryDetailByItemId(itemId);
-/*		if(map.get(key))	*/	
-			this.courseManageService.deleteCourseDetailByItemId(itemId);
+	if("v".equals(map.get("content_type"))){
+		File file = new File("/root/blhr/apache-tomcat-7.0.70/webapps/blhr-web/upload/"
+	                          +map.get("content_item"));
+		if(file.exists())
+			file.delete();
+	}
+		this.courseManageService.deleteCourseDetailByItemId(itemId);
 		return "1";
 	}
 	
