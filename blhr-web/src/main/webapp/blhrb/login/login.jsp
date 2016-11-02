@@ -54,8 +54,8 @@
 
 	<div class="page-container">
 		<h1>微儿健康后台管理系统</h1>
-			<input type="text" name="username" id="username" placeholder="用户名" value="zhangsan"><br/>
-			<input type="password" name="password" id="password" placeholder="密码" value="zhangsan"><br/>
+			<input type="text" name="username" id="username" placeholder="用户名" ><br/>
+			<input type="password" name="password" id="password" placeholder="密码" ><br/>
 			<button type="button" onclick="submit()">提交</button><br/>
 			<br/>
 			<div class="errors">
