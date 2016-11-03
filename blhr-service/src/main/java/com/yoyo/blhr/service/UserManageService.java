@@ -107,6 +107,14 @@ public class UserManageService {
 		this.userInfoDao.updateTeacherToUser(userId);
 	}
 
+	public int queryAllUsersNum() {
+		return this.userInfoDao.queryAllUsersNum();
+	}
+
+
+	public List<User> usersManagePage(int startPage,int pageSize) {
+		return this.userInfoDao.queryAllUsersPage(startPage, pageSize);
+	
 
 	public LoginDao getLoginDao() {
 		return loginDao;
@@ -156,7 +164,6 @@ public class UserManageService {
 	public void setUserInfoDao(UserInfoDao userInfoDao) {
 		this.userInfoDao = userInfoDao;
 	}
-	
 	
 
 	
