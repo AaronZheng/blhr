@@ -108,16 +108,6 @@ public class UserManageService {
 	}
 
 
-	public int queryAllUsersNum() {
-		return this.userInfoDao.queryAllUsersNum();
-	}
-
-
-	public List<User> usersManagePage(int startPage,int pageSize) {
-		return this.userInfoDao.queryAllUsersPage(startPage, pageSize);
-	}
-
-
 	public LoginDao getLoginDao() {
 		return loginDao;
 	}
