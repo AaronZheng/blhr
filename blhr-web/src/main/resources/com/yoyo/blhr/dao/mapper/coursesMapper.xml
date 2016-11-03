@@ -41,6 +41,8 @@
        select * from course_detail where course_detail_id = #{itemId}
     </select>   
     
+       
+    <select id="queryBroadcastCourse" parameterType="java.util.Map" resultType="java.util.Map">
        select t.course_id, t.course_name, t.pay_type,t.course_type,t.create_person,t.create_time,
          f.fullname,t.play_time,t.person_limit,t.course_state,t.course_state as course_status from course t , teachers f 
          where t.user_id = f.user_id and t.course_state != '7' and t.course_state != '8' limit #{0},#{1}
@@ -145,7 +147,7 @@
 	<select id="querySpCoursesInfo" resultType="java.util.Map">
 		select course_id,if(category=1,'录入','直播') as category,  course_name,create_time,if(available=1,'正常','已屏蔽') as available,
 		course_state as course_state_code,	case course_state when 7 then '待审核' when 8 then '完成审核'  end as courseState, create_person as username
-		from course  where course_state='9'  or course_state  = '8' order by create_time desc 
+		from course  where course_state='9'  or course_state  = '8' order by create_time desc limit #{0},#{1} 
 	</select>
 	 
 	 <select id="queryDspCourseByCourseId" resultType="java.util.Map" parameterType="java.lang.String">
@@ -212,5 +214,9 @@
 	    </set>
 	 	 where t.course_id = #{0}
 	 </update>
+	 
+	 <select id="queryAllSpCourseNum" resultType="java.lang.Integer">
+		select COUNT(DISTINCT course_id) from course  where course_state='9'  or course_state  = '8' 
+	</select>
          
 </mapper>

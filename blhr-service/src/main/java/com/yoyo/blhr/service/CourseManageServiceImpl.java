@@ -301,5 +301,11 @@ public class CourseManageServiceImpl implements CourseManageService{
 		 this.coursesDao.updateCourseByIdAddWeight(courseId,courseName,profile,teacherId,courseType,payType,weight);
 		
 	}
+
+
+	@Override
+	public int queryAllSpCourseNum() {
+		return coursesDao.queryAllSpCourseNum();
+	}
 	
 }

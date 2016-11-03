@@ -829,7 +829,10 @@ public class CourseManageAction {
 	@RequestMapping(value="/querySpCourseInfo" ,produces="application/json;charset=UTF-8")
 	public String querySpCourseInfo(String page,String rows){
 		//哪带了page,rows
-		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
+		List<Map<String,Object>> lismap = courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows));
+		int total = courseManageService.queryAllSpCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap, total);
+		//return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
 	}
 	
 	

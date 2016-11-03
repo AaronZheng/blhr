@@ -250,5 +250,7 @@ public interface CoursesDao {
 	
 	Map<String,Object> queryDetailByItemId(String itemId);
 	
+	public int queryAllSpCourseNum();
+	
 
 }
