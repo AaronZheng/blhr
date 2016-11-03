@@ -39,10 +39,13 @@ import com.yoyo.blhr.service.CourseManageService;
  *
  */
 @Controller
-public class UpdateChatServlet extends HttpServlet{
+public class UpdateChatServlet extends HttpServlet implements ApplicationContextAware{
 
 	private String filePath;
 	
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	private static final long serialVersionUID = 8715087482553916163L;
 
 	@Override
@@ -146,7 +149,7 @@ public class UpdateChatServlet extends HttpServlet{
 	    updateItem.put("content_item", "/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    List<Map<String,String>> lismap = new ArrayList<Map<String,String>>();
 	    lismap.add(updateItem);
-	    CourseManageService userManageService = (CourseManageService) BeanUtils.applicationContext.getBean("courseManageService");
+	    CourseManageService userManageService = BeanUtils.courseManagerSerivce;
 	    userManageService.updateCourseDetailByBath(lismap);
 	    Map<String,String> rtnmap = new HashMap<String,String>();
 	    rtnmap.put("itemId", map.get("itemId"));
@@ -156,5 +159,11 @@ public class UpdateChatServlet extends HttpServlet{
 	}
 
 
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.applicationContext = applicationContext;
+	}
 
 }

@@ -892,9 +892,16 @@ public class CourseManageAction {
 		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.querySpCourseInfo((Integer.parseInt(page)-1)*10, Integer.parseInt(rows)));
 
 	}
-	
-	
-	
+
+
+	public CourseManageService getCourseManageService() {
+		return courseManageService;
+	}
+
+
+	public void setCourseManageService(CourseManageService courseManageService) {
+		this.courseManageService = courseManageService;
+	}
 	
 
 }

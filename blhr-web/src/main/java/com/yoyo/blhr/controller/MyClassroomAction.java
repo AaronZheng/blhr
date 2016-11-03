@@ -8,9 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -21,12 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.yoyo.blhr.dao.model.FavoriteCourseVo;
 import com.yoyo.blhr.dao.model.LearnRecordsVo;
-import com.yoyo.blhr.dao.model.Members;
 import com.yoyo.blhr.dao.model.User;
-import com.yoyo.blhr.service.MemberService;
 import com.yoyo.blhr.service.MyClassroomService;
 import com.yoyo.blhr.service.UserInfoService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
@@ -47,8 +42,8 @@ public class MyClassroomAction {
 	@Autowired
 	private MyClassroomService myClassroomService;
 	private Logger logger = Logger.getLogger(this.getClass());
-    @Autowired
-    private MemberService  memberService;
+   /* @Autowired
+    private MemberService  memberService;*/
     @Autowired
     private UserInfoService userInfoService;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -82,7 +77,7 @@ public class MyClassroomAction {
 	    	}
 	    	BlhrArgumentCache.cacheDataInfo(user.getUserId(), user);
 			BlhrArgumentCache.cacheDataInfo(code, user.getUserId());
-			Members member = memberService.queryUserByCondiation(user.getUserId());
+			//Members member = memberService.queryUserByCondiation(user.getUserId());
 			userId = user.getUserId();
     	}
 		req.getSession().setAttribute(Constant.USER_ID, user);

@@ -38,9 +38,11 @@ import com.yoyo.blhr.util.SequenceUtil;
  *
  */
 @Controller
-public class UploadTeacherServlet extends HttpServlet{
+public class UploadTeacherServlet extends HttpServlet implements ApplicationContextAware{
 
 	private String filePath;
+	@Autowired
+	private static ApplicationContext applicationContext;
 
 	private static final long serialVersionUID = 8715087482553916163L;
 
@@ -146,8 +148,8 @@ public class UploadTeacherServlet extends HttpServlet{
 		teacher.setApplicationTime(new Date());
 		teacher.setYxbj("Y");
 		teacher.setState("2");
-		UserManageService userManageService = (UserManageService) BeanUtils.applicationContext.getBean("userManageService");
-		TeachersService teachersService = (TeachersService) BeanUtils.applicationContext.getBean("teachersService");
+		UserManageService userManageService = BeanUtils.userManagerService;
+		TeachersService teachersService = BeanUtils.tms;
 		if("1".equals(type)){
 			teachersService.newTeacher(teacher);
 			//更新用户状态category=2
@@ -163,6 +165,14 @@ public class UploadTeacherServlet extends HttpServlet{
 			userManageService.updateUserToTeacher(userId,StringUtils.isEmpty(fileName)?null:("/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName),teacherName,teacherPassword);
 		}
 		 
+	}
+
+
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		UploadTeacherServlet.applicationContext = applicationContext;
 	}
 
 }

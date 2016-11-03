@@ -3,13 +3,10 @@ package com.yoyo.blhr.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.yoyo.blhr.dao.impl.CoursesDao;
 import com.yoyo.blhr.dao.impl.TeachersDao;
-import com.yoyo.blhr.dao.impl.UserInfoDao;
 import com.yoyo.blhr.dao.model.Teachers;
 
 @Service("teachersService")
@@ -19,9 +16,6 @@ public class TeachersService {
 	private TeachersDao teachersDao;
 	@Autowired(required = false)
 	private CoursesDao coursesDao;
-	@Autowired
-	private UserInfoDao userDao;
-	
 	
 	/**
 	 * 讲师

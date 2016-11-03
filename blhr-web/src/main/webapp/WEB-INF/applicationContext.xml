@@ -19,7 +19,28 @@
            </list>
         </property>
     </bean>
-
+    
+<!--     <bean id="courseManageService" class="com.yoyo.blhr.service.CourseManageServiceImpl">
+       <property name="coursesDao" ref="coursesDao"></property>
+    </bean>
+    <bean id="userManagerService" class="com.yoyo.blhr.service.UserManageService">
+       <property name="coursesDao" ref="coursesDao"></property>
+    </bean>
+    <bean id="tms" class="com.yoyo.blhr.service.TeacherManageService">
+       <property name="coursesDao" ref="coursesDao"></property>
+    </bean> -->
+    
+  
+ <!--    <bean id="courseManageAction" class="com.yoyo.blhr.controller.CourseManageAction">
+        <property name="courseManageService" ref="courseManageService"></property>
+        <property name="userManageService" ref="userManageService"></property>
+        <property name="myClassroomService" ref="myClassroomService"></property>
+        <property name="memberService" ref="memberService"></property>
+    </bean> -->
+    
+ <!--    <bean id="courseManageService" class="com.yoyo.blhr.service.CourseManageServiceImpl">
+    </bean>
+ -->
    <!--  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
         <property name="driverClass" value="${driver}" />
         <property name="jdbcUrl" value="${url}" />
@@ -68,4 +89,18 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+   <bean id="courseManageService" class="com.yoyo.blhr.service.CourseManageServiceImpl">
+<!--        <property name="coursesDao" ref="coursesDao"></property>
+ -->    </bean>
+    <bean id="userManagerService" class="com.yoyo.blhr.service.UserManageService">
+<!--        <property name="coursesDao" ref="coursesDao"></property>
+ -->    </bean>
+    <bean id="tms" class="com.yoyo.blhr.service.TeachersService">
+<!--        <property name="coursesDao" ref="coursesDao"></property>
+ -->    </bean>
+    <bean id="InitUtilService" class="com.yoyo.blhr.service.InitUtilServiceImpl">
+       <property name="courseManageService" ref="courseManageService"></property>
+       <property name="userManagerService" ref="userManagerService"></property>
+       <property name="tms" ref="tms"></property>
+    </bean>
 </beans>

@@ -12,8 +12,8 @@ import com.yoyo.blhr.dao.model.CourseDetail;
 import com.yoyo.blhr.dao.model.Courses;
 import com.yoyo.blhr.dao.model.LearnRecords;
 
-@Service("courseManageService")
-public class CourseManageService {
+@Service(value="courseManageService")
+public class CourseManageServiceImpl implements CourseManageService{
 	
 	@Autowired(required=false)
 	private CoursesDao coursesDao;
@@ -58,6 +58,17 @@ public class CourseManageService {
 	}
 	
 	
+	
+	public CoursesDao getCoursesDao() {
+		return coursesDao;
+	}
+
+
+	public void setCoursesDao(CoursesDao coursesDao) {
+		this.coursesDao = coursesDao;
+	}
+
+
 	/**
 	 * @description query course detail information by course id ...
 	 * @param page
