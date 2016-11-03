@@ -134,6 +134,10 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 				}
 			}
 			try {
+				if(itemLength == 0 || fileName == null){
+					resp.getOutputStream().write("-1".getBytes());
+					return ;
+				}
 				String rtns = saveCourseDetail(map,fileName,itemLength);
 				resp.setContentType("application/json");
 				resp.getOutputStream().write(rtns.getBytes("UTF-8"));

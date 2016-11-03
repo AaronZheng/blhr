@@ -88,8 +88,5 @@ public class UserManageAction {
 	
 	@RequestMapping(value="/exit",method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	public void exit(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		String root = request.getContextPath();
-		response.sendRedirect("http://www.baidu.com");
-		//request.getRequestDispatcher("/blhrb/login/login.jsp").forward(request,response);
 	}
 }

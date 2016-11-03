@@ -206,7 +206,7 @@
 								var timestamp = new Date().getTime();
 								//voices[voices.length] = timestamp;
 								$(".voiceTmp").append("<audio id=\""+timestamp+"\" src=\""+baseDir+vm.data[i].content_item+"\" preload=\"auto\" ></audio>");
-								$(".extendDiv").append(getReVoiceContent(timestamp,vm.data[i].course_detail_id));
+								$(".extendDiv").append(getReVoiceContent(timestamp,vm.data[i].course_detail_id,vm.data[i].item_length));
 							  	$("."+vm.data[i].course_detail_id).on("taphold", function(e) {
 							  		var id = e.currentTarget.className.split(" ")[2];
 									$("."+id).find("ul").fadeIn(300);
@@ -301,29 +301,29 @@
 				}
 			
 				if(type == "v"){
-					$(".extendDiv").append(getVoiceContent(vid,data));
-			    	$("."+data).on("taphold", function(e) {
-						$("."+data).find("ul").fadeIn(300);
+					$(".extendDiv").append(getVoiceContent(vid,data.detailId,data.itemLength));
+			    	$("."+data.detailId).on("taphold", function(e) {
+						$("."+data.detailId).find("ul").fadeIn(300);
 					});
 			    	$(document).ready(function() {
-						$("#"+data).click(function() {
-							if(deleteItem(data))
+						$("#"+data.detailId).click(function() {
+							if(deleteItem(data.detailId))
 								return;
-							var nodeInfo = document.getElementById(data);
+							var nodeInfo = document.getElementById(data.detailId);
 							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
 							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
 						});
 					});
 				}else if(type = "p"){
-				   $(".extendDiv").append(getPhotoContent(vid,data));
-			    	$("."+data).on("taphold", function(e) {
+				   $(".extendDiv").append(getPhotoContent(vid,data.detailId));
+			    	$("."+data.detailId).on("taphold", function(e) {
 						$("."+data).find("ul").fadeIn(300);
 					});
 			    	$(document).ready(function() {
-						$("#"+data).click(function() {
-							if(deleteItem(data))
+						$("#"+data.detailId).click(function() {
+							if(deleteItem(data.detailId))
 								return;
-							var nodeInfo = document.getElementById(data);
+							var nodeInfo = document.getElementById(data.detailId);
 							nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.
 							removeChild(nodeInfo.parentNode.parentNode.parentNode.parentNode.parentNode)
 						});
@@ -427,7 +427,7 @@
     
     
 
-	function getReVoiceContent(voiceId,itemId){
+	function getReVoiceContent(voiceId,itemId,itemLength){
     	var baseDir = '<%=request.getContextPath() %>';
         var content = "<div><div class=\"row\" onclick=\"rePlayVoice('"+voiceId+"')\" >"+
 		"<div class=\"san_zuob\" id=\"divcss5\">"+
@@ -446,7 +446,7 @@
 				"</div>"+
 				"<div class=\"qqvoice_hitit\"></div>"+
 				"<label></label>"+
-				"<em></em>"+
+				"<em>"+itemLength+"\"</em>"+
 				"<ul>"+
 				"<li>"+
 					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+

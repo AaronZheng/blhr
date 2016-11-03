@@ -239,20 +239,18 @@ public interface CoursesDao {
 
 	void passCourse(String course_id);
 
-
 	int queryAllCourseNum();
 
-	int queryBroadcastCourseNum();	void updateCourseByIdAddWeight(String courseId, String courseName,
+	int queryBroadcastCourseNum();
+
+	void updateCourseByIdAddWeight(String courseId, String courseName,
 			String profile, String teacherId, String courseType,
 			String payType, int weight);
+	
+	
 	Map<String,Object> queryDetailByItemId(String itemId);
-
-	int queryAllSpCourseNum();
-
-
 	
-	
-	
+	public int queryAllSpCourseNum();
 	
 
 }

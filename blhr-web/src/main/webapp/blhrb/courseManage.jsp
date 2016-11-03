@@ -132,7 +132,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
             top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
     <center><h3>创建课程简介</h3>
    <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
-    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;"  type="text" name="courseName" validType="length[0,14]"/></td></tr>
+    <tr><td  colspan="1">课程名称</td><td colspan="3"><input  id="courseName" style="width: 400px;"  type="text" class="easyui-validatebox" name="courseName" data-options="required:true, validType:'length[1,14]'" /></td></tr>
     <tr><td  colspan="1">课程简介</td><td  colspan="3"><textarea id="profile" name="profile" style="width: 400px;height:60px;"></textarea></td></tr>
     <tr><td  style="width: 100px; height: 20px;" >讲师</td><td>
     <select id="teacherId"  class="easyui-combobox" valueField='userId',textField='fullname',
@@ -154,7 +154,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
        </td>
     	<td >权重</td>
     	<td><input  id="weight" style="width: 200px;" class="easyui-numberbox"  type="text" name="weight" 
-    	min="1" max="100" precision="0" required="true" missingMessage="必须填写1~100之间的数字"/></td>
+    	min="0" max="100" precision="0" required="true" missingMessage="必须填写0~100之间的数字"/></td>
     </tr>
     </table>
     <div>
@@ -276,7 +276,14 @@ function creatInputCourse(type){
 	var courseType = document.getElementById("courseType").value;
 	var payType = document.getElementById("payType").value;
 	var weight = document.getElementById("weight").value;
-	
+	if(courseName.length >14){
+		alert("课程名称不能超过14个字！");
+		return;
+	}
+	if(weight ==""){
+		alert("权重不能为空！");
+		return;
+	}
 	   jQuery.ajax({
 			type : "POST",
 			async : false,
@@ -588,7 +595,14 @@ function saveUpdateCourseProfle(){
 	var payType = $('#payTypeUCP').combobox('getValue');
 	var weight = document.getElementById("weightUCP").value;
 	//var weight = $("weightUCP").numberbox('getValue');
-	
+	   if(courseName.length >14){
+			alert("课程名称不能超过14个字！");
+			return;
+		}
+		if(weight ==""){
+			alert("权重不能为空！");
+			return;
+		}
 	<%--   $('#teacherIdUCP').combobox({   
 	         url:'<%=request.getContextPath()%>/queryTeachers',
 	         valueField:'userId',   

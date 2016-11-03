@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import com.yoyo.blhr.dao.model.Teachers;
 import com.yoyo.blhr.dao.model.User;
+import com.yoyo.blhr.service.BeanUtils;
 import com.yoyo.blhr.service.TeachersService;
 import com.yoyo.blhr.service.UserManageService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
@@ -147,8 +148,8 @@ public class UploadTeacherServlet extends HttpServlet implements ApplicationCont
 		teacher.setApplicationTime(new Date());
 		teacher.setYxbj("Y");
 		teacher.setState("2");
-		UserManageService userManageService = (UserManageService) applicationContext.getBean("userManageService");
-		TeachersService teachersService = (TeachersService) applicationContext.getBean("teachersService");
+		UserManageService userManageService = BeanUtils.userManagerService;
+		TeachersService teachersService = BeanUtils.tms;
 		if("1".equals(type)){
 			teachersService.newTeacher(teacher);
 			//更新用户状态category=2

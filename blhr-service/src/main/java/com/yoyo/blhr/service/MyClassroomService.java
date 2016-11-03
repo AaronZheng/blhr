@@ -138,10 +138,9 @@ public class MyClassroomService {
 	public List<Map<String, Object>> queryAllCoursesByTeacherId(String teacherId) {
 		List<Map<String, Object>> allCourses = this.coursesDao.queryAllCoursesByTeacherId(teacherId);
 		return allCourses;
-	}
-
-
-
+	} 
+	
+	
 	public boolean queryIsMyFavCourseByUserIdAndCourseId(String userId,
 			String courseId) {
 		List<Map<String, Object>> isExist = myFavoriteCourse.queryIsMyFavCourseByUserIdAndCourseId(userId,courseId);
@@ -149,6 +148,7 @@ public class MyClassroomService {
 			return false;
 		return true;
 	} 
+
 	
 	
 

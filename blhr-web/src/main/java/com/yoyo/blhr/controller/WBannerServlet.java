@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.yoyo.blhr.service.BannerService;
 
 @Controller
@@ -118,7 +120,7 @@ public class WBannerServlet extends HttpServlet implements ApplicationContextAwa
 			if(map == null || map.isEmpty() || (StringUtils.isBlank(map.get("link"))&&StringUtils.isBlank(map.get("photoPath")))){
 				return "1";
 			}
-			BannerService bannerService = (BannerService) applicationContext.getBean("bannerService");
+			BannerService bannerService = (BannerService) WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext()).getBean("bannerService");
 			String link = StringUtils.isBlank(map.get("link"))?null:map.get("link");
 			if(StringUtils.isNotBlank(fileName)){
 				fileName = "upload"+File.separator+"banner"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName;

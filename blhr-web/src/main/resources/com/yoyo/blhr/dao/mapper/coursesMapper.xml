@@ -36,12 +36,12 @@
        update course t set t.course_state = #{1} where t.course_id = #{0}
        
     </update>
-    
-    
+        
     <select id="queryDetailByItemId" resultType="java.util.Map" parameterType="java.lang.String">
        select * from course_detail where course_detail_id = #{itemId}
     </select>   
     
+       
     <select id="queryBroadcastCourse" parameterType="java.util.Map" resultType="java.util.Map">
        select t.course_id, t.course_name, t.pay_type,t.course_type,t.create_person,t.create_time,
          f.fullname,t.play_time,t.person_limit,t.course_state,t.course_state as course_status from course t , teachers f 
@@ -214,10 +214,9 @@
 	    </set>
 	 	 where t.course_id = #{0}
 	 </update>
-     
-     <select id="queryAllSpCourseNum" resultType="java.lang.Integer">
+	 
+	 <select id="queryAllSpCourseNum" resultType="java.lang.Integer">
 		select COUNT(DISTINCT course_id) from course  where course_state='9'  or course_state  = '8' 
 	</select>
-
-	
+         
 </mapper>

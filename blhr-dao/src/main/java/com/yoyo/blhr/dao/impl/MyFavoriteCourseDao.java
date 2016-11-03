@@ -26,7 +26,7 @@ public interface MyFavoriteCourseDao {
 	 * @param favCourse
 	 */
 	public void insertMyFavCourse(FavoriteCourse favCourse);
-
+	
 	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
 			String userId, String courseId);
 

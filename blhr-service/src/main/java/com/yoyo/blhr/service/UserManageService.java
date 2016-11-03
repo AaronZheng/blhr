@@ -27,7 +27,7 @@ public class UserManageService {
 	private PayTypeDao payTypeDao;
 	@Autowired(required = false)
 	private LearnedRecordsDao learnRecordDao;
-	@Autowired
+	@Autowired(required = false)
 	private UserInfoDao userInfoDao;
 	
 
@@ -107,7 +107,6 @@ public class UserManageService {
 		this.userInfoDao.updateTeacherToUser(userId);
 	}
 
-
 	public int queryAllUsersNum() {
 		return this.userInfoDao.queryAllUsersNum();
 	}
@@ -116,7 +115,55 @@ public class UserManageService {
 	public List<User> usersManagePage(int startPage,int pageSize) {
 		return this.userInfoDao.queryAllUsersPage(startPage, pageSize);
 	}
-	
+
+	public LoginDao getLoginDao() {
+		return loginDao;
+	}
+
+
+	public void setLoginDao(LoginDao loginDao) {
+		this.loginDao = loginDao;
+	}
+
+
+	public MemberDao getMemberDao() {
+		return memberDao;
+	}
+
+
+	public void setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+	}
+
+
+	public PayTypeDao getPayTypeDao() {
+		return payTypeDao;
+	}
+
+
+	public void setPayTypeDao(PayTypeDao payTypeDao) {
+		this.payTypeDao = payTypeDao;
+	}
+
+
+	public LearnedRecordsDao getLearnRecordDao() {
+		return learnRecordDao;
+	}
+
+
+	public void setLearnRecordDao(LearnedRecordsDao learnRecordDao) {
+		this.learnRecordDao = learnRecordDao;
+	}
+
+
+	public UserInfoDao getUserInfoDao() {
+		return userInfoDao;
+	}
+
+
+	public void setUserInfoDao(UserInfoDao userInfoDao) {
+		this.userInfoDao = userInfoDao;
+	}
 	
 
 	

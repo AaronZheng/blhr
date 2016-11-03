@@ -213,7 +213,7 @@
 			},
 			success : function(data) {
 				//var vm = JSON.parse(data);
-				if(-1 == data)
+				if(-1 == data.detailId)
 					alert("内容发送失败!");
 				else
 					return data;

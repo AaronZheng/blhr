@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
 import org.jaudiotagger.audio.mp3.MP3File;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONObject;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,7 +67,9 @@ public class ChatManageAction {
 		
 		logger.debug("=====上传同步接入参数courseId["+courseId+"] content["+content+"] type ["+type+"]");
 		String fix = null;
+
 		 int itemLength = 0;
+		 Map<String,Object> retnMap = new HashMap<String,Object>();
 		if("p".equals(type)){
 			fix = new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+SequenceUtil.generateSequeueString()+".jpg";
 			String token = (String) BlhrArgumentCache.getCacheData(ResourceEnumType.common_access_token.getValue());
@@ -79,6 +84,7 @@ public class ChatManageAction {
 			String token = (String) BlhrArgumentCache.getCacheData(ResourceEnumType.common_access_token.getValue());
 			CommonUtil.StoreInformationFromInternet("https://api.weixin.qq.com/cgi-bin/media/get?access_token="+token+"&media_id="+content+"",basePath+File.separator+fix);
 			String url = CommonUtil.sendMessageToInternet("https://api.weixin.qq.com/cgi-bin/media/get?access_token="+token+"&media_id="+content+"");
+
 			//logger.debug("=================语音请求返回["+url+"]================");
 			Process pro = Runtime.getRuntime().exec("ffmpeg -i "+(basePath+File.separator+fix)+" "+(basePath+File.separator+nfix));
 			java.io.InputStreamReader ir=new java.io.InputStreamReader(pro.getInputStream());
@@ -95,7 +101,9 @@ public class ChatManageAction {
 						MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
 						itemLength = audioHeader.getTrackLength();
 					}
+					retnMap.put("itemLength", itemLength);
 				} catch (Throwable e) {
+					retnMap.put("itemLength", 0);
 					e.printStackTrace();
 				}  
 			logger.debug("====获取语音长度为length["+itemLength+"]");
@@ -108,7 +116,8 @@ public class ChatManageAction {
 		coursesDao.saveCourseDetail(cd);
 		if("v".equals(type))
 				return itemLength+"";
-		return cd.getCourseDetailId();
+		 retnMap.put("detailId", cd.getCourseDetailId());
+		 return new JSONObject(retnMap).toString();
 	}
 	
 	/**

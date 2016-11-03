@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 
+import com.yoyo.blhr.service.BeanUtils;
 import com.yoyo.blhr.service.CourseManageService;
 
 /**
@@ -148,7 +149,7 @@ public class UpdateChatServlet extends HttpServlet implements ApplicationContext
 	    updateItem.put("content_item", "/upload"+File.separator+new SimpleDateFormat("yyyyMMdd").format(new Date())+File.separator+fileName);
 	    List<Map<String,String>> lismap = new ArrayList<Map<String,String>>();
 	    lismap.add(updateItem);
-	    CourseManageService userManageService = (CourseManageService) applicationContext.getBean("courseManageService");
+	    CourseManageService userManageService = BeanUtils.courseManagerSerivce;
 	    userManageService.updateCourseDetailByBath(lismap);
 	    Map<String,String> rtnmap = new HashMap<String,String>();
 	    rtnmap.put("itemId", map.get("itemId"));
