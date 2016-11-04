@@ -30,6 +30,9 @@ public interface MyFavoriteCourseDao {
 	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
 			String userId, String courseId);
 
+	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
+			String userId, String courseId);
+
 	
 
 }
