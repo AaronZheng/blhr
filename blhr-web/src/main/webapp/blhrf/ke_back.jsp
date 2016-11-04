@@ -33,7 +33,7 @@
 					<div class="main_image">
 						<ul>
 							<c:forEach items="${banner }" var="ban">
-								<c:if test="${ban.pic_link ！= null}">
+								<c:if test="${ban.pic_link != null}">
 								<li><span class="banimg" style="background-image: url('<%=request.getContextPath() %>/${ban.pic_link}');" onclick="window.open('${ban.pic_address}')"></span>
 								</li></c:if>
 							</c:forEach>
