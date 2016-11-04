@@ -95,7 +95,7 @@
 					<td style="width:80px"><input type="hidden" name="photoId" value = "1"><input type='file' id='pic_link1' name='photoPath' /></td>
 					<td style="width:80px" align="right">链接:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id="pic_address1" name="link" value='${pic_address1}'/></td>
-				  	<td><img id="pic_link1" alt="" style="width: 30px; hight: 30px;" src='<%=request.getContextPath()%>/${pic_link1}'></td>
+				  	<td><img id="pic_link1" alt="" style="width: 80px; hight: 50px;" src='<%=request.getContextPath()%>/${pic_link1}'></td>
 				  	<td style="width:80px"><input type="button" onclick="submit1()" value ="修改"></td>
 				
 				</tr>
@@ -109,7 +109,7 @@
 					<td style="width:80px"><input type="hidden" name="photoId" value="2"> <input type='file' id='pic_link2' name='photoPath' /></td>
 					<td style="width:80px" align="right">链接:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id="pic_address2" name="link" value='${pic_address2}'/></td>
-				    <td><img id="pic_link2" alt="" style="width: 30px; hight: 30px;" src='<%=request.getContextPath()%>/${pic_link2}'></td>
+				    <td><img id="pic_link2" alt="" style="width: 80px; hight: 50px;" src='<%=request.getContextPath()%>/${pic_link2}'></td>
 				    <td style="width:80px"><input type="button" onclick="submit2()" value ="修改"></td>
 				</tr>
 				</table>
@@ -122,7 +122,7 @@
 					<td style="width:80px"><input type="hidden" name="photoId" value = "3"> <input type='file' id='pic_link3' name='photoPath' /></td>
 					<td style="width:80px" align="right">链接:</td>
 					<td style="width:140px"><input class="easyui-validatebox" type="text" id="pic_address3" name="link" value='${pic_address2}'/></td>
-					<td><img id="pic_link3" alt="" style="width: 30px; hight: 30px;" src='<%=request.getContextPath()%>/${pic_link3}'></td>
+					<td><img id="pic_link3" alt="" style="width: 80px; hight: 50px;" src='<%=request.getContextPath()%>/${pic_link3}'></td>
 				  	<td style="width:80px"><input type="button" onclick="submit3()" value ="修改"></td>
 				</tr>
 			</table>
