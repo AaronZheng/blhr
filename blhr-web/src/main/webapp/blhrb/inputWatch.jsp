@@ -358,7 +358,7 @@
 		
 	
 	  $("#btn_file").change(function() {  
-/* 		  if(document.getElementById("voicename").value == null || document.getElementById("voicename").value == "")
+		/*   if(document.getElementById("voicename").value == null || document.getElementById("voicename").value == "")
 			  return; */
 		    $("#uploadvioce").ajaxSubmit({
 	            type: 'post', // 提交方式 get/post
@@ -372,7 +372,8 @@
 	            	if(data == 0){
 	            		alert("发送语音失败,检查音频是否损坏，然后重新上传");
 	            		return;
-	            	}
+	            	}else if(data == -1)
+	            		return;
 	            	$(".extendDiv").append(getVoiceContent(data.sourcePath,data.detailId,data.voiceLength));
 	            	document.getElementById("voicename").value=""; 
 	            }

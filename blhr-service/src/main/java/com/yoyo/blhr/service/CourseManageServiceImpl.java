@@ -1,6 +1,7 @@
 package com.yoyo.blhr.service;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -231,8 +232,16 @@ public class CourseManageServiceImpl implements CourseManageService{
 	
 	public void updateCourseById(String courseId,String courseName,String profile,
 			String teacherId,String courseType,String payType){
+	
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("courseId", courseId);
+		map.put("courseName", courseName);
+		map.put("profile", profile);
+		map.put("teacherId", teacherId);
+		map.put("courseType", courseType);
+		map.put("payType", payType);
 		
-		 this.coursesDao.updateCourseById(courseId,courseName,profile,teacherId,courseType,payType);
+	   this.coursesDao.updateCourseById(map);
 	}
 	
 	

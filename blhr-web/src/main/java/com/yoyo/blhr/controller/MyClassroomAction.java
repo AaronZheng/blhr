@@ -229,7 +229,11 @@ public class MyClassroomAction {
 	@ResponseBody
 	@RequestMapping(value="/scCourse",produces="application/json;charset=UTF-8")
 	public String scCourse(String courseId, String userId) throws IOException {
-		this.myClassroomService.insertMyFavCourse(userId, courseId);
+		boolean isExist = myClassroomService.queryIsMyFavCourseByUserIdAndCourseId(userId,courseId);
+		if(isExist == true)
+			this.myClassroomService.insertMyFavCourse(userId, courseId);
+		else 
+			return "2";
 		return "1";
 		
 	}

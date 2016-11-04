@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -138,6 +139,16 @@ public class MyClassroomService {
 		List<Map<String, Object>> allCourses = this.coursesDao.queryAllCoursesByTeacherId(teacherId);
 		return allCourses;
 	} 
+	
+	
+	public boolean queryIsMyFavCourseByUserIdAndCourseId(String userId,
+			String courseId) {
+		List<Map<String, Object>> isExist = myFavoriteCourse.queryIsMyFavCourseByUserIdAndCourseId(userId,courseId);
+		if(CollectionUtils.isNotEmpty(isExist))
+			return false;
+		return true;
+	} 
+
 	
 	
 

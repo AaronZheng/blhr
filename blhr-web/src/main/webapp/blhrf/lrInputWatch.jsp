@@ -293,8 +293,8 @@
 			error : function(request) {
 				alert("内容发送失败!");
 			},
-			success : function(data) {
-				//var vm = JSON.parse(data);
+			success : function(mv) {
+				var data = JSON.parse(mv);
 				if(data == "" || data == null){
 					alert("内容发送失败!");
 					return "";
@@ -459,7 +459,7 @@
  }
 
 	
-	function getVoiceContent(voiceId,itemId){
+	function getVoiceContent(voiceId,itemId,itemLength){
     	var baseDir = '<%=request.getContextPath() %>';
         var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
 		"<div class=\"san_zuob\" id=\"divcss5\">"+
@@ -478,7 +478,7 @@
 				"</div>"+
 				"<div class=\"qqvoice_hitit\"></div>"+
 				"<label></label>"+
-				"<em></em>"+
+				"<em>"+itemLength+"\"</em>"+
 				"<ul>"+
 				"<li>"+
 					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+

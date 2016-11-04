@@ -12,12 +12,13 @@
 				alert("内容发送失败!");
 			},
 			success : function(data) {
-				if("1" != data)
-					alert("课程收藏失败!");
-				else{
+				if("1" == data)
 					alert("课程收藏成功!");
+				else if("2" == data){
+					alert("该课程您已收藏!");
+				}else{
+					alert("课程收藏失败!");
 				}
-					
 			}
 		});
     }
@@ -26,7 +27,7 @@
 $(document).ready(function() {
 
 	shower();
-	$(".xxdjt_jt").click(function() {
+	/*$(".xxdjt_jt").click(function() {
 		var texthtm = $('.l_content_coonn .kjgyfuy:first-child').html();
 		$(".l_content_coonn").prepend('<div class="kjgyfuy"></div>')
 		$(".kjgyfuy:first-child").prepend(texthtm);
@@ -48,7 +49,7 @@ $(document).ready(function() {
 				$(".voice_move").css("width", "3px");
 			});
 		}
-	});
+	});*/
 	$(".ke_wod span").click(function() {
 		var i = $(this).index();
 		$(this).addClass("ke_wod_ace").siblings().removeClass("ke_wod_ace");

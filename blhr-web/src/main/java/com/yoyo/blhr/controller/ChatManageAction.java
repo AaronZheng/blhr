@@ -91,7 +91,12 @@ public class ChatManageAction {
 			 LineNumberReader input=new LineNumberReader(ir);
 			 String line;
 			 while((line=input.readLine())!=null)
-				 logger.debug(line);;
+				 logger.debug(line);
+			 try {
+				Thread.sleep(400);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			MP3File f;
 				try {
 					File file = new File(basePath+File.separator+nfix);
@@ -114,9 +119,11 @@ public class ChatManageAction {
 		CourseDetail cd = generateCourseDetail(courseId,content,type);
 		cd.setItemLength(itemLength);
 		coursesDao.saveCourseDetail(cd);
-		if("v".equals(type))
-				return itemLength+"";
+		/*if("v".equals(type))
+				return itemLength+"";*/
+		 retnMap.put("itemLength",itemLength);
 		 retnMap.put("detailId", cd.getCourseDetailId());
+		 System.out.println("=================返回数据为["+new JSONObject(retnMap).toString()+"]");
 		 return new JSONObject(retnMap).toString();
 	}
 	

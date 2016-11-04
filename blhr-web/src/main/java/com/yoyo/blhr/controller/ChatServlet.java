@@ -112,7 +112,6 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 							return ;
 						}
 						// 将上传图片的名字记录到数据库中
-
 					}
 					
 			        MP3File f;
@@ -128,12 +127,15 @@ public class ChatServlet extends HttpServlet implements ApplicationContextAware{
 						resp.getOutputStream().write("0".getBytes());
 						return ;
 					}  
-					
 				}else{
 					map.put(item.getFieldName(), item.getString("UTF-8"));
 				}
 			}
 			try {
+				if("v".equals(map.get("courseType"))&&(itemLength == 0 || fileName == null)){
+					resp.getOutputStream().write("-1".getBytes());
+					return ;
+				}
 				String rtns = saveCourseDetail(map,fileName,itemLength);
 				resp.setContentType("application/json");
 				resp.getOutputStream().write(rtns.getBytes("UTF-8"));

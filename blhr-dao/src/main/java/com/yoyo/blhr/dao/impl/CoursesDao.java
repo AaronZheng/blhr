@@ -193,8 +193,7 @@ public interface CoursesDao {
 	 * @param payType
 	 * @param weight 
 	 */
-	void updateCourseById(String courseId,String courseNamem,String profile,
-			String teacherId,String courseType,String payType);
+	void updateCourseById(Map<String,Object> map);
 	
 	
 	/**
