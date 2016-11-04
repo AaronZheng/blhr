@@ -482,8 +482,8 @@ function creatBroadcast(){
 	document.getElementById("courseName").value = '';
 	 document.getElementById("profile").value = '';
 	 $('#teacherId').combobox('select', '');
-	 $('#payType').combobox('select', '');
-	 $('#courseType').combobox('select', '');
+	// $('#payType').combobox('select', '');
+	 //$('#courseType').combobox('select', '');
 	 $('#weight').numberbox('setValue', '');
 	
 	   $('#createBroadcastPanel').dialog('open');
