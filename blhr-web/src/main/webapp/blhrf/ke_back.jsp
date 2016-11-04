@@ -26,14 +26,15 @@
 			<div class="zb_ban">
 				<div class="main_visual">
 					<div class="flicking_con">
-						<a class="on" href="#"></a>
-						<a href="#"></a>
-						<a href="#"></a>
+					<c:forEach items="${banner }" var="ban">
+						<c:if test="${not empty ban.pic_link }">
+							<a href="#"></a></c:if>
+					</c:forEach>
 					</div>
 					<div class="main_image">
 						<ul>
 							<c:forEach items="${banner }" var="ban">
-								<c:if test="${ban.pic_link != null}">
+								<c:if test="${not empty ban.pic_link }">
 								<li><span class="banimg" style="background-image: url('<%=request.getContextPath() %>/${ban.pic_link}');" onclick="window.open('${ban.pic_address}')"></span>
 								</li></c:if>
 							</c:forEach>
@@ -57,12 +58,12 @@
 						<img onclick="scCourse('<%=request.getContextPath() %>','${list.course_id}','${userId}')" src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
 						<h3><div onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name}&teacherId=${list.teacherId}')"> ${list.course_name } </div></h3>
 					</div>
-					<div class="ke_backlist_mid">
+					<div class="ke_backlist_mid" onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name}&teacherId=${list.teacherId}')">
 						${list.fullname }-${list.jobName }
 					</div>
 					<div class="ke_backlist_bot">
 						<div class="ke_tou">
-						  <div id="divcss5">
+						  <div id="divcss5" onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name}&teacherId=${list.teacherId}')">
 							<img src="<%=request.getContextPath() %>/${list.photo }"/>
 							</div>
 						</div>
