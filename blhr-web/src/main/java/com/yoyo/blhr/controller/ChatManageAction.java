@@ -91,7 +91,12 @@ public class ChatManageAction {
 			 LineNumberReader input=new LineNumberReader(ir);
 			 String line;
 			 while((line=input.readLine())!=null)
-				 logger.debug(line);;
+				 logger.debug(line);
+			 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			MP3File f;
 				try {
 					File file = new File(basePath+File.separator+nfix);
@@ -99,11 +104,11 @@ public class ChatManageAction {
 						logger.debug("开始get voice length...");
 						f = (MP3File) AudioFileIO.read(file);
 						MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
-						itemLength = audioHeader.getTrackLength();
+						itemLength = audioHeader.getTrackLength()+1;
 					}
 					retnMap.put("itemLength", itemLength);
 				} catch (Throwable e) {
-					retnMap.put("itemLength", 0);
+					retnMap.put("itemLength", -1);
 					e.printStackTrace();
 				}  
 			logger.debug("====获取语音长度为length["+itemLength+"]");
@@ -114,9 +119,11 @@ public class ChatManageAction {
 		CourseDetail cd = generateCourseDetail(courseId,content,type);
 		cd.setItemLength(itemLength);
 		coursesDao.saveCourseDetail(cd);
-		if("v".equals(type))
-				return itemLength+"";
+		/*if("v".equals(type))
+				return itemLength+"";*/
+		 retnMap.put("itemLength",itemLength);
 		 retnMap.put("detailId", cd.getCourseDetailId());
+		 System.out.println("=================返回数据为["+new JSONObject(retnMap).toString()+"]");
 		 return new JSONObject(retnMap).toString();
 	}
 	

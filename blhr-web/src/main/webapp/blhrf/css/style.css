@@ -690,7 +690,7 @@ body {
 .log_name_list label {
 	display: block;
 	float: left;
-	width: 90px;
+	width: 60px;
 	font-size: 1.8665rem;
 	color: #666666;
 	line-height: 51px;
@@ -1343,7 +1343,7 @@ div.flicking_con a {
 	margin: 3px;
 	padding: 0;
 	display: inline-block;
-	text-indent: -1000px
+	text-indent: 15px
 }
 
 div.flicking_con a.on {

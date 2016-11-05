@@ -293,14 +293,19 @@
 			error : function(request) {
 				alert("内容发送失败!");
 			},
-			success : function(data) {
-				//var vm = JSON.parse(data);
+			success : function(mv) {
+				var data = JSON.parse(mv);
 				if(data == "" || data == null){
 					alert("内容发送失败!");
 					return "";
 				}
 			
 				if(type == "v"){
+					if(data.itemLength <= 0){
+						alert("发送语音失败");
+						return ;
+					}
+						
 					$(".extendDiv").append(getVoiceContent(vid,data.detailId,data.itemLength));
 			    	$("."+data.detailId).on("taphold", function(e) {
 						$("."+data.detailId).find("ul").fadeIn(300);
@@ -459,14 +464,14 @@
  }
 
 	
-	function getVoiceContent(voiceId,itemId){
+	function getVoiceContent(voiceId,itemId,itemLength){
     	var baseDir = '<%=request.getContextPath() %>';
         var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
 		"<div class=\"san_zuob\" id=\"divcss5\">"+
 		"<img src=\""+baseDir+photoPath+"\" />"+
 		"</div>"+
 		"<div class=\"qqright\">"+
-			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:200px ; height:40px ;\">"+
+			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:"+(itemLength+80)+"px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+
@@ -478,7 +483,7 @@
 				"</div>"+
 				"<div class=\"qqvoice_hitit\"></div>"+
 				"<label></label>"+
-				"<em></em>"+
+				"<em>"+itemLength+"\"</em>"+
 				"<ul>"+
 				"<li>"+
 					"<span class=\""+itemId+"\" id=\""+itemId+"\">删除</span>"+

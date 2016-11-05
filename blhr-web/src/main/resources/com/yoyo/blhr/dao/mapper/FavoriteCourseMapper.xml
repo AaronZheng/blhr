@@ -27,5 +27,4 @@
         where  f.user_id =#{0} and f.course_id = #{1}
     </select>
 
-
 </mapper>

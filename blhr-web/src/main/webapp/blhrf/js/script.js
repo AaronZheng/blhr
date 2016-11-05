@@ -27,7 +27,7 @@
 $(document).ready(function() {
 
 	shower();
-	$(".xxdjt_jt").click(function() {
+	/*$(".xxdjt_jt").click(function() {
 		var texthtm = $('.l_content_coonn .kjgyfuy:first-child').html();
 		$(".l_content_coonn").prepend('<div class="kjgyfuy"></div>')
 		$(".kjgyfuy:first-child").prepend(texthtm);
@@ -49,7 +49,7 @@ $(document).ready(function() {
 				$(".voice_move").css("width", "3px");
 			});
 		}
-	});
+	});*/
 	$(".ke_wod span").click(function() {
 		var i = $(this).index();
 		$(this).addClass("ke_wod_ace").siblings().removeClass("ke_wod_ace");

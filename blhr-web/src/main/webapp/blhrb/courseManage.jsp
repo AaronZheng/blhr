@@ -119,7 +119,7 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
 	   </select> 
        </td><td >权重</td>
     	<td><input  id="weightUCP" style="width: 200px;" class="easyui-numberbox"  type="text" name="weightUCP" 
-    	min="1" max="100" precision="0" missingMessage="必须填写1~100之间的数字"/></td>
+    	min="0" max="100" precision="0" missingMessage="必须填写0~100之间的数字"/></td>
     </tr>
     </table>
      <input type="button" value="保存修改" onclick="saveUpdateCourseProfle('7')">

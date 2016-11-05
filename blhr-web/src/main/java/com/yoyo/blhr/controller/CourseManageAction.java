@@ -454,6 +454,7 @@ public class CourseManageAction {
 			course.setCourseName(courseName);
 			course.setCourseProfile(courseIntro);
 			course.setTeacherId(userId);
+			course.setPayType("2");
 			course.setCategory(category);
 			if("1".equals(course)){
 				course.setCourseState("7");

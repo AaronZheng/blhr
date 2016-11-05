@@ -738,7 +738,7 @@
     }
     
     
-function getVoiceContent(voiceId,itemId){
+function getVoiceContent(voiceId,itemId,itemLength){
     	
     	var baserDir = '<%=request.getContextPath() %>';
         var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
@@ -758,7 +758,7 @@ function getVoiceContent(voiceId,itemId){
 				"</div>"+
 				"<div class=\"qqvoice_hitit\"></div>"+
 				"<label></label>"+
-				"<em></em>"+
+				"<em>"+itemLength+"\"</em>"+
 			"</div>"+
 			"<ul>"+
 			"<li>"+

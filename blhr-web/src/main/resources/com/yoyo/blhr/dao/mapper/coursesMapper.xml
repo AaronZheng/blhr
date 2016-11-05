@@ -163,23 +163,23 @@
 	 <update id="updateCourseById" >
 	 	update course t
 	 	<set>
-		   <if test="#{1} != null and #{1} != ''">
-		       t.course_name = #{1},
+		   <if test="#{courseName} != null and #{courseName} != ''">
+		       t.course_name = #{courseName},
 		   </if>
-		   <if test="#{2} != null and #{2} != ''">
-		      t.course_profile = #{2},
+		   <if test="#{profile} != null and #{profile} != ''">
+		      t.course_profile = #{profile},
 		   </if>
-		   <if test="#{3} != null and #{3} != ''">
-		        t.teacher_id = #{3} ,
+		  <!--  <if test="#{teacherId} != null and #{teacherId} != ''">
+		        t.teacher_id = #{teacherId} ,
+		   </if> -->
+		    <if test="#{courseType} != null and #{courseType} != ''">
+		        t.course_type = #{courseType} ,
 		   </if>
-		    <if test="#{4} != null and #{4} != ''">
-		        t.course_type = #{4} ,
-		   </if>
-		   <if test="#{5} != null and #{5} != ''">
-		        t.pay_type = #{5} ,
+		   <if test="#{payType} != null and #{payType} != ''">
+		        t.pay_type = #{payType} ,
 		   </if>
 	    </set>
-	 	 where t.course_id = #{0}
+	 	 where t.course_id = #{courseId}
 	 </update>
 	
 	<select id ="queryAllCourseNum" resultType="java.lang.Integer" >
