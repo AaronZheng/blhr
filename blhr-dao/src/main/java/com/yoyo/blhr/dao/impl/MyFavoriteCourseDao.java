@@ -27,12 +27,14 @@ public interface MyFavoriteCourseDao {
 	 */
 	public void insertMyFavCourse(FavoriteCourse favCourse);
 	
+	/**
+	 * 
+	 * @param userId
+	 * @param courseId
+	 * @return
+	 */
 	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
 			String userId, String courseId);
 
-	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
-			String userId, String courseId);
-
-	
 
 }

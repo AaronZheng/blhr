@@ -115,9 +115,9 @@ public class WBannerServlet extends HttpServlet implements ApplicationContextAwa
 
 	private String updateBannerHandler(Map<String, String> map, String fileName) {
 		try{
-			if(map == null || map.isEmpty() || (StringUtils.isBlank(map.get("link"))&&StringUtils.isBlank(map.get("photoPath")))){
+		/*	if(map == null || map.isEmpty() || (StringUtils.isBlank(map.get("link"))&&StringUtils.isBlank(map.get("photoPath")))){
 				return "1";
-			}
+			}*/
 			BannerService bannerService = (BannerService) applicationContext.getBean("bannerService");
 			String link = StringUtils.isBlank(map.get("link"))?null:map.get("link");
 			if(StringUtils.isNotBlank(fileName)){

@@ -93,7 +93,7 @@ public class ChatManageAction {
 			 while((line=input.readLine())!=null)
 				 logger.debug(line);
 			 try {
-				Thread.sleep(400);
+				Thread.sleep(500);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -104,11 +104,11 @@ public class ChatManageAction {
 						logger.debug("开始get voice length...");
 						f = (MP3File) AudioFileIO.read(file);
 						MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();  
-						itemLength = audioHeader.getTrackLength();
+						itemLength = audioHeader.getTrackLength()+1;
 					}
 					retnMap.put("itemLength", itemLength);
 				} catch (Throwable e) {
-					retnMap.put("itemLength", 0);
+					retnMap.put("itemLength", -1);
 					e.printStackTrace();
 				}  
 			logger.debug("====获取语音长度为length["+itemLength+"]");

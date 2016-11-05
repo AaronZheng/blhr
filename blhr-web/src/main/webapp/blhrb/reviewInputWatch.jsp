@@ -95,12 +95,11 @@
 					
 							
 				<c:forEach items="${courseItem }" var="list">
-					
-				 <c:if test="${list.content_type == 't'}">
+ <c:if test="${list.content_type == 't'}">
 				 <div>
 					<div class="row" id="${list.course_detail_id}">
 						<div class="san_zuob">
-							<c:if test="${userType == '2'}">
+						  <c:if test="${userType == '2'}">
 							<img src="<%=request.getContextPath() %>/${photo}" />
 						  </c:if>
 						  <c:if test="${userType == '1'}">
@@ -123,7 +122,7 @@
 				  <div>
 					<div class="row"  id="${list.course_detail_id}">
 						<div class="san_zuob">
-							<c:if test="${userType == '2'}">
+						  <c:if test="${userType == '2'}">
 							<img src="<%=request.getContextPath() %>/${photo}" />
 						  </c:if>
 						  <c:if test="${userType == '1'}">
@@ -157,7 +156,7 @@
 						  </c:if>
 						</div>
 						<div class="qqright" onclick="palyVoice('${list.content_item }','${list.item_length }')">
-							<div class="qqsky qqvoice" style="width: 200px; height:40px;">
+							<div class="qqsky qqvoice" style="width: ${list.item_length + 55 }px; height:40px;">
 								<img class="qqsky_fri" src="<%=request.getContextPath() %>/blhrf/img/jt_jt.png" />
 								<div>
 									<div class="voice_move">
@@ -168,17 +167,17 @@
 									</div>
 								</div>
 								<div class="qqvoice_hitit"></div><label> </label>
-								<em>${list.item_length}</em>
+								<em>${list.item_length }'</em>
 							</div>
 						</div>
 						<div>
 						<div>
-						<span>&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; <font style="cursor:pointer; color: red"  onclick="deleteItem(this,'${list.course_detail_id}')">删除</font></span>
-				    	<span><font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></span>	
+						<span  onclick="deleteItem(this,'${list.course_detail_id}')"><font style="cursor:pointer; color: red" >&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; 删除</font></span>
+						<span><font style="cursor:pointer; color: red"   onclick="showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)">更新</font></span>	
 						</div>
 					    </div>
 					</div>
-					</div>	
+					</div>					
 				 </c:if>
 			    </c:forEach>
 					<div id="extendDiv" class="extendDiv"></div>
@@ -212,10 +211,11 @@
 	
 	<script type="text/javascript">
 	
-
 	var htmlcontentf;
 	var htmlcontentc;
+	var htmlcontentcc;
 	var itemId;
+	var voicePhoto;
 	
 	function closeDialog(content,inputContent){
 		var aiin = document.getElementById(content);
@@ -225,6 +225,7 @@
 	
 	function mediaUpdate(type){
 		
+
 		var content = null;
 		var formc = null;
 		var formObj = null;
@@ -253,23 +254,29 @@
 	    			alert("修改内容失败");
 	    		},
 	            success: function(data) { 
-	            	htmlcontentf.removeChild(htmlcontentc);
+	            	if(data == 1){
+	            		alert("修改失败");
+	            		return;
+	            	}
+	            	//htmlcontentf.removeChild(htmlcontentc);
 	            	if("p" == type){
 	            		closeDialog('updateItemDivp','photoname');
 	            		var temp = document.createElement("div");
-						temp.innerHTML = getPhotoContent(data.sourcePath);
-	            	    htmlcontentf.appendChild(temp); 
+						temp.innerHTML = getPhotoContent(data.sourcePath,data.itemId);
+						htmlcontentc.removeChild(htmlcontentcc)
+						htmlcontentc.appendChild(temp);
 	            	}if("v" == type){
 	             		closeDialog('updateItemDivv','voicename');
 	            		var temp = document.createElement("div");
 						temp.innerHTML = getVoiceContent(data.sourcePath,data.itemId,data.itemLength);
-	            	    htmlcontentf.appendChild(temp); 
+						htmlcontentc.removeChild(htmlcontentcc)
+						htmlcontentc.appendChild(temp); 
 	            	}
 	            }
 	          // $("#uploadPhoto").resetForm(); // 提交后重置表单
 	        });
 	}
-	
+		
 	
 	
 	function updateContent(){
@@ -311,7 +318,13 @@
 	function showUpdateDiv(content,data,objdiv){
 		
 		this.htmlcontentf = objdiv.parentNode.parentNode.parentNode.parentNode.parentNode;
-		this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode;
+		if(content == "updateItemDivv"){
+			this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode.parentNode;
+			this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode.parentNode;
+		}else{
+			this.htmlcontentc = objdiv.parentNode.parentNode.parentNode.parentNode;
+			this.htmlcontentcc = objdiv.parentNode.parentNode.parentNode;
+		}
 		
 		itemId = data;
 		var aiin = document.getElementById(content);
@@ -445,15 +458,16 @@
     
     
 	
+
 	function getVoiceContent(voiceId,itemId,voiceLength){
     	
     	var baseDir = '<%=request.getContextPath() %>';
-        var content = "<div><div class=\"row\" onclick=\"palyVoice('"+voiceId+"')\" >"+
+        var content = "<div><div class=\"row\" >"+
 		"<div class=\"san_zuob\">"+
 		"<img src="+baseDir+"/${photo} />"+
 		"</div>"+
-		"<div class=\"qqright\">"+
-			"<div class=\"qqsky qqvoice\">"+
+		"<div class=\"qqright "+voiceId+"qqright\" onclick=\"palyVoice('"+voiceId+"','"+voiceLength+"')\">"+
+			"<div class=\"qqsky qqvoice\" style=\"width: "+(55+parseInt((voiceLength==""||voiceLength == null)?0:voiceLength))+"px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+
@@ -463,16 +477,19 @@
 						"<img src=\""+baseDir+"/blhrf/img/voice.png\" class=\"voice\">"+
 					"</div>"+
 				"</div>"+
-				"<div class=\"qqvoice_hitit\"></div>"+
-				"<label>&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"deleteItem(this,'${list.course_detail_id}')\">删除</font>"+
-				" &nbsp; &nbsp;<font style=\"cursor:pointer; color: red\"  onclick=\"showUpdateDiv('updateItemDivv','${list.course_detail_id}',this)\">更新</font></label>"+
 				"<em>"+voiceLength+"'</em>"+
 			"</div>"+
 		"</div>"+
-	"</div></div>";
+		"<div>"+
+		"<div>"+
+		"<span onclick=\"deleteItem(this,'"+itemId+"')\"><font style=\"cursor:pointer; color: red\">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;删除 &nbsp;</font></span>"+
+    	"<span><font style=\"cursor:pointer; color: red\"   onclick=\"showUpdateDiv('updateItemDivv','"+itemId+"',this)\">更新</font></span>"+	
+		"</div>"+
+	    "</div>"+
+	"</div>";
 	return content;
  }
-    
+      
     
     function getPhotoContent(phtotPath){
     	

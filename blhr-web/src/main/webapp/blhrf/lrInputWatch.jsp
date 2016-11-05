@@ -301,6 +301,11 @@
 				}
 			
 				if(type == "v"){
+					if(data.itemLength <= 0){
+						alert("发送语音失败");
+						return ;
+					}
+						
 					$(".extendDiv").append(getVoiceContent(vid,data.detailId,data.itemLength));
 			    	$("."+data.detailId).on("taphold", function(e) {
 						$("."+data.detailId).find("ul").fadeIn(300);
@@ -466,7 +471,7 @@
 		"<img src=\""+baseDir+photoPath+"\" />"+
 		"</div>"+
 		"<div class=\"qqright\">"+
-			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:200px ; height:40px ;\">"+
+			"<div class=\"qqsky qqvoice "+itemId+"\" style=\"width:"+(itemLength+80)+"px ; height:40px ;\">"+
 				"<img class=\"qqsky_fri\" src=\""+baseDir+"/blhrf/img/jt_jt.png\" />"+
 				"<div>"+
 					"<div class=\"voice_move\">"+

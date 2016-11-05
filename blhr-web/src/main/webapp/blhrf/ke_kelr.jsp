@@ -56,11 +56,14 @@
 					<p onclick = "setCourseType('心理')">心理</p>
 					</div>
 				</div>
+					<div>
+						    <div id="noticeDiv"></div>
+					</div>
 				
+			</form>
 				<div class="log_tj log_tjone">
 					<input type="button" onclick="submit()" value="开始录入" />
 				</div>
-			</form>
 
 		</div>
 		
@@ -68,7 +71,6 @@
 		
 		$(document).ready(function() {
 			var courseType = '${courseType}';
-			debugger;
 			if(courseType == "成长")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
 			else if(courseType == "健康")
@@ -102,27 +104,31 @@
 		    	var courseName = document.getElementById("courseName").value;
 		    	var courseIntro = document.getElementById("courseIntro").value;
 			  if(courseName == null || courseName == ""){
+				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填写课程名称</font>";
 				  alert("请填写课程名称");
 				  return ;
 			  }
 			  if(courseName.length > 14 ){
-				  alert("最多输入14个字符");
+				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">最多输入14个字符</font>";
 				  return ;
 			  }
 			  if(courseType == null || courseType == ""){
-				  alert("请填限制课程类别");
+				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填限制课程类别</font>";
 				  return ;
 			  }
 			  if(numLimit == null || numLimit == ""){
-				  alert("请填选择限制人数");
+				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填选择限制人数</font>";
 				  return ;
 			  }
 			  if(courseIntro == null || courseIntro == ""){
-				  alert("请填写课程简介");
+				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填写课程简介</font>";
 				  return;
 			  }
 			  
 			  $("#mycourse").submit();
+			  
+			  document.getElementById("courseName").value = "";
+			  document.getElementById("courseIntro").value = "";
 		    }
 		
 		</script>
