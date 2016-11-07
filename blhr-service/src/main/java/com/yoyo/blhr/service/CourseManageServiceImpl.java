@@ -9,15 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yoyo.blhr.dao.impl.CoursesDao;
+import com.yoyo.blhr.dao.impl.MyFavoriteCourseDao;
 import com.yoyo.blhr.dao.model.CourseDetail;
 import com.yoyo.blhr.dao.model.Courses;
+import com.yoyo.blhr.dao.model.FavoriteCourse;
 import com.yoyo.blhr.dao.model.LearnRecords;
+import com.yoyo.blhr.dao.model.User;
 
 @Service(value="courseManageService")
 public class CourseManageServiceImpl implements CourseManageService{
 	
 	@Autowired(required=false)
 	private CoursesDao coursesDao;
+	@Autowired(required=false)
+	private MyFavoriteCourseDao favoriteCourseDao;
 	
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -315,6 +320,12 @@ public class CourseManageServiceImpl implements CourseManageService{
 	@Override
 	public int queryAllSpCourseNum() {
 		return coursesDao.queryAllSpCourseNum();
+	}
+
+
+	@Override
+	public List<User> queryFavUserBycourseId(String courseId) {
+		return favoriteCourseDao.queryFavUserBycourseId(courseId);
 	}
 	
 }

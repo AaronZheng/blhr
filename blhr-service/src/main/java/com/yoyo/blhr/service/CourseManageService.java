@@ -7,6 +7,7 @@ import com.yoyo.blhr.dao.impl.CoursesDao;
 import com.yoyo.blhr.dao.model.CourseDetail;
 import com.yoyo.blhr.dao.model.Courses;
 import com.yoyo.blhr.dao.model.LearnRecords;
+import com.yoyo.blhr.dao.model.User;
 
 public interface CourseManageService {
 	
@@ -213,5 +214,8 @@ public interface CourseManageService {
 			String payType, int weight) ;
 
 	public int queryAllSpCourseNum();
+
+
+	public List<User> queryFavUserBycourseId(String courseId);
 	
 }

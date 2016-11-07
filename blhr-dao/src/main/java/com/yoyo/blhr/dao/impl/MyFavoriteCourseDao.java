@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yoyo.blhr.dao.model.FavoriteCourse;
 import com.yoyo.blhr.dao.model.FavoriteCourseVo;
+import com.yoyo.blhr.dao.model.User;
 
 
 /**
@@ -35,6 +36,8 @@ public interface MyFavoriteCourseDao {
 	 */
 	public List<Map<String, Object>> queryIsMyFavCourseByUserIdAndCourseId(
 			String userId, String courseId);
+
+	public List<User> queryFavUserBycourseId(String courseId);
 
 
 }

@@ -10,6 +10,13 @@
         <result column="photo" property="photo" jdbcType="VARCHAR" />
     </resultMap>
     
+    <resultMap id="FavoriteUser" type="com.yoyo.blhr.dao.model.User">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="wechatname" property="wechatname" jdbcType="VARCHAR" />
+        <result column="openid" property="openid" jdbcType="VARCHAR" />
+    </resultMap>
+    
     <select id="queryFavoriteCourseByUserId" resultMap="FavoriteCourseVoMap"  parameterType="java.lang.String">
         select f.course_id, c.course_name, t.user_id, t.username, u.photo
         from favorite_course f, course c, teachers t, users u
@@ -27,4 +34,7 @@
         where  f.user_id =#{0} and f.course_id = #{1}
     </select>
 
+	<select id="queryFavUserBycourseId" resultMap="FavoriteUser"  parameterType="java.lang.String">
+		select u.user_id,u.username, u.wechatname, u.openid from favorite_course f, users u where f.course_id=#{0} and f.user_id = u.user_id
+	</select>
 </mapper>

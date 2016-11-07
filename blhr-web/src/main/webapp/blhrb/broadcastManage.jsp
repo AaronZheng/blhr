@@ -80,19 +80,23 @@
    
    
    function pushNotice(courseId){
-	   
+		   var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
+			 var curr = options.pageNumber;  
+			 var pageSize = Math.ceil(options.pageSize);
 	   jQuery.ajax({
 			type : "POST",
 			async : false,
 			url : "<%=request.getContextPath()%>/pushMessage",
 			data:{
+				page:curr,
+				rows:pageSize,
 				courseId:courseId
 			},
 			error : function(request) {
 				alert(request);
 			},
 			success : function(data) {
-				if("1" == data)
+				$("#ttbd").datagrid("loadData",data);
 					alert("推送成功！");
 			}
 	});
@@ -156,29 +160,29 @@
 	    	  $('#openCourse').dialog('close');
 	    }
    
-   function openCourseDetail(){
+   function openCourseDetail(courseId){
 	   
 	   $('#openCourse').dialog('open');
-	<%-- 	var rows = $('#ttbd').datagrid("getSelections"); //获取你选择的所有行 
-		 var grid = $('#ttbd');  
-		 var options = grid.datagrid('getPager').data("pagination").options;  
-		 var curr = options.pageNumber;  
+	   var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
+	   var curr = options.pageNumber;  
+	   var pageSize = Math.ceil(options.pageSize);
 	    jQuery.ajax({
 				type : "POST",
 				async : false,
 				url : "<%=request.getContextPath()%>/queryCourseDetailInfo",
 				data:{
 					page:curr,
-					rows:'10',
-					course_id:rows[0].course_id
+					rows:pageSize,
+					course_id:courseId
 				},
 				error : function(request) {
 					alert(request);
 				},
 				success : function(data) {
-					$("#courseDetailGrid").datagrid("loadData",data);
+					$('#ff').form('load', data);
+					//$("#courseDetailGrid").datagrid("loadData",data);
 				}
-		}); --%>
+		});
    }
    
    
@@ -232,6 +236,56 @@
 		}
 		
    }
+   
+   //zm，编辑直播
+   function editBroadcast(courseId){
+	 var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
+	 var curr = options.pageNumber;  
+	 var pageSize = Math.ceil(options.pageSize);
+	 
+	 jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/editBroadcast",
+			data:{
+				page:curr,
+				rows:pageSize,
+				course_id:courseId
+			},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				$('#editCourse').dialog('open');
+				
+			}
+	});
+   }
+   
+   function closeEditCourse(){
+	   jQuery.ajax({
+			type : "POST",
+			async : false,
+			url : "<%=request.getContextPath()%>/editBroadcast",
+			data:{
+				page:curr,
+				rows:pageSize,
+				course_id:courseId
+			},
+			error : function(request) {
+				alert(request);
+			},
+			success : function(data) {
+				   $("#ttbd").datagrid("reload");
+				   $('#editCourse').dialog('close');
+				
+			}
+	});
+	  
+   }
+   
+   
+   
  </script>
  
 </head>
@@ -259,18 +313,29 @@
 							</thead>
 						</table>
 	                    <div id="tb">
-						  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						 <!--<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
 						  onclick="creatBroadcast()">创建直播</a> 
-						  <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
 						    onclick="inputBroadcast()">录入直播</a>
 						    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
-						    onclick="deleteCourse()">删除直播</a>
+						    onclick="deleteCourse()">删除直播</a>-->
+						    
+						    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" 
+						  onclick="creatBroadcast()">创建直播预告</a> 
+						  
 						</div>
 						
 						
 						
 <div id="openCourse" class="easyui-dialog" title="课程详情" style="width:600px;height:360px; left:0,
 top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
+    <form id="ff" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />
+    </div>
+    </form>
+    
     <center><h3>直播课程详情</h3>
    <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
     <tr><td style="font-size: 15px"  colspan="1">课程名称</td><td colspan="3">孩子咳嗽怎么办</td></tr>
@@ -319,5 +384,22 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
     </center>
 </div>
 
+
+<div id="editCourse" class="easyui-dialog" title="编辑直播课程" style="width:600px;height:360px; left:0,
+top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:true">
+    <center><h3>编辑直播课程</h3>
+   <table align="center" style="width: 100%; height: 100%" table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
+    <tr><td style="font-size: 15px"  colspan="1">课程名称</td><td colspan="3">孩子咳嗽怎么办</td></tr>
+    <tr><td style="font-size: 15px;" colspan="1">课程简介</td><td  colspan="3">帝王蟹做法</td></tr>
+    <tr><td style="font-size: 15px; width: 100px; height: 20px;" >讲师</td><td></td><td style="font-size: 15px; width: 100px;">开播时间</td><td></td></tr>
+    <tr><td style="font-size: 15px;">类型</td><td></td><td style="font-size: 15px;">费用</td><td></td></tr>
+    <tr><td style="font-size: 15px;">人数限制</td><td></td><td style="font-size: 15px;">课程状态</td><td></td></tr>
+    <tr><td style="font-size: 15px;">创建者</td><td></td><td style="font-size: 15px;">预告审核人</td><td></td></tr>
+    <tr><td style="font-size: 15px;">课程审核人</td><td></td><td style="font-size: 15px;">开播时间</td><td></td></tr>
+    <tr><td style="font-size: 15px;">预告审核时间</td><td></td><td style="font-size: 15px;">课程审核时间</td><td></td></tr>
+    </table>
+    <input type="button" value="关闭" onclick="closeEditCourse()">
+    </center>
+</div>
 </body>
 </html>

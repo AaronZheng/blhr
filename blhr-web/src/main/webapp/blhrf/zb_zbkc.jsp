@@ -51,7 +51,7 @@
 					<div class="ke_backlist_top">
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_tu.jpg"/>
 						<img src="<%=request.getContextPath() %>/blhrf/img/ke_wen.jpg"/>
-						<img src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
+						<img onclick="scCourse('<%=request.getContextPath() %>','${list.course_id}','${userId}')" src="<%=request.getContextPath() %>/blhrf/img/ke_ting.jpg"/>
 						<h3><div onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&teacherId=${list.teacher_id}')">${list.course_name }</div></h3>
 					</div>
 					<div class="ke_backlist_mid">

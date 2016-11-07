@@ -81,6 +81,11 @@ public class CourseManageAction {
 	
 	private final static String FUNCTION_PUSH_NOTICE = "pushNotice";
 	
+	//zm
+	private final static String EDIT_BROADCAST = "编辑";
+	
+	private final static String FUNCTION_EDIT_BROADCAST = "editBroadcast";
+	
 	private Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
@@ -388,6 +393,7 @@ public class CourseManageAction {
 			if("1".equals(map.get("course_state"))){
 				map.put("course_state", "直播未发布预告");
 				sb.append(generateHref(EDIT_REPORT,FUNCTION_EDIT_REPORT,map.get("course_id"))).
+				append(generateHref(EDIT_BROADCAST,FUNCTION_EDIT_BROADCAST,map.get("course_id"))).//zm
 				append(generateHref(DELETE,FUNCTION_DELETE,map.get("course_id"))).
 				append(generateHref(COURSE_DETAIL,FUNCTION_OPEN_COURSE_DETIAL,map.get("course_id")));
 			}else if("2".equals(map.get("course_state"))){
@@ -401,6 +407,8 @@ public class CourseManageAction {
 			}else if("4".equals(map.get("course_state"))){
 				map.put("course_state", "已发布预告未推送");
 				sb.append(generateHref(PUSH_NOTICE,FUNCTION_PUSH_NOTICE,map.get("course_id"))).
+				append(generateHref(EDIT_BROADCAST,FUNCTION_EDIT_BROADCAST,map.get("course_id"))).//zm
+				append(generateHref(DELETE,FUNCTION_DELETE,map.get("course_id"))).//zm
 				append(generateHref(COURSE_DETAIL,FUNCTION_OPEN_COURSE_DETIAL,map.get("course_id")));
 			}else if("5".equals(map.get("course_state"))){
 				map.put("course_state", "已发布预告已推送");
@@ -424,8 +432,8 @@ public class CourseManageAction {
 	 * @return
 	 */
 	private String generateHref(String caption,String function,Object url){
-		
-		return "&nbsp;&nbsp;<a style=\"curosr:pointer\" onclick=\""+function+"('"+url+"')\">"+caption+"</a>";
+		//zm
+		return "&nbsp;&nbsp;<a style=\"cursor:pointer\" onclick=\""+function+"('"+url+"')\">"+caption+"</a>";
 	}
 	
 	
@@ -693,15 +701,22 @@ public class CourseManageAction {
 	
 	@ResponseBody
 	@RequestMapping(value="/pushMessage",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
-	public String pushMessage(String courseId) throws IOException{
+	public String pushMessage(String page, String rows, String courseId) throws IOException{
 		Map<String,Object> map = this.courseManageService.queryCourseById(courseId);
-		List<User> users= this.userManageService.usersManage();
+		//查询收藏该课程的用户
+		List<User> users = this.courseManageService.queryFavUserBycourseId(courseId);
+		//List<User> users= this.userManageService.usersManage();
 		for(User user:users){
 			String url = Constant.CONSTOM_MESSAGE_PUSH+BlhrArgumentCache.getCacheData(ResourceEnumType.common_access_token.getValue());
 			sendMessageToInternet(url,constructMessage(user.getOpenid(),"您好：["+CommonUtil.base64ToString(user.getWechatname(), "UTF-8")+"]"
 					+ " 您收藏的课程 ["+map.get("course_name")+"] 即将开播，请注意查阅!"));
 		}
-		return "1";
+		courseManageService.updateCourseToEnd(courseId, "5");
+		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse((Integer.parseInt(page)-1)*10,Integer.parseInt(rows),"2");
+		handlerResult(lismap);
+		int total = courseManageService.queryBroadcastCourseNum();
+		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap, total);
+		//return "1";
 	}
 	
 	
