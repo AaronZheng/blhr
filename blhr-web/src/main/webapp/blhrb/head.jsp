@@ -115,8 +115,14 @@
                             <span class="site-menu-title">banner管理</span>
                         </a>
                     </li>
+                    <li class="site-menu-item has-sub">
+                        <a href="<%=request.getContextPath()%>/initQRCodePage" target="view_frame" data-dropdown-toggle="false">
+                            <i class="site-menu-icon md-palette" aria-hidden="true"></i>
+                            <span class="site-menu-title">企业推广</span>
+                        </a>
+                    </li>
                 </ul>
-            </div>
+         </div>
         </div>
     </div>
 </div>

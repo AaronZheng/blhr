@@ -18,9 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,9 +27,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import sun.misc.BASE64Decoder;
-
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.yoyo.blhr.dao.model.User;
 
@@ -346,6 +342,46 @@ public class CommonUtil {
 			URL urlGet = new URL(url);
 			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
 			http.setRequestMethod("GET"); 
+			http.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒
+			System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒
+			http.connect();
+			out = http.getOutputStream();
+			out.write(message.getBytes("UTF-8"));
+			in = http.getInputStream();
+			ByteOutputStream bos = new ByteOutputStream();
+			byte[] b = new byte[1024];
+			int l;
+			while((l=in.read(b))>0){
+				bos.write(b,0,l);
+			}
+			bos.close();
+			return new String(bos.toByteArray(),"UTF-8");
+		}finally{
+			if(in != null)
+				in.close();
+			if(out != null)
+				out.close();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param url
+	 * @param message
+	 * @return
+	 * @throws IOException
+	 */
+	public static String sendMessageToInternetByPost(String url,String message) throws IOException{
+		
+		InputStream in =null;
+		OutputStream out = null;
+		try{
+			URL urlGet = new URL(url);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
+			http.setRequestMethod("POST"); 
 			http.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
 			http.setDoOutput(true);
 			http.setDoInput(true);

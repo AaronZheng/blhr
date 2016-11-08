@@ -68,14 +68,14 @@
 			</div>
 				<div class="log_one">
 				<div id="loginRtnInfo"></div>
-					<div class="log_name">
+					<div class="log_name" style="text-indent: 15px;">
 						<div class="log_name_list">
 							<label>用户名</label>
-							<input type="text" id="username" name="username"  />
+							<input style="text-indent: 15px;" type="text" id="username" name="username"  />
 						</div>
 						<div class="log_name_list">
 							<label>密码</label>
-							<input type="password" id="password" name="password" placeholder="密码不少于6位" />
+							<input  style="text-indent: 15px;"  type="password" style="height: 30 px;padding-bottom: 1px" id="password" name="password" placeholder="密码不少于6位" />
 						</div>
 						<div class="log_tj log_tjone">
 							<input type="button" onclick="submit()" value="登录" />

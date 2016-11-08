@@ -10,13 +10,6 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/easyui/themes/icon.css"></link>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/easyui/demo/demo.css"></link>
 <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.min.js"></script>
-<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/blhrf/css/style.css" /> --%>
-<%-- <script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery-2.1.0.js"></script>
- --%><%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.form.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/blhrf/js/jquery.mobile-1.4.5.min.js"></script>
- --%>
-<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/easyui/jquery.easyui.min.js"></script>
- --%>
  <script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
  <script language="javascript" type="text/javascript"
 	src="<%=request.getContextPath()%>/easyui/locale/easyui-lang-zh_CN.js"></script>
@@ -124,8 +117,6 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
     </table>
      <input type="button" value="保存修改" onclick="saveUpdateCourseProfle('7')">
 </div>
-
-
 
 
 <div id="createBroadcastPanel" class="easyui-dialog" title="课程详情" style="width:600px;height:360px; left:0,
@@ -250,19 +241,13 @@ top:10px" data-options="iconCls:'icon-save',closed:true,resizable:true,modal:tru
   }
   
   function reviewCourseContent(){
-	  
 		var rows = $('#sp_grid').datagrid("getSelections"); //获取你选择的所有行 
 		if(rows == null || rows.length <= 0){
 			alert("请选择录入的课程")
 			return ;
 		}
-		// $('#inputCourse').dialog('open');
 		var courseId = rows[0].course_id;
 		var course_state_code = rows[0].course_state_code;
-	/* 	if(course_state_code == 3 || course_state_code == 8 || course_state_code == 9){
-			alert("你选着的课程已结束，不能进行录入操作")
-			return ;
-		} */
 		window.location.href = "<%=request.getContextPath()%>/reviewCourse?courseId="+courseId;
 }
 

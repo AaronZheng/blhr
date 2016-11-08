@@ -21,9 +21,9 @@ public class T {
 		
 		//System.out.println("http:\\/\\/wx.qlogo.cn\\/mmopen\\/vDwntJFbiafsico1Hv1Gvp3MYyibWznthv7flTvNB4ERoGERLGibicNC5yhtQuC09uuFVh6eptUrQnhmZmTkRCoa19A\\/0".replace("\\/0", "\\/46"));
 	
-		String json = "{\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"afdfefaf\"}}}";
+	/*	String json = "{\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"afdfefaf\"}}}";
 		String content = getInformationFromInternet("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=yPqhEBpriCW58ho0qjjfc7GgrQp-iuyX0R1EP5jZmCjkJalWejlI19O2eF4urJs1P478UuP-ugXrtTcv1XjUJVvIcLgqs2zK4YkvID4SC5KR236RPvdrv9zi1DZvDPISUJUbADABQB",json);
-		System.out.println(content);
+		System.out.println(content);*/
 	}
 	
 	

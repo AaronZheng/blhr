@@ -15,13 +15,10 @@
   <script language="javascript" type="text/javascript"
 	src="<%=request.getContextPath()%>/easyui/locale/easyui-lang-zh_CN.js"></script>
  <script type="text/javascript">
- 
    function closeCourse(){
 	   $('#openCourse').dialog('close');
    }
-   
    var teacherId;
-   
    function deleteCourse(courseId){
 		 var options = $('#ttbd').datagrid('getPager').data("pagination").options;  
 		 var curr = options.pageNumber;  

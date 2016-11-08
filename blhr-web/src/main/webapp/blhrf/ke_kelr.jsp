@@ -71,6 +71,8 @@
 		
 		$(document).ready(function() {
 			var courseType = '${courseType}';
+			 this.courseType = '${courseType}';
+			 document.getElementById("courseType").value = this.courseType;
 			if(courseType == "成长")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
 			else if(courseType == "健康")
@@ -78,7 +80,7 @@
 			else if(courseType == "心理")
 				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(3).html());
 			else
-				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(1).html());
+				$(".ke_kcfl .ls_san").html($(".ke_kcfl_dexiala p").eq(0).html());
 
 
 			$(".ke_kcfl ul li").click(function() {
@@ -105,21 +107,20 @@
 		    	var courseIntro = document.getElementById("courseIntro").value;
 			  if(courseName == null || courseName == ""){
 				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填写课程名称</font>";
-				  alert("请填写课程名称");
 				  return ;
 			  }
 			  if(courseName.length > 14 ){
 				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">最多输入14个字符</font>";
 				  return ;
 			  }
-			  if(courseType == null || courseType == ""){
+			  if(document.getElementById("courseType").value == null || document.getElementById("courseType").value == ""){
 				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填限制课程类别</font>";
 				  return ;
 			  }
-			  if(numLimit == null || numLimit == ""){
+			/*   if(numLimit == null || numLimit == ""){
 				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填选择限制人数</font>";
 				  return ;
-			  }
+			  } */
 			  if(courseIntro == null || courseIntro == ""){
 				  document.getElementById("noticeDiv").innerHTML="<font color=\"red\">请填写课程简介</font>";
 				  return;
@@ -129,6 +130,7 @@
 			  
 			  document.getElementById("courseName").value = "";
 			  document.getElementById("courseIntro").value = "";
+			  document.getElementById("courseType").value = "";
 		    }
 		
 		</script>

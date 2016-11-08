@@ -134,8 +134,6 @@ public class LoginAction {
     public ModelAndView wechatLoginAction(HttpServletRequest req,String code,String state,String userId) throws IOException{
     	logger.debug("=====微信登录获取code为["+code+"]状态值为state["+state+"] userId["+userId+"]====");
     	User user = null;
-   /* 	if(BlhrArgumentCache.getCacheData(code) != null)
-    		user = (User) BlhrArgumentCache.getCacheData((String)BlhrArgumentCache.getCacheData(code));*/
     	if(user == null && req.getSession().getAttribute(Constant.USER_ID) != null)
     		user = (User) req.getSession().getAttribute(Constant.USER_ID);
     	if(user == null && userId != null && !"".equals(userId))
