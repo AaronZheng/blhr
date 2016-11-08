@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yoyo.blhr.dao.impl.QRCodeDao">
+
+	<insert id="saveQRCode" parameterType="com.yoyo.blhr.dao.model.QRCode">
+	  
+	   insert into qrcode (company_id,
+					company_name,
+					company_qrcode,
+					level,
+					lrrq,
+					xgrq,
+					lrry,
+					xgry) values(
+					#{companyId},
+					#{companyName},
+					#{companyQrcode},
+					#{level},
+					#{lrrq},
+					#{xgrq},
+					#{lrry},
+					#{xgry})
+	</insert>
+	
+	<select id="queryQRCode" resultType="java.util.Map">
+	  select * from qrcode order by ts desc
+	</select>
+	
+
+</mapper>
