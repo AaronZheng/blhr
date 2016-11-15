@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.yoyo.blhr.dao.model.Courses;
 import com.yoyo.blhr.dao.model.LearnRecords;
@@ -33,6 +36,7 @@ import com.yoyo.blhr.dao.model.User;
 import com.yoyo.blhr.service.CourseManageService;
 import com.yoyo.blhr.service.MemberService;
 import com.yoyo.blhr.service.MyClassroomService;
+import com.yoyo.blhr.service.TeachersService;
 import com.yoyo.blhr.service.UserManageService;
 import com.yoyo.blhr.util.BlhrArgumentCache;
 import com.yoyo.blhr.util.BlhrConf;
@@ -94,8 +98,10 @@ public class CourseManageAction {
 	private MyClassroomService myClassroomService;
 	@Autowired
 	private MemberService memberService;
-
+	@Autowired
+	private TeachersService teachersService;
 	
+	static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
 	 * @description query all course information ...
@@ -241,6 +247,19 @@ public class CourseManageAction {
 		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid(courseManageService.queryCourseDetailInfo((Integer.parseInt(page)-1)*10,Integer.parseInt(rows),course_id));
 	}
 	
+	/**
+	 * 直播管理-编辑课程
+	 * @param page
+	 * @param rows
+	 * @param course_id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/queryCourse" ,produces="application/json;charset=UTF-8")
+	public String queryCourse(String page,String rows,String course_id){
+		Map<String, Object> map = courseManageService.queryBroadcastCourseById(course_id);
+		return new JSONObject(map).toString();
+	}
 	
 	/**
 	 * @description update course detail information ... 
@@ -413,6 +432,8 @@ public class CourseManageAction {
 			}else if("5".equals(map.get("course_state"))){
 				map.put("course_state", "已发布预告已推送");
 				sb.append(generateHref(PUSH_NOTICE,FUNCTION_PUSH_NOTICE,map.get("course_id"))).
+				append(generateHref(EDIT_BROADCAST,FUNCTION_EDIT_BROADCAST,map.get("course_id"))).//zm
+				append(generateHref(DELETE,FUNCTION_DELETE,map.get("course_id"))).//zm
 				append(generateHref(COURSE_DETAIL,FUNCTION_OPEN_COURSE_DETIAL,map.get("course_id")));
 			}else if("6".equals(map.get("course_state"))){
 				map.put("course_state", "直播结束未审核");
@@ -700,7 +721,7 @@ public class CourseManageAction {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="/pushMessage",produces = "text/html;charset=UTF-8", method=RequestMethod.POST)
+	@RequestMapping(value="/pushMessage",produces = "text/html;charset=UTF-8")
 	public String pushMessage(String page, String rows, String courseId) throws IOException{
 		Map<String,Object> map = this.courseManageService.queryCourseById(courseId);
 		//查询收藏该课程的用户
@@ -922,5 +943,70 @@ public class CourseManageAction {
 		this.courseManageService = courseManageService;
 	}
 	
-
+	/**
+	 * 直播管理-保存编辑后的课程
+	 * @param courseId
+	 * @param courseName
+	 * @param profile
+	 * @param payType
+	 * @param teacherId
+	 * @param courseType
+	 * @param createTime
+	 * @param personLimit
+	 * @return
+	 * @throws ParseException
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateCourse" ,produces="application/json;charset=UTF-8")
+	public String updateCourse(String courseId,String courseName,String profile,String payType,
+			String teacherId,String courseType,String broadcastTime,String personLimit) throws ParseException{
+		Date date = new Date();
+		if(broadcastTime != ""){
+			date = sdf2.parse(broadcastTime);
+		}
+		int person = 0;
+		if(personLimit !=""){
+			person = Integer.parseInt(personLimit);
+		}
+		courseManageService.updateCourse(courseId, courseName, profile, teacherId, courseType, payType,date,person);
+		return "1";
+	}
+	
+	/**
+	 * 直播管理-查看课程详情
+	 * @param courseId
+	 * @param courseName
+	 * @param profile
+	 * @param payType
+	 * @param teacherId
+	 * @param courseType
+	 * @param createTime
+	 * @param personLimit
+	 * @return
+	 * @throws ParseException
+	 */
+	@ResponseBody
+	@RequestMapping(value="/broadcastCourseDetail" ,produces="application/json;charset=UTF-8")
+	public String broadcastCourseDetail(String course_id) throws ParseException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> maptmp = courseManageService.queryBroadcastCourseById(course_id);
+		if(maptmp != null){
+			String teacherId = maptmp.get("teacher_id")+"";
+			Map<String, Object> teacher = teachersService.queryTeacherDetail(teacherId);
+			String teacherName = teacher.get("fullname")+"";
+			map.put("courseName", maptmp.get("course_name"));
+			map.put("courseProfile", maptmp.get("course_profile"));
+			map.put("teacherName", teacherName);
+			map.put("broadcastTime", (maptmp.get("broadcast_time")+"").substring(0, 19));
+			map.put("courseType", maptmp.get("course_type"));
+			map.put("personLimit", maptmp.get("person_limit"));
+			String payType = maptmp.get("pay_type")+"";
+			if(payType.equals("1"))
+				map.put("payType", "免费");
+			else
+				map.put("payType", "收费");
+			
+		}
+		return new JSONObject(map).toString();
+	}
 }

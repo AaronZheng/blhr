@@ -1,5 +1,6 @@
 package com.yoyo.blhr.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -250,6 +251,10 @@ public interface CoursesDao {
 	Map<String,Object> queryDetailByItemId(String itemId);
 	
 	public int queryAllSpCourseNum();
+
+	void updateCourse(String courseId, String courseName, String profile,
+			String teacherId, String courseType, String payType, Date date,
+			int person);
 	
 
 }

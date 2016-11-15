@@ -1,6 +1,7 @@
 package com.yoyo.blhr.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -326,6 +327,22 @@ public class CourseManageServiceImpl implements CourseManageService{
 	@Override
 	public List<User> queryFavUserBycourseId(String courseId) {
 		return favoriteCourseDao.queryFavUserBycourseId(courseId);
+	}
+
+
+	@Override
+	public Map<String, Object> queryBroadcastCourseById(String course_id) {
+		
+		return coursesDao.queryCourseByCourseId(course_id);
+	}
+
+
+	@Override
+	public void updateCourse(String courseId, String courseName,
+			String profile, String teacherId, String courseType,
+			String payType, Date date, int person) {
+		coursesDao.updateCourse(courseId,  courseName, profile, teacherId, courseType,	payType,  date,  person);
+		
 	}
 	
 }

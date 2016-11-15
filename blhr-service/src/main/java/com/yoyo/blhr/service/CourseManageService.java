@@ -1,5 +1,6 @@
 package com.yoyo.blhr.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -217,5 +218,13 @@ public interface CourseManageService {
 
 
 	public List<User> queryFavUserBycourseId(String courseId);
+
+
+	public Map<String, Object> queryBroadcastCourseById(String course_id);
+
+
+	public void updateCourse(String courseId, String courseName,
+			String profile, String teacherId, String courseType,
+			String payType, Date date, int person);
 	
 }
