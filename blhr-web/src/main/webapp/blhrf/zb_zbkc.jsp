@@ -66,7 +66,7 @@
 						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name }">观看直播</a>
 						    </c:if>
 						  <c:if test="${list.course_state == 4}">
-						    <a href="<%=request.getContextPath() %>/openCourseDetail?userId=${userId}&courseId=${list.course_id}&courseName=${list.course_name }">直播预告</a>
+						    <a href="" onclick="window.open('<%=request.getContextPath() %>/openCourseProfile?userId=${userId}&courseId=${list.course_id}&teacherId=${list.teacher_id}')">直播预告</a>
 						    </c:if>
 						</div>
 						<div class="ke_shu">

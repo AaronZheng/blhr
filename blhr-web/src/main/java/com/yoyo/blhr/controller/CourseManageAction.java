@@ -122,12 +122,23 @@ public class CourseManageAction {
 	 * @description 查询直播课程
 	 * 
 	 * @param
+	 * @throws ParseException 
 	 */
 	@ResponseBody
 	@RequestMapping(value="/queryBroadcastCourseb",produces="application/json;charset=UTF-8")
-	public String queryBroadcastCourse(String page,String rows){
+	public String queryBroadcastCourse(String page,String rows) throws ParseException{
 		
 		List<Map<String,Object>> lismap = this.courseManageService.queryBroadcastCourse((Integer.parseInt(page)-1)*10, Integer.parseInt(rows),"2");
+		for(Map<String, Object> map : lismap){
+			if(map.get("broadcast_time") != null){
+				Date date = sdf2.parse(map.get("broadcast_time")+"");
+				Date cur = new Date();
+				if(cur.after(date) && (Integer.parseInt(map.get("course_state")+"") == 4 || Integer.parseInt(map.get("course_state")+"") == 5)){
+					map.put("course_state", "2");
+					map.put("course_status", "2");
+				}
+			}
+		}
 		handlerResult(lismap);
 		int total = courseManageService.queryBroadcastCourseNum();
 		return EasyUiDataHandlerUtil.ConvertListMapToUiGrid2(lismap,total);
@@ -334,11 +345,22 @@ public class CourseManageAction {
 	/**
 	 * 
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/queryBroadCastCourse")
-	public ModelAndView queryBroadCastCourse(String userId){
+	public ModelAndView queryBroadCastCourse(String userId) throws ParseException{
 		ModelAndView mv = new ModelAndView("/blhrf/zb_zbkc");
 		List<Map<String,Object>> courses = this.courseManageService.queryBroadCastCourseByType();
+		//判断是否正在直播
+		for(Map<String, Object> map : courses){
+			if(map.get("broadcast_time") != null){
+				Date date = sdf2.parse(map.get("broadcast_time")+"");
+				Date cur = new Date();
+				if(cur.after(date) && (Integer.parseInt(map.get("course_state")+"") == 4 || Integer.parseInt(map.get("course_state")+"") == 5)){
+					map.put("course_state", "2");
+				}
+			}
+		}
 		mv.addObject("userId", userId);
 		mv.addObject("courseTitleList", courses);
 		return mv;
